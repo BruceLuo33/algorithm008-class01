@@ -20,9 +20,9 @@
 
 ## No.142：环形链表II
 承接上一题，这道题比较难，难在对于 pos 位置的判定。我看了一通分析，最终得出结论：当 fast 和 slow 刚好相遇的时候，这时候从 head 节点与 fast/slow 节点分别出发，每次前进一步，当这两个节点相遇的时候，就刚好是环的入口。并且在解体的时候发现几个很有意思的点：
-    - fast 节点的初始化需要是 fast = head，而非 head.next，否则就会超出时间限制
-    - 寻找 fast 和 slow 节点相遇的 while 循环，有两种做法，第一种是 while（true），然后当 fast == slow 的时候 break；第二种是常规的 while（fast !=null），然后 if（fast == slow）的时候再去调用下一个while
-    - 在上述第二种 while 循环中，如果选择破坏结构，即 head=head.next，则时间为 0ms，而如果不破坏，选择一个指针指向 head，即 chase = head, 则时间为 1ms。前者超过100%，后者超过57%。非常奇怪的现象。
+- fast 节点的初始化需要是 fast = head，而非 head.next，否则就会超出时间限制
+- 寻找 fast 和 slow 节点相遇的 while 循环，有两种做法，第一种是 while（true），然后当 fast == slow 的时候 break；第二种是常规的 while（fast !=null），然后 if（fast == slow）的时候再去调用下一个while
+- 在上述第二种 while 循环中，如果选择破坏结构，即 head=head.next，则时间为 0ms，而如果不破坏，选择一个指针指向 head，即 chase = head, 则时间为 1ms。前者超过100%，后者超过57%。非常奇怪的现象。
     
 ## Leetcode 1281：整数的各位积和之差。
 这道题才算是真正的easy吧，没看答案，几分钟写出来了。有一个小地方出了问题就是对于 product 的初始值，要设置为 1 而不是 0.
@@ -32,31 +32,32 @@
 
 ## Leetcode 977：有序数组的平方。
 这道题的关键在于有序数组中有负数的存在，导致平方后的顺序与之前的顺序不一定相同。有两种做法：
-    - 第一种思路，先将数组中每一个元素都平方，然后用 Arrays.sort 排序。复杂度 O（NlogN）
-    - 第二种思路：双指针。这个需要创建一个新数组，然后将两个指针分别指向首尾。比较平方的大小。然后将更大的值放到新数组的最后一位。循环完整个数组。
+- 第一种思路，先将数组中每一个元素都平方，然后用 Arrays.sort 排序。复杂度 O（NlogN）
+- 第二种思路：双指针。这个需要创建一个新数组，然后将两个指针分别指向首尾。比较平方的大小。然后将更大的值放到新数组的最后一位。循环完整个数组。
 
 ## Leetcode 21：合并两个有序链表。
 这道题与合并两个数列比较相似。不同之处在于：
-    - 需要设置sentinel 头节点，方便return；
-    - 和 swap pairs，24题的区别：不能设置节点指向 l1/l2，否则会报错，要直接移动 L1/L2；
-    - 在while循环完毕之后，还剩下一部分较长链表的内容没有加上去。因为是从小到大的排列，所以可以判断 move.next = l1 == null ? l2 : l1；来得到最终的list
-    - 记住最后要return的链表不是sentinel，而是 sentinel.next
+- 需要设置sentinel 头节点，方便return；
+- 和 swap pairs，24题的区别：不能设置节点指向 l1/l2，否则会报错，要直接移动 L1/L2；
+- 在while循环完毕之后，还剩下一部分较长链表的内容没有加上去。因为是从小到大的排列，所以可以判断 move.next = l1 == null ? l2 : l1；来得到最终的list
+- 记住最后要return的链表不是sentinel，而是 sentinel.next
+
 ## Leetcode 25：reverse nodes in k group。
 这是目前为止做的最难的题目。难度hard。主要难在对于指针的理解。同时，在这里嵌套了一个206题，翻转链表。
-    - 思路是这样的，一开始要确定五个指针，head是给定的，需要自己定义四个：isNull、subHead 指向 head。声明一个 sentinel，然后用第四个指针 tail 指向它。
-    - 然后接下来的操作都与 head 无关了，用 subHead 的操作来代替 head。虽然我也不知道为什么。
-    - 两个循环嵌套，一个是循环到链表末尾的 while 循环，一个是对于每一小段长度为 k 链表的循环。k长度循环判定剩下的链表是否还有 k 个节点，否则返回 sentinel.next。同时，isNull 移动到了第 k 个 node 处
-    - 然后用 tmp 来保存 isNull.next，再将 isNull 指向null，使其断开。
-    - 调用 reverse 方法，返回一个链表，此时 subHead 已经从头节点变成了尾节点。node 没有移动，但是指针的方向全部翻转。
-    - 依次将 isNull、tail、tail.next、subHead 分别指向新的位置。相对位置要与开始的时候相同。
+- 思路是这样的，一开始要确定五个指针，head是给定的，需要自己定义四个：isNull、subHead 指向 head。声明一个 sentinel，然后用第四个指针 tail 指向它。
+- 然后接下来的操作都与 head 无关了，用 subHead 的操作来代替 head。虽然我也不知道为什么。
+- 两个循环嵌套，一个是循环到链表末尾的 while 循环，一个是对于每一小段长度为 k 链表的循环。k长度循环判定剩下的链表是否还有 k 个节点，否则返回 sentinel.next。同时，isNull 移动到了第 k 个 node 处
+- 然后用 tmp 来保存 isNull.next，再将 isNull 指向null，使其断开。
+- 调用 reverse 方法，返回一个链表，此时 subHead 已经从头节点变成了尾节点。node 没有移动，但是指针的方向全部翻转。
+- 依次将 isNull、tail、tail.next、subHead 分别指向新的位置。相对位置要与开始的时候相同。
 
 ## 面试题50：第一个只出现一次的字符。
 这道题完全没思路。看的答案，才发现原来是用hashmap。用这个就很简洁了。现在可以试一下将 two sum 用hashMap 做一做。
 
 ## Leetcode 3：无重复字符的最小子串。
 这道题运用到了哈希Map。具体来说思路是这样的：新建一个 HashMap，设定两个指针：first 和 last，分别指向字串的第一个位置和最后一个位置。则字串的长度就是 last - first + 1。因为给定的 input 是string，所以需要用charAt/toCharArray 将string转换成char的数组。但是因为我们需要将每一个字符都放进hashmap，所以采用 for 循环 s.length() 次的策略。
-    - 每次读取一个 string 中的字符，判断hashmap中是否包含，如不包含，则最大长度+1，first位置不变，last 继续往后移动一位，然后将 cha r放入 hashmap；
-    - 若包含，则 first 移动到最右边的重复字符处，再 +1，得到 first 的更新位置。
+- 每次读取一个 string 中的字符，判断hashmap中是否包含，如不包含，则最大长度+1，first位置不变，last 继续往后移动一位，然后将 cha r放入 hashmap；
+- 若包含，则 first 移动到最右边的重复字符处，再 +1，得到 first 的更新位置。
     
 ## Leetcode 66：Plus One
 这道题属于easy。但是还是纠结了好一会，看了解答思路。原因在于对跳出循环的判断拿不准。一开始用了break，并且没有考虑到9/99/999之类的情况。
