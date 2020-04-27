@@ -13,7 +13,7 @@
 <h3 id = "1.1">周一</h3>
 主题：二叉树；技巧：递归、中序遍历；题数：
 
-### Leetcode 98：[验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)。
+#### Leetcode 98：[验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)。
 4.27 第一遍
 - 思路一：中序遍历。题目的要求是判断二叉树值得大小是否为从小到大排列。因此用中序遍历得 左-->根-->右，就可以比较好的解决这个问题。只要相邻两个元素不满足前项小于后项的关系，就返回false。
   - 注意：在存储树的 val 时，数据结构可以用 stack 或者是 arraylist。
@@ -32,7 +32,7 @@
             /     \          /       \
       3(-inf, 5)  7(5,10)  13(10, 17)   20(17, inf)
     ```
-### Leetcode 99：[恢复二叉搜索树](https://leetcode-cn.com/problems/recover-binary-search-tree/)
+#### Leetcode 99：[恢复二叉搜索树](https://leetcode-cn.com/problems/recover-binary-search-tree/)
 4.27 第一遍
 - 思路：采用中序遍历。从 98 题中我们知道，对一个二叉树进行中序遍历，得到的数组将会从小到大排列。因为题中已经说明，仅有两个节点被错误的交换，因此我们可以使用双指针来遍历。对于两个节点被交换，会产生以下几种情况：
   - case 1：[1,2,3,4,5] 中，1和2被交换，因此会产生一个错误数值对。交换后是[2,1,3,4,5]，{2，1}是错误数值对
@@ -42,7 +42,7 @@
 - 注意：赋值的时候，first 应该指向 pre，second 应该指向 root。对应着上面的case 2，将第一个逆序对的第一个元素和第二个逆序对的第二个元素，交换。
 - 复杂度分析：O（N）
 
-### Leetcode 100：[相同的树](https://leetcode-cn.com/problems/same-tree/)
+#### Leetcode 100：[相同的树](https://leetcode-cn.com/problems/same-tree/)
 4.27 第一遍
 - 思路：递归。代码很简洁，粘贴于下。
 - 复杂度：O（N），空间复杂度：O（k）k为树的高度
@@ -55,7 +55,7 @@
       }
   ```
 
-### Leetcode 101：[对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
+#### Leetcode 101：[对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
 4.27 第一遍
 - 思路：递归。和100题比较相似，都是递归的应用。要注意的是，最终的return项应该是 left.right 、 right.left，因为题目要求的是对称，所以就是往两边走要想等。
 - 复杂度分析：O（N），空间复杂度：O(K)，k为树的高度。
@@ -67,7 +67,7 @@
 3  4  4   3
 ```
 
-### Leetcode 226：[翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
+#### Leetcode 226：[翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
 4.27 第一遍
 - 思路：结构和101题，相同的树非常相似。递归的过程也是比较相似，不同之处就在于不是判断左右节点是否相等了，而是直接交换最左和最右节点的值就可以了。
 - 注意：一开始想的是交换 val，后面发现直接交换node，会让整个结构更简单。
