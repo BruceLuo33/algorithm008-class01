@@ -25,7 +25,7 @@
   - 从下图，我们可以总结出结论：如果是左子节点，那么应该以父节点为右边界，以父节点的左边界为左边界；如果是右子节点，应该以父节点为左边界，以父节点的右边界为右边界。
   - 注意：设置max/min 的时候，要将其再扩大一个位置，MAX_VALUE + 1 和 MIN+VALUE - 1
   - 复杂度分析：O（N），空间复杂度：O（1）
-    ```
+    ```Java
                   10 (-inf, inf)
                    /          \
            5(-inf, 10)      17(10, inf)
@@ -46,7 +46,7 @@
 4.27 第一遍
 - 思路：递归。代码很简洁，粘贴于下。
 - 复杂度：O（N），空间复杂度：O（k）k为树的高度
-  ```
+  ```Java
       public boolean isSameTree(TreeNode p, TreeNode q) {
           if (p == null && q == null) return true;
           if (p == null || q == null) return false;
@@ -59,7 +59,7 @@
 4.27 第一遍
 - 思路：递归。和100题比较相似，都是递归的应用。要注意的是，最终的return项应该是 left.right 、 right.left，因为题目要求的是对称，所以就是往两边走要想等。
 - 复杂度分析：O（N），空间复杂度：O(K)，k为树的高度。
-```
+```Java
      1
    /  \
   2    2
