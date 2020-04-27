@@ -29,3 +29,19 @@
 - 注意：判断前后结点的值的时候，应该是 pre.val > root.val，即前节点的值大于现节点的值。
 - 注意：赋值的时候，first 应该指向 pre，second 应该指向 root。对应着上面的case 2，将第一个逆序对的第一个元素和第二个逆序对的第二个元素，交换。
 - 复杂度分析：O（N）
+
+### Leetcode 100：[相同的树](https://leetcode-cn.com/problems/same-tree/)
+4.27 第一遍
+- 思路：递归。代码很简洁，粘贴于下。
+- 复杂度：O（N），空间复杂度：O（1）
+  ```
+      public boolean isSameTree(TreeNode p, TreeNode q) {
+          // 4.27 第一遍
+          // 思路：递归。
+          // 复杂度：O（N），空间复杂度：O（1）
+          if (p == null && q == null) return true;
+          if (p == null || q == null) return false;
+          if (p.val != q.val) return false;
+          return isSameTree(p.right, q.right) && isSameTree(p.left, q.left);
+      }
+  ```
