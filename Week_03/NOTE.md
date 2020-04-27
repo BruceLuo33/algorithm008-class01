@@ -1,7 +1,7 @@
 # 一、刷题记录
 ## 周一
 主题：二叉树；技巧：递归、中序遍历；题数：
-### Leetcode 98
+### Leetcode 98：[验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)。
 4.27 第一遍
 1. 思路一：中序遍历。题目的要求是判断二叉树值得大小是否为从小到大排列。因此用中序遍历得 左-->根-->右，就可以比较好的解决这个问题。只要相邻两个元素不满足前项小于后项的关系，就返回false。
    - 注意：在存储树的 val 时，数据结构可以用 stack 或者是 arraylist。
