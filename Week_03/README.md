@@ -20,7 +20,7 @@
 
 <h2 id = "1">一、刷题记录</h2>
 <h3 id = "1.1">周一</h3>
-主题：二叉树；技巧：递归、中序遍历；题数：
+主题：二叉树；技巧：递归、中序遍历；题数：新题5道，复习2道
 
 #### [Leetcode 98：验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)。
 4.27 第一遍
