@@ -33,15 +33,43 @@
 ### Leetcode 100：[相同的树](https://leetcode-cn.com/problems/same-tree/)
 4.27 第一遍
 - 思路：递归。代码很简洁，粘贴于下。
-- 复杂度：O（N），空间复杂度：O（1）
+- 复杂度：O（N），空间复杂度：O（k）k为树的高度
   ```
       public boolean isSameTree(TreeNode p, TreeNode q) {
-          // 4.27 第一遍
-          // 思路：递归。
-          // 复杂度：O（N），空间复杂度：O（1）
           if (p == null && q == null) return true;
           if (p == null || q == null) return false;
           if (p.val != q.val) return false;
           return isSameTree(p.right, q.right) && isSameTree(p.left, q.left);
       }
   ```
+
+### Leetcode 101：[对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
+4.27 第一遍
+- 思路：递归。和100题比较相似，都是递归的应用。要注意的是，最终的return项应该是 left.right 、 right.left，因为题目要求的是对称，所以就是往两边走要想等。
+- 复杂度分析：O（N），空间复杂度：O(K)，k为树的高度。
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
