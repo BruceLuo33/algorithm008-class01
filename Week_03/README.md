@@ -196,10 +196,10 @@ ans.get(0).add(node.val);
 - 思路：一开始想这道题似乎很简单，后面才发现难点在于在 JAVA 中，String 被设置为不可改变的类型，所以需要额外设置一个字符串来进行操作。
 - 复杂度分析：O（N），空间复杂度：O（N）
 
-#### [面试题06：从尾到头打印链表]()
+#### [面试题06：从尾到头打印链表](https://leetcode-cn.com/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/)
 4.29 第一遍
 - 思路：很简单的一道题。两个循环，第一个遍历链表，得到数组的大小。第二个反向将链表的值放入数组。
-- 思路二：用递归来做，多设置一个 ArrayList，然后设置 recursive 函数，
+- 思路二：用递归来做，多设置一个 ArrayList，然后设置 recursive 函数，在递归调用到了最底层之后，再往 ArrayList 中添加值就可以了。
 ```Java
         private void recursive(ListNode head) {
             if (head == null) return;
@@ -209,10 +209,12 @@ ans.get(0).add(node.val);
 ```
 - 注意：要设置额外的指针来指向链表，因为不能改动原来的 head 链表。
 - 复杂度分析：O（N），空间复杂度：O（N）
-#### 复习[Leetcode 102: 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+
+
+#### 复习 [Leetcode 102: 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
 4.28 第一遍，4.29 第二遍
 
-#### [Leetcode 103: 二叉树的锯齿状层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
+#### 复习 [Leetcode 103: 二叉树的锯齿状层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
 4.28 第一遍，4.29 第二遍
 
 
