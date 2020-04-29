@@ -156,19 +156,19 @@ UglyNumber[0] = 1, UglyNumber[1] = 2，UglyNumber[2] = min{2x2, 1x3, 1x5} = 3.
 
 ```Java
 preorder = [3, 9, 20, 15, 7]
-                    ^
-                  root
+               ^
+             root
 inorder   = [9, 3, 15, 20, 7]
-                  Left  |   Right
+            Left  |   Right
 
 根据根节点分割后：
 左子树：
 preorder = [9]
-inorder  =  [9]
+inorder  = [9]
 
 右子树：
 preorder = [20, 15, 7]
-inorder  =  [15, 20, 7]
+inorder  = [15, 20, 7]
 
 现在只需构造左子树和右子树即可，成功把大问题化成了小问题
 不断迭代，直到 preorder 和 inorder 都为空，返回 null 
