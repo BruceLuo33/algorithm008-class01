@@ -126,9 +126,62 @@ UglyNumber[0] = 1, UglyNumber[1] = 2，UglyNumber[2] = min{2x2, 1x3, 1x5} = 3.
 
 
 <h3 id = "1.2">周二</h3>
+#### [Leetcode 102: 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+4.28 第一遍
+- 思路：使用 BFS 对树进行层间遍历。每次都用一个队列来接受root，然后将其放入答案链表即可。
+- 复杂度分析：O（N） 空间复杂度：O（N）
+#### [Leetcode 103: 二叉树的锯齿状层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
+4.28 第一遍
+- 思路：这道题和102题几乎一样，唯一的不同之处在于如果 level 为奇，就是从左往右，如果是偶数，就是从右往左。因此对 curLevel 增加一个奇偶判断就可以了
+- 复杂度分析：O（N），空间复杂度：O（N）
+
 
 
 <h3 id = "1.3">周三</h3>
+#### [Leetcode 105: 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
+4.29 第一遍
+- 思路：回顾一下，前序遍历指的是 root --> left --> right，中序遍历指的是 left --> root --> right。根据两个遍历的特征，我们可以知道，前序遍历数组的第一个元素，即为根节点，再由这个根节点与中序遍历匹配，找到中序遍历中的根节点，则其左边就是左子树，右边就是右子树。然后再次回到前序遍历数组剩下的部分，第一个元素为右子树的根节点，以此类推。
+- 由上述分析可以看出，递归非常适合这道题目。
+  - 注意：找 root 节点的时候，下标应该为 p_start 而不是 0
+  - 注意：helper 函数 return null 的条件应该是 preorder 数组的 start == end
+  - 注意：helper 函数的输入参数中，p_end 和 i_end 都不用 -1
+- 复杂度分析：O（N），空间复杂度：O（N)
+- 思路二：在上一个思路中，我们发现每一次从 inorder 数组中去找 root 节点，都需要用 for 循环去遍历，这样就无疑增加了复杂度。
+- 基于此，考虑加入一个 Map 来降低复杂度，将 inorder 的每一个数字和位置都输入 map，可以将复杂度降低很多
+
+```Java
+preorder = [3, 9, 20, 15, 7]
+                    ^
+                  root
+inorder   = [9, 3, 15, 20, 7]
+                  Left  |   Right
+
+根据根节点分割后：
+左子树：
+preorder = [9]
+inorder  =  [9]
+
+右子树：
+preorder = [20, 15, 7]
+inorder  =  [15, 20, 7]
+
+现在只需构造左子树和右子树即可，成功把大问题化成了小问题
+不断迭代，直到 preorder 和 inorder 都为空，返回 null 
+```
+
+#### 复习[Leetcode 102: 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+4.28 第一遍，4.29 第二遍
+
+#### 复习[Leetcode 102: 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+4.28 第一遍，4.29 第二遍
+
+
+
+
+
+
+
+
 
 
 
