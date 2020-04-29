@@ -141,7 +141,7 @@ UglyNumber[0] = 1, UglyNumber[1] = 2，UglyNumber[2] = min{2x2, 1x3, 1x5} = 3.
 
 
 <h3 id = "1.3">周三</h3>
-主题：二叉树；技巧：递归、深度优先搜索(DFS)；题数：新题5道，复习2道
+主题：二叉树；技巧：递归、深度优先搜索(DFS)，广度优先搜索（BFS)，字符串处理；题数：新题5道，复习2道
 
 #### [Leetcode 105: 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
 4.29 第一遍
@@ -174,10 +174,45 @@ inorder  = [15, 20, 7]
 不断迭代，直到 preorder 和 inorder 都为空，返回 null 
 ```
 
+#### [Leetcode 106: 从中序与后序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/)
+4.29 第一遍
+- 思路：这道题和 105 题基本思路一样。不同之处在于将前序遍历换成了后序遍历。所以在找 root 的时候换一下位置，其他不变就可以了
+
+#### [Leetcode 107: 二叉树的层序遍历II](https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/)
+4.29 第一遍
+- 思路：这道题和102基本一样，同样用到 BFS 来解题
+- 稍微不同的地方在于，102 是从根节点往下遍历，但是这里是从叶子节点往上遍历。所以只需要将一个地方更改，即将每一层的元素插入到 ans 数组的第一个位置，就可以了，见下：
+
+```Java
+codes in 102: 
+ans.get(curLevel).add(node.val);
+
+codes in 107
+ans.get(0).add(node.val);
+```
+
+#### [面试题05：替换空格](https://leetcode-cn.com/problems/ti-huan-kong-ge-lcof/)
+4.29 第一遍
+- 思路：一开始想这道题似乎很简单，后面才发现难点在于在 JAVA 中，String 被设置为不可改变的类型，所以需要额外设置一个字符串来进行操作。
+- 复杂度分析：O（N），空间复杂度：O（N）
+
+#### [面试题06：从尾到头打印链表]()
+4.29 第一遍
+- 思路：很简单的一道题。两个循环，第一个遍历链表，得到数组的大小。第二个反向将链表的值放入数组。
+- 思路二：用递归来做，多设置一个 ArrayList，然后设置 recursive 函数，
+```Java
+        private void recursive(ListNode head) {
+            if (head == null) return;
+            recursive(head.next);
+            tmpArray.add(head.val);
+        }
+```
+- 注意：要设置额外的指针来指向链表，因为不能改动原来的 head 链表。
+- 复杂度分析：O（N），空间复杂度：O（N）
 #### 复习[Leetcode 102: 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
 4.28 第一遍，4.29 第二遍
 
-#### 复习[Leetcode 102: 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+#### [Leetcode 103: 二叉树的锯齿状层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
 4.28 第一遍，4.29 第二遍
 
 
