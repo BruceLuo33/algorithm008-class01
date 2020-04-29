@@ -126,6 +126,8 @@ UglyNumber[0] = 1, UglyNumber[1] = 2，UglyNumber[2] = min{2x2, 1x3, 1x5} = 3.
 
 
 <h3 id = "1.2">周二</h3>
+主题：二叉树宽度优先搜索（BST）；技巧：宽度优先、队列；题数：新题2道
+
 #### [Leetcode 102: 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
 4.28 第一遍
 - 思路：使用 BFS 对树进行层间遍历。每次都用一个队列来接受root，然后将其放入答案链表即可。
@@ -139,6 +141,8 @@ UglyNumber[0] = 1, UglyNumber[1] = 2，UglyNumber[2] = min{2x2, 1x3, 1x5} = 3.
 
 
 <h3 id = "1.3">周三</h3>
+主题：二叉树；技巧：递归、深度优先搜索(DFS)；题数：新题5道，复习2道
+
 #### [Leetcode 105: 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
 4.29 第一遍
 - 思路：回顾一下，前序遍历指的是 root --> left --> right，中序遍历指的是 left --> root --> right。根据两个遍历的特征，我们可以知道，前序遍历数组的第一个元素，即为根节点，再由这个根节点与中序遍历匹配，找到中序遍历中的根节点，则其左边就是左子树，右边就是右子树。然后再次回到前序遍历数组剩下的部分，第一个元素为右子树的根节点，以此类推。
