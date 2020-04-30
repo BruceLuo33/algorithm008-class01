@@ -20,10 +20,13 @@
 
 <h2 id = "1">一、刷题记录</h2>
 
-| 题目类型 | 题目 | 完成情况 | 地址 |
-| --- | --- | --- | --- |
-|  |  |  | [周二](#1.1) |
-|  |  |  |  |
+| 题目类型 | 知识点 | 题目 | 完成情况 | 地址 |
+| --- | --- | --- | --- | --- |
+| 实战 | 递归、字符串 | Leetcode 22： 括号生成 | :v: | [周四](#1.4) |
+| 实战 | 二叉树、递归 | Leetcode 98：验证二叉搜索树 | :v:  | [周一](#1.1) |
+| 实战 | 二叉树、递归 | Leetcode 104：二叉树最大深度| :v: | [周四](#1.4)|
+| 实战 | 二叉树、递归 | Leetcode 111：二叉树最小深度| :v: | [周四](#1.4)|
+| 实战 | 二叉树、递归 | Leetcode 226：翻转二叉树| :v: | [周一](#1.1)|
 
 
 <h3 id = "1.1">周一</h3>
@@ -227,14 +230,36 @@ ans.get(0).add(node.val);
 
 
 
-
-
-
-
-
-
-
 <h3 id = "1.4">周四</h3>
+主题：二叉树；技巧：递归、深度优先搜索(DFS)，广度优先搜索（BFS)，字符串处理；题数：新题 道，复习 道
+
+#### [Leetcode 22: 括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
+4.30 第一遍
+- 思路：这道题是超哥在视频中详细讲解的。对我的启发有两点：自顶向下编程与结构化思维。
+- 结构化思维：递归都是四个步骤：terminator, process logic, drill down, restore status
+- 对于题目的要求，要作以下几个考虑：第一、left < n；第二、right < left，以这两个为判断递归的标准即可
+- 注意：递归函数不能用 List<String>，要传入 String s，然后将 s 加到全局变量 List<String> 中
+
+
+
+
+
+#### 复习 [Leetcode 104：二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
+4.24 第一遍，4.30 第二遍
+- 思路：递归。从 root 出发，最大的深度等于 1+ 左/右 的node 最大深度。
+- 复杂度分析：O（N），空间复杂度：O（1）
+
+
+
+#### 复习 [Leetcode 111：二叉树的最小深度](https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/)
+4.24 第一遍，4.30 第二遍
+- 思路：一开始的时候，想着和 104 题很相似，那是不是直接将 return 的项由 Math.max 转换成 Math.min 就可以呢？明显不是。因为如果某一个子节点为 null，则这个方法就会选择这个子节点。但事实上这样算出来对于 spindly 的case，也就是 worst case，会出现明显的误判。
+- 因此需要加两行判断，即如果左子节点为 null，就 return minDepth(root.left) + 1，如果右子节点为 null，则返回左子节点。
+- 注意：判断左右子节点为null，return 的项要 +1. 这表示循环往下走了一层。否则循环往下走，但是 height 没有记录，就会出错。
+- 复杂度分析：O(N)
+
+
+
 
 
 
