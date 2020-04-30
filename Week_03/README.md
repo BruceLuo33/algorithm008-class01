@@ -235,28 +235,83 @@ ans.get(0).add(node.val);
 <h3 id = "1.4">周四</h3>
 主题：二叉树；技巧：递归、深度优先搜索(DFS)，广度优先搜索（BFS)，字符串处理；题数：新题 道，复习 道
 
-#### [Leetcode 22: 括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
+#### [1. Leetcode 22: 括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
 4.30 第一遍
 - 思路：这道题是超哥在视频中详细讲解的。对我的启发有两点：自顶向下编程与结构化思维。
 - 结构化思维：递归都是四个步骤：terminator, process logic, drill down, restore status
-- 对于题目的要求，要作以下几个考虑：第一、left < n；第二、right < left，以这两个为判断递归的标准即可
-- 注意：递归函数不能用 List<String>，要传入 String s，然后将 s 加到全局变量 List<String> 中
+- 对于题目的要求，要作以下几个考虑：第一，`left < n`；第二，`right < left`，以这两个为判断递归的标准即可
+- 注意：递归函数不能用 `List<String>`，要传入 String s，然后将 s 加到全局变量 `List<String>` 中
 
 
 
-#### [Leetcode 297: 二叉树的序列化与反序列化](https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/)
+#### [2. Leetcode 297: 二叉树的序列化与反序列化](https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/)
 4.30 第一遍
 - 思路一：一开始看这个题目，感觉这不就是 94 和 105 的综合吗？先将一个二叉树前序/中序遍历完成 serialize，然后用它的前序和中序遍历来重建二叉树。这个思路没有太大问题，但是忽略了一个很重要的点，那就是给定序列的元素是可能重复的！
-  - 例如 [3, 2, 4, 3]，这里有了重复的元素，那么用 105 的方法来重建的时候，就会出现在 inorder 数组中找不到 root 位置的情况
+  - 例如 `[3, 2, 4, 3]`，这里有了重复的元素，那么用 105 的方法来重建的时候，就会出现在 inorder 数组中找不到 root 位置的情况
 - 思路二：既然 DFS works bad，那么就用 BFS。按照 102 题的方式来层序遍历，要注意的点是遇到 null 就记录 null。在还原的函数中，输入的是 String，所以首先我们要将其转换为 String 数组，然后再将其转换为 Integer，同时 null 也要判断与记录
-- 注意：在 serialize 函数中，因为返回的值是 String 而非 List<List<String>>，所以不再需要用 level 来控制 return 的维度
+- 注意：在 serialize 函数中，因为返回的值是 String 而非 `List<List<String>>`，所以不再需要用 level 来控制 return 的维度
 - 注意：在 serialize 函数中，因为 node.val 是 Integer，所以用一个整型 List 去接收答案会比较好
 - 注意：在 deserialize 函数中，有一个小 bug 找了很久才找出来，那就是要记得在 String 数组转换为 Integer 数组的时候，使用 trim() 将空格切掉。
-- **总结**：这道题的难点，不在于 serialize，而是如何重建二叉树。因为之前在 105 题中的经验不管用，所以需要用其他的方法来做。在这里我们使用了队列来保存即将访问的 root.left 和 root.right，并且根据二叉树的特征，即只有左子树和右子树，使用了两个 if 来往最终的二叉树中添加 node。并在每一个 node 之后将位置指针 curPos + 1
+- **总结**：这道题的难点，不在于 serialize，而是如何重建二叉树。因为之前在 105 题中的经验不管用，所以需要用其他的方法来做。在这里我们使用了队列来保存即将访问的 `root.left` 和 `root.right`，并且根据二叉树的特征，即只有左子树和右子树，使用了两个 if 来往最终的二叉树中添加 node。并在每一个 node 之后将位置指针 `curPos + 1`
  - 复杂度分析：O（N）
 
 
-#### 
+#### [3. Leetcode 108：将有序数组转化为二叉搜索树](https://leetcode-cn.com/problems/convert-sorted-array-to-binary-search-tree/)
+4.30 第一遍
+- 思路一：一开始的时候想到了能否用 `weighted-Union Find` 算法，但是对于一道算法题，应该不需要这么复杂。
+- 思路二：联想到之前做过的题目：
+  - 从 98 和 99 题我们可以知道，一个二叉树的中序遍历刚好就是一个升序的数组；
+  - 从 105 和 106 我们知道，如果有了中序遍历与前序 or 后序遍历的数组，我们就能重建一个二叉树。
+  - 而还原二叉树的关键，就在于找到根节点。那么这道题也就做出来了：因为给定的是有序数组，且要求我们实现一个高度平衡的二叉树，所以我们找根节点也就很简单了：直接用中间的数字当作根节点即可。
+- 注意：数组的 End 应该是 nums.length，不需要 -1，如果 -1，则相当于丢掉了数组的最后一项
+- 注意：求中间位置索引的时候，用 Math.floor 方法会超时，直接 /2 就可以了
+- 复杂度分析：O（N）
+
+#### [4. Leetcode 109: 将有序链表转换为二叉搜索树](https://leetcode-cn.com/problems/convert-sorted-list-to-binary-search-tree/)
+4.30 第一遍
+- 分析：这道题和 108 题非常相似，区别在于链表不支持随机访问，所以获取根节点的坐标会相对困难。在此我们可以提出三种解法思路。
+- 思路一：既然链表无法随机访问，我改成一个可以随机访问的不就行了吗？于是可以新建一个 `ArrayList<Integer>` 用来接收给定 List 中的元素，其他的步骤和 108 题一模一样，时间/空间复杂度为 O（N）
+- 注意：对于线性表 ArrayList，随机访问的方式为 `listValue.get(mid)`，mid 为中间位置的 index，关键代码如下：
+```Java
+    private TreeNode helper(ArrayList<Integer> listValue, int start, int end) {
+        if (start == end) return null;
+        int mid = (int) (start + end) / 2;
+        TreeNode root = new TreeNode(listValue.get(mid));
+        root.left = helper(listValue, start, mid);
+        root.right = helper(listValue, mid + 1, end);
+        return root;
+    }
+```
+
+- 思路二：如果不设立数组，我们怎么找链表的中点？双指针。双指针有前后指针和快慢指针，在这里我们才用快慢指针来找到中点，然后其余步骤与 108 题一样。
+  - 但是这个方法的问题在于，由于我们并没有改变数据结构，所以每次递归都需要重新跑一边快慢指针。所以最终复杂度反而会升高，变成了O（NlogN），空间复杂度O（logN）
+- 思路三：参考了答案，得到了一种最佳的解法。这种做法是模仿中序遍历。在中序遍历中，我们采用的方式是将一个二叉树按顺序赋值给一个数组，在这里，我们可以采用相似的办法，但是不同的点在于这一次是利用中序遍历赋值给二叉树。
+- 注意：要设置一个全局变量的指针指向head，设置全局变量的原因是递归加入指针的参数会很麻烦
+- 注意：在遍历右子树之后，cur不再需要后移，关键代码如下：
+```Java
+    private TreeNode helperThree(int start, int end) {
+        if (start == end) return null;
+        int mid = (int) (start + end) / 2;
+
+        // 遍历左子树，找到左子根节点，此时 start == null，会返回 null
+        TreeNode left = helperThree(start, mid);
+        TreeNode root = new TreeNode(curNode.val);
+        root.left = left;
+
+        curNode = curNode.next;
+        
+        // 遍历右子树，找到右子根节点，此时 start == null，会返回 null
+        TreeNode right = helperThree(mid + 1, end);
+        root.right = right;
+        
+        return root;
+    }
+```
+
+#### [5. Leetcode 112：路径总和](https://leetcode-cn.com/problems/path-sum/)
+4.30 第一遍
+- 思路：这道题和 111 求最小深度的题很相似。同样的要注意的问题也很相似，那就是要避免出现 spindly 树，导致过早的结束递归所带来的误判
+- 复杂度分析：O（N），空间复杂度：O（logN）~ O（N）
 
 
 #### 复习 [Leetcode 104：二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
@@ -269,8 +324,8 @@ ans.get(0).add(node.val);
 #### 复习 [Leetcode 111：二叉树的最小深度](https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/)
 4.24 第一遍，4.30 第二遍
 - 思路：一开始的时候，想着和 104 题很相似，那是不是直接将 return 的项由 Math.max 转换成 Math.min 就可以呢？明显不是。因为如果某一个子节点为 null，则这个方法就会选择这个子节点。但事实上这样算出来对于 spindly 的case，也就是 worst case，会出现明显的误判。
-- 因此需要加两行判断，即如果左子节点为 null，就 return minDepth(root.left) + 1，如果右子节点为 null，则返回左子节点。
-- 注意：判断左右子节点为null，return 的项要 +1. 这表示循环往下走了一层。否则循环往下走，但是 height 没有记录，就会出错。
+- 因此需要加两行判断，即如果左子节点为 null，就 `return minDepth(root.left) + 1`，如果右子节点为 null，则返回左子节点。
+- 注意：判断左右子节点为 null，return 的项要 +1. 这表示循环往下走了一层。否则循环往下走，但是 height 没有记录，就会出错。
 - 复杂度分析：O(N)
 
 
