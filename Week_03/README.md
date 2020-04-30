@@ -233,7 +233,7 @@ ans.get(0).add(node.val);
 
 
 <h3 id = "1.4">周四</h3>
-主题：二叉树；技巧：递归、深度优先搜索(DFS)，广度优先搜索（BFS)，字符串处理；题数：新题 道，复习 道
+主题：二叉树；技巧：递归、深度优先搜索(DFS)，广度优先搜索（BFS)，字符串处理；题数：新题6道，复习2道
 
 #### [1. Leetcode 22: 括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
 4.30 第一遍
@@ -314,14 +314,18 @@ ans.get(0).add(node.val);
 - 复杂度分析：O（N），空间复杂度：O（logN）~ O（N）
 
 
-#### 复习 [Leetcode 104：二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
+#### [6. Leetcode 145：二叉树的后序遍历](https://leetcode-cn.com/problems/binary-tree-postorder-traversal/submissions/)
+4.30 第一遍
+- 思路：简单的后序遍历
+
+#### 复习 [7. Leetcode 104：二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
 4.24 第一遍，4.30 第二遍
 - 思路：递归。从 root 出发，最大的深度等于 1+ 左/右 的node 最大深度。
 - 复杂度分析：O（N），空间复杂度：O（1）
 
 
 
-#### 复习 [Leetcode 111：二叉树的最小深度](https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/)
+#### 复习 [8. Leetcode 111：二叉树的最小深度](https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/)
 4.24 第一遍，4.30 第二遍
 - 思路：一开始的时候，想着和 104 题很相似，那是不是直接将 return 的项由 Math.max 转换成 Math.min 就可以呢？明显不是。因为如果某一个子节点为 null，则这个方法就会选择这个子节点。但事实上这样算出来对于 spindly 的case，也就是 worst case，会出现明显的误判。
 - 因此需要加两行判断，即如果左子节点为 null，就 `return minDepth(root.left) + 1`，如果右子节点为 null，则返回左子节点。
