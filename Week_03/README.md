@@ -34,7 +34,7 @@
 <h3 id = "1.1">周一</h3>
 主题：二叉树；技巧：递归、中序遍历；题数：新题5道，复习2道
 
-#### [Leetcode 98：验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)。
+#### [1. Leetcode 98：验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)。
 4.27 第一遍
 - 思路一：中序遍历。题目的要求是判断二叉树值得大小是否为从小到大排列。因此用中序遍历得 左-->根-->右，就可以比较好的解决这个问题。只要相邻两个元素不满足前项小于后项的关系，就返回false。
   - 注意：在存储树的 val 时，数据结构可以用 stack 或者是 arraylist。
@@ -53,7 +53,7 @@
             /     \          /       \
       3(-inf, 5)  7(5,10)  13(10, 17)   20(17, inf)
     ```
-#### [Leetcode 99：恢复二叉搜索树](https://leetcode-cn.com/problems/recover-binary-search-tree/)
+#### [2. Leetcode 99：恢复二叉搜索树](https://leetcode-cn.com/problems/recover-binary-search-tree/)
 4.27 第一遍
 - 思路：采用中序遍历。从 98 题中我们知道，对一个二叉树进行中序遍历，得到的数组将会从小到大排列。因为题中已经说明，仅有两个节点被错误的交换，因此我们可以使用双指针来遍历。对于两个节点被交换，会产生以下几种情况：
   - case 1：[1,2,3,4,5] 中，1和2被交换，因此会产生一个错误数值对。交换后是[2,1,3,4,5]，{2，1}是错误数值对
@@ -63,7 +63,7 @@
 - 注意：赋值的时候，first 应该指向 pre，second 应该指向 root。对应着上面的case 2，将第一个逆序对的第一个元素和第二个逆序对的第二个元素，交换。
 - 复杂度分析：O（N）
 
-#### [Leetcode 100：相同的树](https://leetcode-cn.com/problems/same-tree/)
+#### [3. Leetcode 100：相同的树](https://leetcode-cn.com/problems/same-tree/)
 4.27 第一遍
 - 思路：递归。代码很简洁，粘贴于下。
 - 复杂度：O（N），空间复杂度：O（k）k为树的高度
@@ -76,7 +76,7 @@
       }
   ```
 
-#### [Leetcode 101：对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
+#### [4. Leetcode 101：对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
 4.27 第一遍
 - 思路：递归。和100题比较相似，都是递归的应用。要注意的是，最终的return项应该是 left.right 、 right.left，因为题目要求的是对称，所以就是往两边走要想等。
 - 复杂度分析：O（N），空间复杂度：O(K)，k为树的高度。
@@ -88,20 +88,20 @@
 3  4  4   3
 ```
 
-#### [Leetcode 226：翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
+#### [5. Leetcode 226：翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
 4.27 第一遍
 - 思路：结构和101题，相同的树非常相似。递归的过程也是比较相似，不同之处就在于不是判断左右节点是否相等了，而是直接交换最左和最右节点的值就可以了。
 - 注意：一开始想的是交换 val，后面发现直接交换node，会让整个结构更简单。
 
 
-#### 复习[Leetcode 1：两数之和](https://leetcode-cn.com/problems/two-sum/)
+#### 复习[6. Leetcode 1：两数之和](https://leetcode-cn.com/problems/two-sum/)
 4.25 第二遍，4.27第三遍
 - 思路一：很早之前做过这道题。直接用的两遍循环。暴力破解，复杂度O（N^2)
 - 思路二：降低复杂度，使用 HashMap。
 - 步骤：1、将nums 放入 HashMap；2、对于每一个元素 i，找出 target - i 是否在 map中；3、如果在，返回下标；如果不在，返回空数组。
 - 注意：判断map 是否有key 的时候，因为题目要求同一个元素不能使用两次，所以还需要判定 map.get(target - nums[i]) != i。
 
-#### 复习[Leetcode 264：丑数II](https://leetcode-cn.com/problems/ugly-number-ii/) / [面试题 17.09：第 K 个数](https://leetcode-cn.com/problems/get-kth-magic-number-lcci/)
+#### 复习[7. Leetcode 264：丑数II](https://leetcode-cn.com/problems/ugly-number-ii/) / [面试题 17.09：第 K 个数](https://leetcode-cn.com/problems/get-kth-magic-number-lcci/)
 4.25 第一遍，4.27第二遍。一开始还有点没想出来。后面看了之前写的代码，立刻就回忆起来了。复习还是很有必要的。具体思路如下。
 - 思路：先分析每一个丑数，设丑数为 y，则其符合这个公式 y = a·2 + b·3 + c·5. 自然而然，一开始会想到，是不是需要将 a/b/c 都求出来，但这样是陷入了误区，且看下面三个数组：
 ```Java
@@ -140,12 +140,12 @@ UglyNumber[0] = 1, UglyNumber[1] = 2，UglyNumber[2] = min{2x2, 1x3, 1x5} = 3.
 <h3 id = "1.2">周二</h3>
 主题：二叉树宽度优先搜索（BST）；技巧：宽度优先、队列；题数：新题2道
 
-#### [Leetcode 102: 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+#### [1. Leetcode 102: 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
 4.28 第一遍
 - 思路：使用 BFS 对树进行层间遍历。每次都用一个队列来接受root，然后将其放入答案链表即可。
 - 复杂度分析：O（N） 空间复杂度：O（N）
 
-#### [Leetcode 103: 二叉树的锯齿状层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
+#### [2. Leetcode 103: 二叉树的锯齿状层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
 4.28 第一遍
 - 思路：这道题和102题几乎一样，唯一的不同之处在于如果 level 为奇，就是从左往右，如果是偶数，就是从右往左。因此对 curLevel 增加一个奇偶判断就可以了
 - 复杂度分析：O（N），空间复杂度：O（N）
@@ -155,7 +155,7 @@ UglyNumber[0] = 1, UglyNumber[1] = 2，UglyNumber[2] = min{2x2, 1x3, 1x5} = 3.
 <h3 id = "1.3">周三</h3>
 主题：二叉树；技巧：递归、深度优先搜索(DFS)，广度优先搜索（BFS)，字符串处理；题数：新题5道，复习2道
 
-#### [Leetcode 105: 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
+#### [1. Leetcode 105: 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
 4.29 第一遍
 - 思路：回顾一下，前序遍历指的是 root --> left --> right，中序遍历指的是 left --> root --> right。根据两个遍历的特征，我们可以知道，前序遍历数组的第一个元素，即为根节点，再由这个根节点与中序遍历匹配，找到中序遍历中的根节点，则其左边就是左子树，右边就是右子树。然后再次回到前序遍历数组剩下的部分，第一个元素为右子树的根节点，以此类推。
 - 由上述分析可以看出，递归非常适合这道题目。
@@ -186,7 +186,7 @@ inorder  = [15, 20, 7]
 不断迭代，直到 preorder 和 inorder 都为空，返回 null 
 ```
 
-#### [Leetcode 106: 从中序与后序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/)
+#### [2. Leetcode 106: 从中序与后序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/)
 4.29 第一遍
 - 思路：这道题和 105 题基本思路一样。不同之处在于将前序遍历换成了后序遍历。所以在找 root 的时候换一下位置，其他不变就可以了
 
@@ -203,12 +203,12 @@ codes in 107
 ans.get(0).add(node.val);
 ```
 
-#### [面试题05：替换空格](https://leetcode-cn.com/problems/ti-huan-kong-ge-lcof/)
+#### [3. 面试题05：替换空格](https://leetcode-cn.com/problems/ti-huan-kong-ge-lcof/)
 4.29 第一遍
 - 思路：一开始想这道题似乎很简单，后面才发现难点在于在 JAVA 中，String 被设置为不可改变的类型，所以需要额外设置一个字符串来进行操作。
 - 复杂度分析：O（N），空间复杂度：O（N）
 
-#### [面试题06：从尾到头打印链表](https://leetcode-cn.com/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/)
+#### [4. 面试题06：从尾到头打印链表](https://leetcode-cn.com/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/)
 4.29 第一遍
 - 思路：很简单的一道题。两个循环，第一个遍历链表，得到数组的大小。第二个反向将链表的值放入数组。
 - 思路二：用递归来做，多设置一个 ArrayList，然后设置 recursive 函数，在递归调用到了最底层之后，再往 ArrayList 中添加值就可以了。
@@ -223,10 +223,10 @@ ans.get(0).add(node.val);
 - 复杂度分析：O（N），空间复杂度：O（N）
 
 
-#### 复习 [Leetcode 102: 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+#### 复习 [5. Leetcode 102: 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
 4.28 第一遍，4.29 第二遍
 
-#### 复习 [Leetcode 103: 二叉树的锯齿状层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
+#### 复习 [6. Leetcode 103: 二叉树的锯齿状层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
 4.28 第一遍，4.29 第二遍
 
 
