@@ -339,7 +339,7 @@ ans.get(0).add(node.val);
 
 
 <h3 id = "1.5">周五</h3>
-主题：二叉树；技巧：递归、回溯、；题数：新题 道，复习道
+主题：二叉树；技巧：递归、回溯、；题数：新题 2 道
 
 #### [5.1 Leetcode 113：路径之和 II](https://leetcode-cn.com/problems/path-sum-ii/)
 5.1 第一遍
@@ -378,9 +378,74 @@ ans.get(0).add(node.val);
 
 ```
 <h3 id = "1.6">周六</h3>
+休息
 
 
 <h3 id = "1.7">周日</h3>
+主题：复习、二叉树；技巧：递归；题数：复习 3 道
+
+#### 复习 [7.1 Leetcode 242：有效的字母异位词](https://leetcode-cn.com/problems/valid-anagram/)
+4.23 第一遍，5.3 第二遍
+- 思路一：暴力破解。将string sort，然后比较每一个元素。
+- 思路二：HashMap。第一个循环将 s 中的所有char 放入map，然后再去检查 t 中每一个元素是否在里面
+  - 在这道题中，因为比较的元素只有 26 个字母，所以我们事实上可以用数组来充当 HashMap，0-25 分别代表 a-z
+  - 遍历两个字符串， String s 中出现的字母，将其对应数组值 +1，String t 中出现的字母，将其对应数组值 -1， 最后判断这个数字是否为空即可。
+- 复杂度分析：1、O（NlogN）；2、O（N）
+- 注意：不要将 s/t 转换为 charArray，直接用 charAt 来做就可以了
+
+#### 复习 [Leetcode 110：平衡二叉树](https://leetcode-cn.com/problems/balanced-binary-tree/)
+4.24 第一遍，5.3 第二遍
+- 思路一：最简单的思路，利用104题已经做出来的计算 height，来判断左右节点的height 之差是否大于一
+  - 但是这会造成一个问题，那就是大量的重复计算。
+- 思路二：直接在计算 height 的函数中，判断左右 node 的 height 相差是否大于 1.
+- 注意：如果左右子树都不是平衡的，则 `Math.abs(leftHeight - rightHeight) == 0` 将会成立，为了避免这个情况，需要对height 进行判断，是否为 -1
+- 复杂度分析：O（N）
+```Java
+思路二代码：直接判断左右 node 高度差是否大于一，递归：
+
+int leftHeight = helper(root.left);
+int rightHeight = helper(root.right);
+if (Math.abs(leftHeight - rightHeight)) > 1 return false;
+return 1 + Math.max(leftHeight, rightHeight);
+
+```
+- 上述代码会出现一个问题，那就是当左右返回的 height 都是 -1 的时候，判定会失效。所以需要提前加一个判定，这样我们的最终结果才是完备的。
+```Java
+int leftHeight = helper(root.left);
+if (leftHeight == -1) return false;
+
+int rightHeight = helper(root.right);
+if (rightHeight == -1) return false;
+
+if (Math.abs(leftHeight - rightHeight)) > 1 return false;
+return 1 + Math.max(leftHeight, rightHeight);
+```
+- 执行用时 :1 ms, 在所有 Java 提交中击败了99.80%的用户
+- 内存消耗 :39.9 MB, 在所有 Java 提交中击败了23.53%的用户
+
+
+#### 复习 [Leetcode 559: N叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-n-ary-tree/)
+4.24 第一遍，5.3 第二遍
+- 思路：这道题的解法其实和 104 一样。不同之处在于 104 只有两个node，这里有很多个node，所以只需要对整个 children 的 list 进行遍历就可以了。简单来说，一棵树的最大高度，就是所有子树中的最大高度 + 1
+- 注意：递归调用的位置，应该在 children 节点。
+- 复杂度分析：O（N）
+```Java
+    public int maxDepth(Node root) {
+        if (root == null) return 0;
+        int maxVal = 0;
+        for (Node child : root.children) {
+            int tmp = maxDepth(child);
+            maxVal = Math.max(maxVal, tmp);
+        }
+        return maxVal + 1;
+    }
+```
+- 执行用时 :0 ms, 在所有 Java 提交中击败了100.00%的用户
+- 内存消耗 :40 MB, 在所有 Java 提交中击败了13.33%的用户
+
+
+
+
 
 <h2 id = "2">二、数据结构笔记</h3>
 
