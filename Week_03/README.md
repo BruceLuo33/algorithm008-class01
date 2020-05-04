@@ -1,22 +1,29 @@
 
-# 第三周学习记录
+# 第三周学习记录(4.27-5.10)
 [一、刷题记录](#1)
- * [周一](#1.1)
- * [周二](#1.2)
- * [周三](#1.3)
- * [周四](#1.4)
- * [周五](#1.5)
- * [周六](#1.6)
- * [周日](#1.7)
-
+  - [周一(4.27)](#1.1)
+  - [周二(4.28)](#1.2)
+  - [周三(4.29)](#1.3)
+  - [周四(4.30)](#1.4)
+  - [周五(5.1)](#1.5)
+  - [周六(5.2)](#1.6)
+  - [周日(5.3)](#1.7)
+  - [周一(5.4)](#1.8)
+  - [周二(5.5)](#1.9)
+  - [周三(5.6)](#1.10)
+  - [周四(5.7)](#1.11)
+  - [周五(5.8)](#1.12)
+  - [周六(5.9)](#1.13)
+  - [周日(5.10)](#1.14)
+ 
 [二、数据结构笔记](#2)
- * [1. 优先队列（堆）](#2.1)
- * [2. 二叉查找树](#2.2)
- * [3. 平衡查找树（红黑树）](#2.3)
- * [4. 散列表（Hashing）](#2.4)
- * [5. 递归](#2.5)
- * [](#2.2)
- * [](#2.2)
+  * [1. 优先队列（堆）](#2.1)
+  * [2. 二叉查找树](#2.2)
+  * [3. 平衡查找树（红黑树）](#2.3)
+  * [4. 散列表（Hashing）](#2.4)
+  * [5. 递归](#2.5)
+  * [](#2.2)
+  * [](#2.2)
 
 
 <h2 id = "1">一、刷题记录</h2>
@@ -32,7 +39,7 @@
 | 实战 | 二叉树、BFS、字符串 | Leetcode 297：二叉树的序列化与反序列化|  :ok:  | [周四](#1.4)|
 
 
-<h3 id = "1.1">周一</h3>
+<h3 id = "1.1">周一(4.27)</h3>
 主题：二叉树；技巧：递归、中序遍历；题数：新题5道，复习2道
 
 #### [1.1 Leetcode 98：验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)。
@@ -46,6 +53,7 @@
 因此，我们可以设置递归，每次都已上一个节点作为左/右的一个边界，如果越界，代表出错。如下图所示。
   - 从下图，我们可以总结出结论：如果是左子节点，那么应该以父节点为右边界，以父节点的左边界为左边界；如果是右子节点，应该以父节点为左边界，以父节点的右边界为右边界。
   - 注意：设置max/min 的时候，要将其再扩大一个位置，MAX_VALUE + 1 和 MIN+VALUE - 1
+  - 注意：判定是否越界的时候，要用`node.val >= max` 而不能用 `node.left.val >= node.val`，因为我们的 terminator 条件只判定了 `node ！= null`，但没有检查 node.left，所以会出现空指针错误。正确的做法应该是 `if (node.val >= max)`
   - 复杂度分析：O（N），空间复杂度：O（1）
     ```Java
                   10 (-inf, inf)
@@ -62,6 +70,8 @@
 - 所以我们可以将前后节点互相比较，如果前节点大于后节点，就违反了二叉树的定义，也就是我们要找的一种情况，用first 和 second 来分别保存；然后继续递归，找到第二组逆序的数字，则将second 赋值为第二组逆序中的后一个数字（case two 的2），然后交换first 和 second 即可。
 - 注意：判断前后结点的值的时候，应该是 pre.val > root.val，即前节点的值大于现节点的值。
 - 注意：赋值的时候，first 应该指向 pre，second 应该指向 root。对应着上面的case 2，将第一个逆序对的第一个元素和第二个逆序对的第二个元素，交换。
+- 注意：在寻找第一个逆序对的时候，`second = root` 的这个将 second 指向 root 的步骤不能省略。如果省略，就默认了只有 case 2 会出现，忽略了 case 1 的情况。
+- 注意：中序遍历的时候，`pre = root` 和用 if 语句寻找逆序对的顺序不能交换
 - 复杂度分析：O（N）
 
 #### [1.3 Leetcode 100：相同的树](https://leetcode-cn.com/problems/same-tree/)
@@ -103,34 +113,37 @@
 - 注意：判断map 是否有key 的时候，因为题目要求同一个元素不能使用两次，所以还需要判定 map.get(target - nums[i]) != i。
 
 #### 复习[1.7 Leetcode 264：丑数II](https://leetcode-cn.com/problems/ugly-number-ii/) / [面试题 17.09：第 K 个数](https://leetcode-cn.com/problems/get-kth-magic-number-lcci/)
-4.25 第一遍，4.27第二遍。一开始还有点没想出来。后面看了之前写的代码，立刻就回忆起来了。复习还是很有必要的。具体思路如下。
+4.25 第一遍，4.27 第二遍，5.4 第三遍。一开始还有点没想出来。后面看了之前写的代码，立刻就回忆起来了。复习还是很有必要的。具体思路如下。
 - 思路：先分析每一个丑数，设丑数为 y，则其符合这个公式 y = a·2 + b·3 + c·5. 自然而然，一开始会想到，是不是需要将 a/b/c 都求出来，但这样是陷入了误区，且看下面三个数组：
 ```Java
-Array 1: 1x2, 2x2, 3x2, 4x2, 5x2……
-Array 2: 1x3, 2x3, 3x3, 4x3, 5x3……
-Array 3: 1x5, 2x5, 3x5, 4x5, 5x5 ……
+Array 1: 1x2, 2x2, 3x2, 4x2, 5x2, 6x2, 7x2……
+Array 2: 1x3, 2x3, 3x3, 4x3, 5x3, 6x3, 7x3……
+Array 3: 1x5, 2x5, 3x5, 4x5, 5x5, 6x5, 7x5……
 ```
-- 从上面的数组，我们可以很明显的看到，假设数组长度无限，那么每一个数组其实都全部包含了余下的两个数组。所以可以设置三个指针，分别乘以对应的系数，然后将较小的数放入丑数数组中，并将其指针后移一位。依此类推，直到第 k 个数。举例来说：
+- 从上面的数组，我们可以很明显的看到，假设数组长度无限，那么每一个数组其实都全部包含了余下的两个数组。但这会引发一个新的问题，那就是有的数字，例如7x2就不属于丑数。因此我们不需要三个数组，只能在同一个丑数数组上进行操作。设置三个指针，分别乘以对应的系数，然后将较小的数放入丑数数组中，并将其指针后移一位。依此类推，直到第 k 个数。
+- 可以这么进行计算的原因基于以下两个基本假设：
+  - 第一，每一个丑数都是由之前的丑数乘 2 or 3 or 5而来；
+  - 第二，如果一个丑数已经乘了 2 or 3 or 5，那它就不能再用了，因为会与之前相同的丑数，产生重复计算
+- 所以，根据这两个假设，我们只需要将指针指向丑数数组，并且每次将 2 or 3 or 5 的指针后移一位即可
+
 ```Java
 Step 1:
-Array 1: 1x2, 2x2, 3x2, 4x2, 5x2……
-          ^
-Array 2: 1x3, 2x3, 3x3, 4x3, 5x3……
-          ^
-Array 3: 1x5, 2x5, 3x5, 4x5, 5x5 ……
-          ^
-UglyNumber[0] = 1, UglyNumber[1] = min{1x2, 1x3, 1x5} = 2，再将 Array 1 的指针右加一位
+UglyArray：  1 ...
+            ^^^
+指针：      235
+因为三个因素分别相乘 1，得到的积 Math.min(1x2, 1x3, 1x5) = 2. 所以将 2 的指针往后移
 
 Step 2:
-Array 1: 1x2, 2x2, 3x2, 4x2, 5x2……
-               ^
-Array 2: 1x3, 2x3, 3x3, 4x3, 5x3……
-          ^
-Array 3: 1x5, 2x5, 3x5, 4x5, 5x5 ……
-          ^
+UglyArray：1，1x2 ...
+          ^^   ^
+指针：    35   2 
+再次计算 Math.min(1x3, 1x5, 2x2) = 3，所以将 3 的指针后移
 
-UglyNumber[0] = 1, UglyNumber[1] = 2，UglyNumber[2] = min{2x2, 1x3, 1x5} = 3. 
-此时 Array 2 出现了最小值，因此将其放入丑数数组后，指针右移一位即可。
+Step 3:
+UglyArray：1，1x2, 1x3 ...
+           ^   ^    ^
+指针：     5   2    3
+依次类推
 
 ```
 
@@ -138,7 +151,7 @@ UglyNumber[0] = 1, UglyNumber[1] = 2，UglyNumber[2] = min{2x2, 1x3, 1x5} = 3.
 
 
 
-<h3 id = "1.2">周二</h3>
+<h3 id = "1.2">周二(4.28)</h3>
 主题：二叉树宽度优先搜索（BST）；技巧：宽度优先、队列；题数：新题2道
 
 #### [2.1 Leetcode 102: 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
@@ -153,7 +166,7 @@ UglyNumber[0] = 1, UglyNumber[1] = 2，UglyNumber[2] = min{2x2, 1x3, 1x5} = 3.
 
 
 
-<h3 id = "1.3">周三</h3>
+<h3 id = "1.3">周三(4.29)</h3>
 主题：二叉树；技巧：递归、深度优先搜索(DFS)，广度优先搜索（BFS)，字符串处理；题数：新题5道，复习2道
 
 #### [3.1 Leetcode 105: 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
@@ -233,7 +246,7 @@ ans.get(0).add(node.val);
 
 
 
-<h3 id = "1.4">周四</h3>
+<h3 id = "1.4">周四(4.30)</h3>
 主题：二叉树；技巧：递归、深度优先搜索(DFS)，广度优先搜索（BFS)，字符串处理；题数：新题6道，复习2道
 
 #### [4.1 Leetcode 22: 括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
@@ -338,7 +351,7 @@ ans.get(0).add(node.val);
 
 
 
-<h3 id = "1.5">周五</h3>
+<h3 id = "1.5">周五(5.1)</h3>
 主题：二叉树；技巧：递归、回溯、；题数：新题 2 道
 
 #### [5.1 Leetcode 113：路径之和 II](https://leetcode-cn.com/problems/path-sum-ii/)
@@ -377,11 +390,11 @@ ans.get(0).add(node.val);
     }
 
 ```
-<h3 id = "1.6">周六</h3>
+<h3 id = "1.6">周六(5.2)</h3>
 休息
 
 
-<h3 id = "1.7">周日</h3>
+<h3 id = "1.7">周日(5.3)</h3>
 主题：复习、二叉树；技巧：递归；题数：复习 3 道
 
 #### 复习 [7.1 Leetcode 242：有效的字母异位词](https://leetcode-cn.com/problems/valid-anagram/)
@@ -393,7 +406,7 @@ ans.get(0).add(node.val);
 - 复杂度分析：1、O（NlogN）；2、O（N）
 - 注意：不要将 s/t 转换为 charArray，直接用 charAt 来做就可以了
 
-#### 复习 [Leetcode 110：平衡二叉树](https://leetcode-cn.com/problems/balanced-binary-tree/)
+#### 复习 [7.2 Leetcode 110：平衡二叉树](https://leetcode-cn.com/problems/balanced-binary-tree/)
 4.24 第一遍，5.3 第二遍
 - 思路一：最简单的思路，利用104题已经做出来的计算 height，来判断左右节点的height 之差是否大于一
   - 但是这会造成一个问题，那就是大量的重复计算。
@@ -424,7 +437,7 @@ return 1 + Math.max(leftHeight, rightHeight);
 - 内存消耗 :39.9 MB, 在所有 Java 提交中击败了23.53%的用户
 
 
-#### 复习 [Leetcode 559: N叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-n-ary-tree/)
+#### 复习 [7.3 Leetcode 559: N叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-n-ary-tree/)
 4.24 第一遍，5.3 第二遍
 - 思路：这道题的解法其实和 104 一样。不同之处在于 104 只有两个node，这里有很多个node，所以只需要对整个 children 的 list 进行遍历就可以了。简单来说，一棵树的最大高度，就是所有子树中的最大高度 + 1
 - 注意：递归调用的位置，应该在 children 节点。
@@ -442,6 +455,94 @@ return 1 + Math.max(leftHeight, rightHeight);
 ```
 - 执行用时 :0 ms, 在所有 Java 提交中击败了100.00%的用户
 - 内存消耗 :40 MB, 在所有 Java 提交中击败了13.33%的用户
+
+
+
+
+<h3 id = "1.8">周一(5.4)</h3>
+主题：复习、二叉树；技巧：递归；题数：复习  道
+
+#### 复习 [8.1 Leetcode：二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
+4.24 第一遍，5.4 第二遍
+- 思路：前序遍历，经典算法。
+  - 第一步：append root value
+  - 第二步：递归左树
+  - 第三步：递归右树
+- 复杂度分析：O（N），空间复杂度：O（logN）~ O（N），取决于 root 的形态
+
+#### 复习 [8.2 Leetcode：二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
+4.24 第一遍，5.4 第二遍
+- 思路：前序遍历，经典算法。
+  - 第一步：递归左树
+  - 第二步：append root value
+  - 第三步：递归右树
+- 复杂度分析：O（N），空间复杂度：O（logN）~ O（N），取决于 root 的形态
+
+
+#### 复习[8.3 Leetcode 264：丑数II](https://leetcode-cn.com/problems/ugly-number-ii/) / [面试题 17.09：第 K 个数](https://leetcode-cn.com/problems/get-kth-magic-number-lcci/)
+4.25 第一遍，4.27 第二遍，5.4 第三遍。
+思路见[前节 1.7题](#1.1)
+
+#### 复习 [8.4 Leetcode 543：二叉树的直径](https://leetcode-cn.com/problems/diameter-of-binary-tree/)
+4.25 第一遍，5.4 第二遍
+- 思路：递归。一开始想的是树的直径就是root 往两边走的叶子节点最大深度之和。
+  - 然而问题在于，叶子节点是对的，但是不一定经过 root。在这里采用递归，可以比较好的避免这个问题：
+  - 遍历每一个节点，将这一个节点当作root，求出它的深度，则左子树加右子树的深度，就是当前节点作为 root 的直径；
+  - 然后存入 maxDepth，以后的每一个节点都和 maxDepth 比较，如果大于则放入。直到完成循环。
+- 注意：递归 return 的项是 leftDepth 和 rightDepth 中较大值 +1，相当于在这里选定了只走较长边。
+- 注意：maxDepth 要设置为全局变量，否则只能当作参数输入 depth，会在递归的时候造成麻烦
+- 复杂度分析：O（N），空间复杂度：O（k），k为树的深度
+
+
+#### 复习 [8.5 Leetcode 75：颜色分类](https://leetcode-cn.com/problems/sort-colors/)
+4.26 第一遍，5.4 第二遍
+- 思路：双指针。第一个指针之前全都是0；第二个指针之后全都是2；二者中间全都是1.
+- 注意：在移动 twoLoc 的时候，交换了 twoLoc 与 i 的位置，此时for循环将会令 i++，但是这是不正确的。因为我们并不知道 `nums[twoLoc]` 到底值是多少，所以还需要将 i--，来判断交换了位置之后的 `num[twoLoc]`，或者说新的 `nums[i]` 的大小。
+- 注意：因为在 twoLoc 处将 i 往前移了一位，所以不再需要将循环条件设置为 i < nums.length-1, 设置为 i < twoLoc 即可。否则 twoLoc 将会进一步翻转，将 1 翻到后面。
+- 复杂度分析：O（N），空间复杂度：O（1）
+
+#### 复习 [8.6 Leetcode 98：验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)
+4.27 第一遍, 5.4 第二遍
+思路见[前节 1.1题](#1.1)
+
+#### 复习 [8.7 Leetcode 99：恢复二叉搜索树](https://leetcode-cn.com/problems/recover-binary-search-tree/)
+4.27 第一遍, 5.4 第二遍
+思路见[前节 1.2](#1.1)
+
+
+
+
+<h3 id = "1.9">周二(5.5)</h3>
+
+
+<h3 id = "1.10">周三(5.6)</h3>
+
+
+
+<h3 id = "1.11">周四(5.7)</h3>
+
+
+
+<h3 id = "1.12">周五(5.8)</h3>
+
+
+
+<h3 id = "1.13">周六(5.9)</h3>
+
+
+
+<h3 id = "1.14">周日(5.10)</h3>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
