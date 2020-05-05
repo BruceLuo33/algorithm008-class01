@@ -188,6 +188,8 @@ Codes in 103::
   - 注意：找 root 节点的时候，下标应该为 p_start 而不是 0
   - 注意：helper 函数 return null 的条件应该是 preorder 数组的 start == end
   - 注意：helper 函数的输入参数中，p_end 和 i_end 都不用 -1
+  - 注意：在递归的过程中，p_start 更新应该要 +1. 因为将 preorder 的根节点拿出来后，左子树要从根节点之后开始计算。
+
 - 复杂度分析：O（N），空间复杂度：O（N)
 - 思路二：在上一个思路中，我们发现每一次从 inorder 数组中去找 root 节点，都需要用 for 循环去遍历，这样就无疑增加了复杂度。
   - 基于此，考虑加入一个 Map 来降低复杂度，将 inorder 的每一个数字和位置都输入 map，可以将复杂度降低很多
@@ -544,6 +546,15 @@ return 1 + Math.max(leftHeight, rightHeight);
 - 复杂度分析：O（N）
 
 <h3 id = "1.9">周二(5.5)</h3>
+#### 复习 [9.1. Leetcode 105：从前、中序遍历构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
+4.29 第一遍，5.5 第二遍
+思路见[前节 3.1题](#1.3)
+
+#### 复习 [9.2. Leetcode 106：从中、后序遍历构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/)
+4.29 第一遍，5.5 第二遍
+思路见[前节 3.2题](#1.3)
+
+
 
 
 <h3 id = "1.10">周三(5.6)</h3>
