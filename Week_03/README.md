@@ -517,7 +517,7 @@ return 1 + Math.max(leftHeight, rightHeight);
 
 #### 复习 [8.6. Leetcode 98：验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)
 4.27 第一遍, 5.4 第二遍
-思路见[前节 1.1题](#1.1)
+思路见[前节 1.1 题](#1.1)
 
 #### 复习 [8.7. Leetcode 99：恢复二叉搜索树](https://leetcode-cn.com/problems/recover-binary-search-tree/)
 4.27 第一遍, 5.4 第二遍
@@ -525,15 +525,15 @@ return 1 + Math.max(leftHeight, rightHeight);
 
 #### 复习 [8.8. Leetcode 100：相同的树](https://leetcode-cn.com/problems/same-tree/)
 4.27 第一遍, 5.4 第二遍
-思路见[前节 1.3题](#1.1)
+思路见[前节 1.3 题](#1.1)
 
 #### 复习 [8.9. Leetcode 102：二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
 4.28 第一遍，4.29 第二遍，5.4 第三遍
-思路见[前节 2.1题](#1.2)
+思路见[前节 2.1 题](#1.2)
 
 #### 复习 [8.10. Leetcode 103：二叉树的锯齿形层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
 4.28 第一遍，4.29 第二遍，5.4 第三遍
-思路见[前节 2.2题](#1.2)
+思路见[前节 2.2 题](#1.2)
 
 
 #### 复习 [8.11. Leetcode 70：爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
@@ -548,13 +548,19 @@ return 1 + Math.max(leftHeight, rightHeight);
 <h3 id = "1.9">周二(5.5)</h3>
 #### 复习 [9.1. Leetcode 105：从前、中序遍历构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
 4.29 第一遍，5.5 第二遍
-思路见[前节 3.1题](#1.3)
+思路见[前节 3.1 题](#1.3)
 
 #### 复习 [9.2. Leetcode 106：从中、后序遍历构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/)
 4.29 第一遍，5.5 第二遍
-思路见[前节 3.2题](#1.3)
+思路见[前节 3.2 题](#1.3)
 
+#### 复习[9.3. Leetcode 108：将有序数组转换为二叉搜索树](https://leetcode-cn.com/problems/convert-sorted-array-to-binary-search-tree/)
+4.30 第一遍，5.5 第二遍
+思路见[前节 4.3 题](#1.4)
 
+#### 复习 [9.4. Leetcode 109: 将有序链表转换为二叉搜索树](https://leetcode-cn.com/problems/convert-sorted-list-to-binary-search-tree/)
+4.30 第一遍，5.5 第二遍
+思路见[前节 4.4 题](#1.4)
 
 
 <h3 id = "1.10">周三(5.6)</h3>
