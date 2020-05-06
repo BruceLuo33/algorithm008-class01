@@ -474,7 +474,7 @@ return 1 + Math.max(leftHeight, rightHeight);
 
 
 <h3 id = "1.8">周一(5.4)</h3>
-主题：复习、二叉树；技巧：递归；题数：复习  道
+主题：复习、二叉树；技巧：递归；题数：复习 11 道
 
 #### 复习 [8.1. Leetcode 144：二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
 4.24 第一遍，5.4 第二遍
@@ -546,6 +546,10 @@ return 1 + Math.max(leftHeight, rightHeight);
 - 复杂度分析：O（N）
 
 <h3 id = "1.9">周二(5.5)</h3>
+今天接昨天，主要复习的还是二叉树。二叉树的结构使得递归算法尤其适合它。
+主题：复习、二叉树；技巧：递归；题数：复习 4 道
+
+
 #### 复习 [9.1. Leetcode 105：从前、中序遍历构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
 4.29 第一遍，5.5 第二遍
 思路见[前节 3.1 题](#1.3)
@@ -564,6 +568,58 @@ return 1 + Math.max(leftHeight, rightHeight);
 
 
 <h3 id = "1.10">周三(5.6)</h3>
+今天主要复习的内容是链表。和二叉树一样，链表的数据结构使得它也天生适合递归。不过我的理解还不是很到位，大多数题目目前都是用的迭代法。即各种指针指来指去，遇到不理解的地方画图就好。
+主题：复习、链表；技巧：迭代、指针、图像法；题数：复习 4 道
+
+#### 复习 [10.1. Leetcode 26：删除排序数组重复项](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/)
+4.13 第一遍，4.22 第二遍，5.6 第三遍
+- 思路：和移动数组中的零项思路差不多。双指针来做。
+- 注意：first 指针应该指向最后一项不相等的元素。例如 1，1，2，3；则first应该指向第一个 1.
+- 注意：最后返回项应该为 first + 1 而不是 first
+- 复杂度：O（N），空间复杂度O（1）
+
+#### 复习 [10.2. Leetcode 88：合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)
+4.15 第一遍，4.22 第二遍，5.6 第三遍
+- 思路：双指针，一个指向 nums1 末尾，一个指向 nums2 末尾。比较两个指针指向元素的大小，将较大者放到数组末尾，依次遍历整个数组。
+- 注意：最后还需要用 arraycopy 将 nums2 数组复制到 nums1 数组中。因为当出现这种情况时：
+  - `nums1 = [0], m = 0; nums2 = [1], n = 1`，因为我们的指针是指向末尾，即 `oneEnd = m - 1`，此时就不会进入到 `while(oneEnd >= 0 && twoEnd >= 0)` 的循环，导致最终报错。
+- 复杂度：O（min（m，n）），空间复杂度：O（1）
+```Java
+        int oneEnd = m - 1, twoEnd = n - 1, len = m + n - 1;
+        while (oneEnd >= 0 && twoEnd >= 0) {
+            if (nums1[oneEnd] > nums2[twoEnd]) {
+                nums1[len--] = nums1[oneEnd--];
+            } else {
+                nums1[len--] = nums2[twoEnd--];
+            }
+        }
+        System.arraycopy(nums2, 0, nums1, 0, twoEnd + 1);
+```
+
+#### 复习 [10.3. Leetcode 24：两两交换链表中的节点](https://leetcode-cn.com/problems/swap-nodes-in-pairs/)
+4.16 第一遍，4.22 第二遍，5.6 第三遍
+- 思路：1. 如果是空节点 or 单节点，直接返回 head；2. 设置 sentinel 节点指向初始的 head，方便最终结果返回；3. 设置 nextMove 节点，保证 nextMove.next 一直指向 head
+- 注意：在循环的最后，要记得将 head 也指向tmp，亦即之前的 head.next.next，否则会出现以下情况
+```Java
+  Original:    1 -> 2 -> 3 -> 4
+  First swap:  2 -> 1 -> 3 -> 4
+  Second swap: 2 -> 3 -> 1 -> 4 (×)
+               2 -> 1 -> 4 -> 3 (√)
+ ```
+- 复杂度分析：O（N），空间复杂度：O（1）
+
+#### 复习 [10.4. Leetcode 25：K个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
+- 4.17 第一遍，5.6第二遍
+- 思路：整个待翻转的链表分为三个部分：已经翻转的，正要翻转的，还未翻转的。因此我们要做的主要工作就是将其分隔开。所以我们需要五个指针：
+  - 一个 sentinel，方便最终返回项；
+  - 第二个是 subHead，正要翻转的链表的子头节点；
+  - 第三个是 toNull，即正要翻转的链表的最后一个节点，在这里将其断开；
+  - 第四个是 tmp，用来暂时保存还未翻转的链表；
+  - 最后一个是 tail，用来指向已经翻转后的链表的尾部
+- 注意：将子链表断开后，需要一个 reverseHelper 函数来将其翻转
+- 复杂度分析：O（N）
+
+
 
 
 
