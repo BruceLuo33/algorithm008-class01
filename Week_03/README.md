@@ -151,6 +151,9 @@ UglyArray：1，1x2, 1x3 ...
 
 
 <h3 id = "1.2">周二(4.28)</h3>
+
+[返回目录](#0)
+
 主题：二叉树宽度优先搜索（BST）；技巧：宽度优先、队列；题数：新题2道
 
 #### [2.1. Leetcode 102: 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
@@ -178,6 +181,9 @@ Codes in 103::
 
 
 <h3 id = "1.3">周三(4.29)</h3>
+
+[返回目录](#0)
+
 主题：二叉树；技巧：递归、深度优先搜索(DFS)，广度优先搜索（BFS)，字符串处理；题数：新题5道，复习2道
 
 #### [3.1. Leetcode 105: 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
@@ -260,6 +266,9 @@ ans.get(0).add(node.val);
 
 
 <h3 id = "1.4">周四(4.30)</h3>
+
+[返回目录](#0)
+
 主题：二叉树；技巧：递归、深度优先搜索(DFS)，广度优先搜索（BFS)，字符串处理；题数：新题6道，复习2道
 
 #### [4.1. Leetcode 22: 括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
@@ -365,6 +374,9 @@ ans.get(0).add(node.val);
 
 
 <h3 id = "1.5">周五(5.1)</h3>
+
+[返回目录](#0)
+
 主题：二叉树；技巧：递归、回溯、；题数：新题 2 道
 
 #### [5.1. Leetcode 113：路径之和 II](https://leetcode-cn.com/problems/path-sum-ii/)
@@ -404,10 +416,16 @@ ans.get(0).add(node.val);
 
 ```
 <h3 id = "1.6">周六(5.2)</h3>
+
+[返回目录](#0)
+
 休息
 
 
 <h3 id = "1.7">周日(5.3)</h3>
+
+[返回目录](#0)
+
 主题：复习、二叉树；技巧：递归；题数：复习 3 道
 
 #### 复习 [7.1. Leetcode 242：有效的字母异位词](https://leetcode-cn.com/problems/valid-anagram/)
@@ -473,6 +491,9 @@ return 1 + Math.max(leftHeight, rightHeight);
 
 
 <h3 id = "1.8">周一(5.4)</h3>
+
+[返回目录](#0)
+
 主题：复习、二叉树；技巧：递归；题数：复习 11 道
 
 #### 复习 [8.1. Leetcode 144：二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
@@ -545,6 +566,9 @@ return 1 + Math.max(leftHeight, rightHeight);
 - 复杂度分析：O（N）
 
 <h3 id = "1.9">周二(5.5)</h3>
+
+[返回目录](#0)
+
 今天接昨天，主要复习的还是二叉树。二叉树的结构使得递归算法尤其适合它。
 主题：复习、二叉树；技巧：递归；题数：复习 4 道
 
@@ -567,6 +591,9 @@ return 1 + Math.max(leftHeight, rightHeight);
 
 
 <h3 id = "1.10">周三(5.6)</h3>
+
+[返回目录](#0)
+
 今天主要复习的内容是链表。和二叉树一样，链表的数据结构使得它也天生适合递归。不过我的理解还不是很到位，大多数题目目前都是用的迭代法。即各种指针指来指去，遇到不理解的地方画图就好。
 主题：复习、链表；技巧：迭代、指针、图像法；题数：复习 4 道
 
@@ -644,6 +671,9 @@ return 1 + Math.max(leftHeight, rightHeight);
 
 
 <h3 id = "1.11">周四(5.7)</h3>
+
+[返回目录](#0)
+
 主题：复习、链表；技巧：迭代、指针、图像法；题数：复习 4 道，新题 1 道
 
 #### [11.1. Leetcode 169：多数元素](https://leetcode-cn.com/problems/majority-element/)
@@ -752,13 +782,21 @@ Second Stage:
         
 <h3 id = "1.12">周五(5.8)</h3>
 
+[返回目录](#0)
+
+
 
 
 <h3 id = "1.13">周六(5.9)</h3>
 
+[返回目录](#0)
+
+
 
 
 <h3 id = "1.14">周日(5.10)</h3>
+
+[返回目录](#0)
 
 
 
@@ -781,18 +819,33 @@ Second Stage:
 
 <h3 id = "2.1">1. 优先队列（堆）</h3>
 
+[返回目录](#0)
+
+
 
 <h3 id = "2.2">2. 二叉查找树</h3>
+
+[返回目录](#0)
+
 
 
 
 <h3 id = "2.3">3. 平衡查找树（红黑树）</h3>
 
+[返回目录](#0)
+
+
 
 <h3 id = "2.4">4. 散列表（Hashing）</h3>
 
+[返回目录](#0)
+
+
 
 <h3 id = "2.5">5. 递归</h3>
+
+[返回目录](#0)
+
 
 
 
