@@ -36,6 +36,7 @@
 
 <h3 id = "1.1">周一(4.27)</h3>
 [返回目录](#0)
+
 主题：二叉树；技巧：递归、中序遍历；题数：新题5道，复习2道
 
 #### [1.1. Leetcode 98：验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)。
