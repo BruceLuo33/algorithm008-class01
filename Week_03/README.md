@@ -617,16 +617,140 @@ return 1 + Math.max(leftHeight, rightHeight);
   - 第四个是 tmp，用来暂时保存还未翻转的链表；
   - 最后一个是 tail，用来指向已经翻转后的链表的尾部
 - 注意：将子链表断开后，需要一个 reverseHelper 函数来将其翻转
+- 注意：将子链表翻转后，会得到一个 newSubHead，这时候不能用 `sentinel.next = newSubHead` 来指向它，因为这会丢失掉前面已经翻转过的子链表，需要用 toNull 来指向它。
+- 注意：将 tail 指向翻转后的子链表尾部的时候，要指向 subHead 而不是 head。因为 head 在整个过程中没有动，如果指向 head 就会丢失很多内容。
+- 注意：寻找长度为 k 的子链表的过程中，要用 for 循环而不能用 while。因为 `while(toNull != null)` 的判定条件会使得最终结束循环的条件为 `toNull == null`，缺少了 `n < k` 这个条件的约束。造成空指针错误
+- 注意：for 循环的时候，结束循环的条件应该是 `count < k - 1`，不是小于 k 的原因在于，toNull 指针设置的是指向 head，相当于 k 的长度小了 1. 
 - 复杂度分析：O（N）
+```Java
+核心代码：
+        while (subHead != null) {
+            for (int count = 0; count < k - 1; count++) {
+                toNull = toNull.next;
+                if (toNull == null) return sentinel.next;
+            }
 
+            ListNode tmp = toNull.next;
+            toNull.next = null;
+            ListNode newSubHead = reverse(subHead);
+            tail.next = newSubHead;
+            tail = subHead;
+            subHead = tmp;
+            toNull = tmp;
+            tail.next = tmp;
 
-
+        }
+        return sentinel.next;
+```
 
 
 <h3 id = "1.11">周四(5.7)</h3>
+主题：复习、链表；技巧：迭代、指针、图像法；题数：复习 4 道，新题 1 道
+
+#### [11.1. Leetcode 169：多数元素](https://leetcode-cn.com/problems/majority-element/)
+5.7 第一遍
+- 思路一：数学方法。因为多数元素表示的是在整个数组中占比超过 1/2，那么将数组排序后 n/2 位置的元素一定就是多数元素
+- 复杂度分析：O（NlogN）
+- 思路二：HashMap。将元素都放入 HashMap，并判断个数是否 >= n/2。如果是，则返回该元素
+- 复杂度分析：O（N）
+- 思路三：投票法。我们假设这样一个场景，在一个游戏中，分了若干个队伍，有一个队伍的人数超过了半数。所有人的战力都相同，不同队伍的两个人遇到就是同归于尽，同一个队伍的人遇到则战力值+1。
 
 
+#### 复习 [11.2. Leetcode 92：反转链表II](https://leetcode-cn.com/problems/reverse-linked-list-ii/)
+4.20 第一遍，5.7 第二遍
+- 思路：分析题目，因为整体分为三个部分：0 - (m - 1) 部分 和 n - end 部分不动，m - n 部分翻转。根据这个结构，我们解题分为三步走。
+  - 第一步，遍历到 m - 1 的位置。因为题目给定了 m, n 都是小于链表长度，所以不用考虑超出的情况；
+  - 第二步，将 m - n 的整个子链表进行翻转，与206题一致；
+  - 第三步，将三个链表连接起来
+```Java
+m = 2, n = 5
+Start:
+     0    -->   1   -->   2   -->   3   -->   4    -->   5    -->   6    -->   7
+     ^          ^
+ sen|move      head
 
+
+First Stage:
+
+                        prev --> null
+     0    -->   1   -->   2   -->   3   -->   4    -->   5    -->   6    -->   7
+     ^          ^         ^                              ^
+ sentinel    move/left   m/cur                           n
+
+
+Second Stage:
+            
+                         null
+                          |
+     0    -->   1   -->   2   <--   3   <--   4    <--   5          6    -->   7
+     ^          ^         ^                              ^          ^
+ sentinel    move/left    m                             n/prev      cur
+ 
+ 
+ Third Stage: left.next.next = cur （在这里 left.next 就是节点2）：
+ 
+                          >----------------------------------------->
+                          |                                         |
+     0    -->   1   -->   2   <--   3   <--   4    <--   5          6    -->   7
+     ^          ^         ^                              ^          ^
+ sentinel    move/left    m                             n/prev      cur
+
+
+ Last Stage: left.next = prev （在这里 left.next 是指针，指向 prev 节点）：
+
+          move/left      >----------------------------------------->
+                ⬇        ^                                         |
+     0    -->   1        2   <--   3   <--   4    <--   5          6    -->   7
+     ^          ⬇         ^                             ^          ^
+ sentinel       |         m                            n/prev      cur
+                |                                       ^     
+                >---------------------------------------^
+
+```
+- 复杂度分析：O（N）
+
+#### 复习 [11.3. Leetcode 19：删除链表倒数第 n 个节点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
+4.20 第一遍，5.7 第二遍
+- 思路一：先翻转整个链表，然后从头节点（原来的尾节点）开始计数，删除 nth 节点，然后再翻转一次
+- 复杂度分析：O(2L-1) = O(2N-1)=O(N), 空间复杂度 O（1）
+- 思路二：双指针，一遍实现。 先让第一个指针走 n 步，这时候开始让第二个指针也开始走。保证两个指针距离为 n。则当第一个指针到达尾节点的时候，第二个指针刚好到达距离尾节点 n 的位置
+- 复杂度分析：O（2L-n）= O(N)，空间复杂度：O（1）
+
+
+#### 复习 [11.4. Leetcode 82：删除有序链表中的重复元素](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/)
+4.20 第一遍，5.7 第二遍
+- 思路：双指针。第一个指针指向没有重复的上一个节点，第二个指针用来移动判断，如果第二个指针的值和第三个（second.next）相等，则加一个while循环，一直到不相等的node。
+- 注意：first 移动有两种情况：
+  - 1、second 和 second.next 不相等，则 first 和 second 同时后移一位
+  - 2、second 和 second.next 相等，first 指向 second.next.next
+  - 基于以上判断，新建一个布尔变量 isEqual 来判断是二者中的哪个情况
+- 注意：second 指针的移动要放在else之后，以保证无论如何，第二个指针都会移动，或者在 if 和 else 语句中都加入 second = second.next，以保证second指针的移动
+- 注意：移动 second 判断是否有连续相等 node 的时候，要先判断 second.next 不为空，即：`while (second.next != null && second.val == second.next.val ) ` 
+  - 举例来说，当提供数组是 [1,1] 的时候，如果 second 移动到了第二个 1，这时候如果先判断 `second.val == second.next.val`。因为 second.next 是 null，所以就不存在 value，就会出现空指针错误。而先判断 second.next 是否为空就可以避免这个情况
+- 复杂度分析：O（N）
+
+#### 复习 [11.5. Leetcode 86：分隔链表](https://leetcode-cn.com/problems/partition-list/submissions/)
+4.20 第一遍，5.7 第二遍
+- 思路：先找到第一个大于等于 x 的node，然后将 tail节点指向它，然后不停的往后循环，遇到val 小于 x 的node，就将其移动到 tail 之前
+- 注意：一定要将 move 的初始位置设置在 sentinel。否则就会跳过对第一个元素的判断，从而造成错误。
+- 复杂度： O（N），空间复杂度：O（1）
+```Java
+寻找大于等于 x 的代码：
+
+        while (move != null && move.next != null) {
+            if (move.next.val >= x) {
+                subStart = move;
+                move = move.next;
+                break;
+            } else {
+                move = move.next;
+            }
+        }
+        
+可见每次判断的都是 move.next，如果不将 move 设置在 sentinel，就会跳过第一个元素没有判断。
+```
+        
+        
 <h3 id = "1.12">周五(5.8)</h3>
 
 
