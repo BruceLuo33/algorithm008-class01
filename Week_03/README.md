@@ -17,8 +17,8 @@
   * [3. 平衡查找树（红黑树）](#2.3)
   * [4. 散列表（Hashing）](#2.4)
   * [5. 递归](#2.5)
-  * [](#2.2)
-  * [](#2.2)
+  * [6. 分治](#2.6)
+  * [7. 回溯](#2.7)
 
 
 <h2 id = "1">一、刷题记录</h2>
@@ -31,9 +31,9 @@
 | 实战 |  | Leetcode 47：全排列II |  :question:  | [](#) |
 | 实战 |  | Leetcode 50：Pow(x,n |  :question:  | [](#) |
 | 实战 |  | Leetcode 51：N皇后 |  :question:  | [](#) |
-| 实战 |  | Leetcode 78：子集 |  :question:  | [](#) |
 | 实战 | 动态规划 | Leetcode 70：爬楼梯 |  :ok:  | [周一(5.4)](#1.8) |
 | 实战 |  | Leetcode 77：组合 |  :question:  | [](#) |
+| 实战 |  | Leetcode 78：子集 |  :question:  | [](#) |
 | 实战 | 二叉树、递归 | Leetcode 98：验证二叉搜索树 |  :ok:  | [周一](#1.1) |
 | 实战 | 二叉树、递归 | Leetcode 104：二叉树最大深度|  :ok:  | [周四](#1.4)|
 | 实战 | 二叉树、DFS、HashMap | Leetcode 105：从前序与中序遍历序列构造二叉树|  :ok:  | [周三](#1.3)|
@@ -793,6 +793,93 @@ Second Stage:
 
 [返回目录](#0)
 
+#### [12.1. Leetcode 116：填充每一个节点的下一个右侧节点指针](https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node/)
+5.8 第一遍
+- 思路一：递归。递归非常简洁，是必须要会的一个技巧。简单来说，将 node 指向右侧节点有三种情况：
+  - 第一，node 本身为空，那么返回 null 就好了
+  - 第二，node 的左子节点不为空，那么直接 `node.left.next = node.right`，将左子节点指向右子节点
+  - 第三，node 的右子节点不为空，那么就需要判断 node.next 是否为空，如果是，说明右边没有节点了，将 node.right = null 就行；如果不是，则将其指向 node.next 的左子节点。`node.right.next = node.next.left`
+  - 复杂度分析：O（N）
+- 思路二：迭代。题目要求空间复杂度为 O（1)。所以采用迭代来达到这个要求。
+  - 在这里我们设置三个指针：第一个 level，指向每一层的最左边的节点；第二个 prev，指向要延伸出 next 指向右边的节点；第三个是 cur， 指向 prev 右边一个节点。所以 cur 可以为 null，代表的是 prev 已经到达了这一层的最右端。
+  - 连接的关键在于通过 level 来控制在哪一层进行操作，通过 cur 来控制是否到达最右端、是否需要下移三个指针，通过 prev 来将 prev 的子节点连接起来：`prev.left.next = prev.right` 以及 `prev.right.next = cur.left`
+- 思路三：BFS。其实观察题目的要求，就会发现这其实就是层序遍历的一个绝佳案例。虽然题目要求使用常数空间，但我们也可以用这道题来练习 BFS 的技巧。
+```Java
+递归法：
+    public Node connect(Node root) {
+        if (root == null) return root;
+        if (root.left != null) root.left.next = root.right;
+        if (root.right != null) root.right.next = root.next == null? null : root.next.left;
+        connect(root.left);
+        connect(root.right);
+        return root; 
+    }
+```
+
+
+#### [12.2. Leetcode 117：填充每个节点的下一个右侧节点指针II](https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node-ii/)
+5.8 第一遍
+- 思路：和116题比较类似，但是区别在于这里不再是完美二叉树，而是一棵普通的二叉树，那么就可能存在空子节点，所以在连接next 的时候就需要增加一些判断。
+  - 依旧使用递归，不过在这里，因为需要判断每一层的空子节点数，所以需要一个 hasNext 来遍历整层，相当于 BFS 的层序遍历。
+  - 复杂度分析：O（N）
+```Java
+    public Node connect(Node root) {
+        if (root == null) return root;
+        if (root.left != null && root.right != null) {
+            root.left.next = root.right;
+        }
+        if (root.left != null && root.right == null) {
+            root.left.next = getNext(root.next);
+        }
+        if (root.right != null) {
+            root.right.next = getNext(root.next);
+        }
+        connect(root.left);
+        connect(root.right);
+        return root;
+    }
+
+    private Node getNext(Node root) {
+        if (root == null) return null;
+        if (root.left != null) return root.left;
+        if (root.right != null) return root.right;
+        if (root.next != null) return getNext(root.next);
+        return null;
+    }
+```
+
+#### [12.3. Leetcode 46：全排列](https://leetcode-cn.com/problems/permutations/)
+5.8 第一遍
+- 思路：回溯法。对于回溯法的思路讲解，见[笔记2.7](#2.7)
+- 复杂度：O（N）
+代码如下：
+```Java
+    List<List<Integer>> ans = new LinkedList<>();
+    public List<List<Integer>> permute(int[] nums) {
+        LinkedList<Integer> track = new LinkedList<>();
+        helper(nums, track);
+        return ans;
+    }
+
+    private void helper(int[] nums, LinkedList<Integer> track) {
+        if (nums.length == track.size()) {
+            ans.add(new LinkedList<Integer>(track));
+            return;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (track.contains(nums[i])) continue;
+
+            track.add(nums[i]);
+            helper(nums, track);
+            track.removeLast();
+        }
+    }
+```
+
+
+#### 复习 [12.2. 面试题 49：丑数](https://leetcode-cn.com/problems/chou-shu-lcof/)
+4.25 第一遍，4.27 第二遍，5.4 第三遍，5.8 第四遍
+思路见[前节 1.7题](#1.1)
 
 
 
@@ -857,16 +944,64 @@ Second Stage:
 
 
 
+<h3 id = "2.6">6. 分治</h3>
+
+[返回目录](#0)
 
 
 
+<h3 id = "2.7">7. 回溯</h3>
 
+[返回目录](#0)
 
+回溯其实就是一种特殊的递归，不同的地方在于，**解决一个回溯问题，实际上就是解决一个决策树的遍历过程**。在这里，有三个概念需要厘清：
+1. 路径：已经走过的路，已经做过的选择；
+2. 选择列表：还可以走的路径，还可以去做的选择；
+3. 结束条件：到达了决策树的底层，无法再去做选择的条件。
+回溯算法的框架模板：
+```Python
+result = []
+def backtrack(路径, 选择列表):
+    if 满足结束条件:
+        result.add(路径)
+        return
+    
+    for 选择 in 选择列表:
+        做选择
+        backtrack(路径, 选择列表)
+        撤销选择
+  
+```
+核心在于 `for` 循环里面的代码，事实上还可以将其扩展：
+```Python
+for 选择 in 选择列表:
+    # 做选择
+    将该选择从选择列表移除
+    路径.add(选择)
+    backtrack(路径, 选择列表)
+    # 撤销选择
+    路径.remove(选择)
+    将该选择再加入选择列表
+```
+举例来说，如下的决策树：
+```Java
+             O
+        /    |     \
+      1/     |2     \3
+     o       o       o  
+   2/ \3   1/ \3   2/ \1 
+   o   o   o   o   o   o
+  3|  2|  3|  1|  1|  2|
+   o   o   o   o   o   o     
+```
+每一个原点 o 都代表节点，站在这个节点上需要**做决策**，决定往哪一个路径去走。所以对于每一个节点而言，都具有两个属性：**选择列表**和**路径**。
+- 例如对于最上层的节点，它的两个属性分别为：选择列表[1,2,3]，路径[]。分别代表从这个结点出发，它可以选择走三条路中的一条，但是因为事实上它还没有做出决策，所以记录的路径为空。
+- 对于最右下角的节点，它的两个属性分别为：选择列表[]，路径[3,1,2]。分别代表从这个结点出发，往下做决策，已经无路可走，没有选择可以选了，所以它的选择列表为空。又因为它是从最顶层的节点一路沿着最右侧的路径走下来，所以它所记录的路径就应该是[3,1,2]。
+- 当无路可走的时候，代表我们已经得到了一组解，将其加入到 ans 数组，然后回退到上一层节点，因为对于上一层节点而言，它不仅能往右走，还能往左走。退到上一层节点，即为删掉最后一个路径值，两个属性分别变成了：选择列表[2]，路径[3]。这时候只能往左走，最终得到的路径即为[3,2,1]。
 
+理解了这些概念，那么回溯就很简单了。一言以蔽之：“**在递归之前做出选择，在递归之后撤销刚才的选择**”
 
-
-
-
+参考资料：labuladong blog
 
 
 
