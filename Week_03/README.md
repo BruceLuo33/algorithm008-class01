@@ -29,7 +29,7 @@
 | 实战 | 递归、字符串 | Leetcode 22：括号生成 |  :ok:  | [周四](#1.4) |
 | 实战 | 回溯 | Leetcode 46：全排列 |  :ok:  | [周五(5.8)](#1.12) |
 | 实战 | 回溯、剪枝 | Leetcode 47：全排列II |  :ok:  | [周六(5.9)](#1.13) |
-| 实战 |  | Leetcode 50：Pow(x,n) |  :question:  | [](#) |
+| 实战 | 递归、快速幂 | Leetcode 50：Pow(x,n) |  :ok:  | [周日(5.10)](#1.14) |
 | 实战 | 回溯、剪枝 | Leetcode 51：N皇后 |  :ok:  | [周六(5.9)](#1.13) |
 | 实战 | 动态规划 | Leetcode 70：爬楼梯 |  :ok:  | [周一(5.4)](#1.8) |
 | 实战 | 回溯 | Leetcode 77：组合 |  :ok:  | [周六(5.9)](#1.13) |
@@ -923,14 +923,29 @@ Second Stage:
 - 注意：剪枝函数中，我们需要排除同一列是否有其他皇后、右上方、左上方是否有皇后。不用搜寻其他方向的原因在于，我们的放置 Q 是从左上角开始的，意味着 isValid 的搜寻也只需要扫描已经放置了 Q 的地方。
 - 注意：在 isValid 函数中，只需进行列的搜索，因为主函数里面，row就已经是个变量，这里只要改变 col 就可以了
 
+
 <h3 id = "1.14">周日(5.10)</h3>
 
 [返回目录](#0)
 
+#### [14.1. Leetcode 50：Pow(x,n)](https://leetcode-cn.com/problems/powx-n/)
+5.10 第一遍
+ - 思路：递归，快速幂。一开始的时候想着直接乘就完事了，但这样的话复杂度是 O（N），参考了解答，看到了一个很漂亮的递归代码。
+   - 1. 列出三个 basic terminator，分别是 n = 0, 1, -1
+   - 2. 根据快速幂的定义，当幂次为偶数的时候，将幂次 n 分解成 n/2 与 n/2；当幂次为奇数，则将其 -1 后再除 2
+   - 3. 最后 `return rest * half * half` 即可
+- 复杂度分析：O（logN）
 
-
-
-
+```Java
+    public double myPow(double x, int n) {
+        if (n == 0) return 1;
+        if (n == 1) return x;
+        if ( n == -1) return 1/x;
+        double half = myPow(x, n / 2);
+        double rest = myPow(x, n % 2);
+        return rest * half * half;
+    }
+```
 
 
 
