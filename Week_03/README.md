@@ -986,7 +986,9 @@ Second Stage:
 
 
 
-参考文献：算法（第4版）
+参考资料：
+1. [算法（第4版）](https://algs4.cs.princeton.edu/home/)
+2. [优先队列官方文档](https://docs.oracle.com/javase/10/docs/api/java/util/PriorityQueue.html)
 
 <h3 id = "2.2">2. 堆（二叉堆）</h3>
 
@@ -1111,8 +1113,12 @@ def recursion(大规模){
    - Leetcode 104、111：二叉树的最大、最小深度
    - Leetcode 226：翻转二叉树
    - Leetcode 105/106：从前序+中序/中序+后序遍历序列构造二叉树
-   
 
+参考资料：
+1. [CSDN：算法设计方法](https://blog.csdn.net/justloveyou_/article/details/71787149)
+2. [Berkeley CS61A textbook](http://composingprograms.com/pages/17-recursive-functions.html)
+3. [知乎：什么是递归](https://www.zhihu.com/question/20507130/answer/15551917)
+4. [CSDN：如何理解递归](https://blog.csdn.net/weixin_43405546/article/details/83045725)
 <h3 id = "2.6">6. 回溯</h3>
 
 [返回目录](#0)
@@ -1164,7 +1170,7 @@ for 选择 in 选择列表:
 
 理解了这些概念，那么回溯就很简单了。一言以蔽之：“**在递归之前做出选择，在递归之后撤销刚才的选择**”
 
-参考资料：labuladong blog
+参考资料：[labuladong blog](https://labuladong.gitbook.io/algo/suan-fa-si-wei-xi-lie/hui-su-suan-fa-xiang-jie-xiu-ding-ban)
 
 
 
