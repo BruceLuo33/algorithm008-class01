@@ -117,7 +117,50 @@
 
 [返回目录](#0)
 
-主题：；技巧：；题数：新题 道，复习 道
+主题：二叉树、二分法；技巧：递归；题数：3。新题 2 道，复习 1 道.
+
+#### [Leetcode 69：x 的平方根](https://leetcode-cn.com/problems/sqrtx/)
+5.12 第一遍
+ - 思路：二分法。设置左边界为 0，右边界为 x。判断中点平方与x的大小关系：
+   - 如果 mid^2 > x；就将右边界移动到 mid 左边；
+   - 如果 mid^2 <= x，就将左边界移动到 mid 右边，并令 ans = mid（因为最终的答案是往下取整）然后不停迭代就好。
+- 注意，mid * mid 要 cast 成 long 的格式
+- 复杂度分析：O（logX）
+
+#### [Leetcode 124：二叉树的最大路径和](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/)
+5.12 第一遍
+- 思路：递归。首先审题，因为题目没有说节点值不能为负，所以我们首先需要考虑这个情况：如果只有一个 node，那么返回它就是了，如果所有节点就是负数，那么久只返回根节点的值。将其他路径上的所有值都仅仅返回 0；如果最终的路径包含了某个 node，那么只有两种情况：
+  - `maxValue = node.val + maxHelper(node.left) + maxHelper(node.right);`即最大路径包含了该节点，以及该节点的两个子树
+  - `maxValue = node.val + Math.max(node.left.val, node.right.val) + root.val`，即该节点仅仅是路径上的一个点，因为路径不能两次分叉，所以最大的路径为穿过该节点的左 or 右子树(`max(node.left, node.right)`) 加上该节点的值 `node.val`，再加上该节点父节点之后的路径。
+代码如下：
+```Java
+    int ans = Integer.MIN_VALUE;
+    public int maxPathSum(TreeNode root) {
+        if (root == null) return 0;
+        helper(root);
+        return ans;
+    }
+    private int helper(TreeNode root) {
+        if (root == null) return 0;
+        int left = Math.max(0, helper(root.left));
+        int right = Math.max(0, helper(root.right));
+        int sum = left + right + root.val;
+        ans = Math.max(sum, ans);
+        return Math.max(left, right) + root.val;
+    }
+```
+
+
+#### 复习 [Leetcode 22：括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
+4.30 第一遍，5.12 第二遍
+- 思路：这道题是超哥在视频中详细讲解的。对我的启发有两点：自顶向下编程与结构化思维。
+  - 结构化思维：递归都是四个步骤：terminator, process logic, drill down, restore status. 对于题目的要求，要作以下几个考虑：
+    - 第一、left < n，那么就将 left + 1，并且在 string s 后面再加一个 (；
+    - 第二、right < left，同上，不过将left换成right。
+- 注意：因为题目要求“有效的”括号，意味着每一个时刻而言，都要求 `left >= right`，所以判断条件不能是 right < n
+- 注意：递归函数不能用 List<String>，要传入 String s，然后将 s 加到全局变量 List<String> 中
+
+
 
 
 
@@ -171,12 +214,68 @@
 
 [返回目录](#0)
 
+代码模板如下：
+递归写法：
+```Python
+   visited = set() 
+
+   def dfs(node, visited):
+       if node in visited: # terminator
+        # already visited 
+        return 
+
+    visited.add(node) 
+
+    # process current node here. 
+    ...
+    for next_node in node.children(): 
+     if next_node not in visited: 
+      dfs(next_node, visited)
+```
+非递归写法：
+```Python
+   def DFS(self, tree): 
+
+    if tree.root is None: 
+     return [] 
+
+    visited, stack = [], [tree.root]
+
+    while stack: 
+     node = stack.pop() 
+     visited.add(node)
+
+     process (node) 
+     nodes = generate_related_nodes(node) 
+     stack.push(nodes) 
+
+    # other processing work 
+	...
+```
 
 
 <h3 id = "2.2">2. 广度优先搜索</h3>
 
 [返回目录](#0)
 
+代码模板：
+```Python
+   def BFS(graph, start, end):
+       visited = set()
+    queue = [] 
+    queue.append([start]) 
+
+    while queue: 
+     node = queue.pop() 
+     visited.add(node)
+
+     process(node) 
+     nodes = generate_related_nodes(node) 
+     queue.push(nodes)
+
+    # other processing work 
+    ...
+```
 
 
 <h3 id = "2.3">3. 贪心算法</h3>
