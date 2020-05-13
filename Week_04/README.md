@@ -24,6 +24,11 @@
 
 | 题目类型 | 知识点 | 题目 | 完成情况 | 地址 |
 | --- | --- | --- | --- | --- |
+| 实战 | 递归，DFS | Leetcode 22：括号生成  | :ok:   | [周二](#1.2) |
+|  | 二分查找 | Leetcode 69：x的平方根  | :ok:   | [周二](#1.2) |
+|  | BFS | Leetcode 127：单词接龙  | :ok:   | [周三](#1.3) |
+|  | BFS | Leetcode 433：最小基因变化  | :ok:   | [周三](#1.3) |
+| 课后作业 | 双指针 | Leetcode 455：分发饼干  | :ok:   | [周三](#1.3) |
 | 预习 | 动态规划 | Leetcode 198：打家劫舍 |  :ok:  | [周一](#1.1) |
 |  |  |   |    | [](#) |
 
@@ -51,7 +56,7 @@
       return cur;
 ```
 
-#### 复习[1.2. Leetcode 236：二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/submissions/)/[面试题68-II](https://leetcode-cn.com/problems/er-cha-shu-de-zui-jin-gong-gong-zu-xian-lcof/submissions/)
+#### 复习 [1.2. Leetcode 236：二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/submissions/)/[面试题68-II](https://leetcode-cn.com/problems/er-cha-shu-de-zui-jin-gong-gong-zu-xian-lcof/submissions/)
 5.10 第一遍，5.11 第二遍
 - 思路：递归。关键问题在于对参数 `left` 和 `right` 的理解，因为这是递归，所以在写递归语句的时候，可以认为左右子树都已经算出来了结果。
   - 1. 如果当前节点 root 为 null，那么就直接返回 null；
@@ -64,7 +69,7 @@
        - 第四，right 为空，left不为空，说明都在左边
 - 复杂度分析：O（N）
 
-#### 复习[1.3. Leetcode 116：填充每个结点的下一个右侧节点指针](https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node/)
+#### 复习 [1.3. Leetcode 116：填充每个结点的下一个右侧节点指针](https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node/)
 5.8 第一遍，5.11 第二遍
  - 思路一：递归。递归非常简洁，是必须要会的一个技巧。简单来说，将 node 指向右侧节点有三种情况：
    - 第一，node 本身为空，那么返回 null 就好了
@@ -76,7 +81,7 @@
   - 连接的关键在于通过 level 来控制在哪一层进行操作，通过 cur 来控制是否到达最右端、是否需要下移三个指针，通过 prev 来将 prev 的子节点连接起来：`prev.left.next = prev.right` 以及 `prev.right.next = cur.left`
 
 
-#### 复习[1.4. Leetcode 117：填充每个结点的下一个右侧节点指针II](https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node-ii/)
+#### 复习 [1.4. Leetcode 117：填充每个结点的下一个右侧节点指针II](https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node-ii/)
 - 5.8 第一遍，5.11 第二遍 
 - 思路：和116题比较类似，但是区别在于这里不再是完美二叉树，而是一棵普通的二叉树，那么就可能存在空子节点，所以在连接next 的时候就需要增加一些判断。依旧使用递归，不过在这里，因为需要判断每一层的空子节点数，所以需要一个 hasNext 来遍历整层，相当于 BFS 的层序遍历。
 - 遍代码见下：
@@ -119,7 +124,7 @@
 
 主题：二叉树、二分法；技巧：递归；题数：3。新题 2 道，复习 1 道.
 
-#### [Leetcode 69：x 的平方根](https://leetcode-cn.com/problems/sqrtx/)
+#### [2.1. Leetcode 69：x 的平方根](https://leetcode-cn.com/problems/sqrtx/)
 5.12 第一遍
  - 思路：二分法。设置左边界为 0，右边界为 x。判断中点平方与x的大小关系：
    - 如果 mid^2 > x；就将右边界移动到 mid 左边；
@@ -127,7 +132,7 @@
 - 注意，mid * mid 要 cast 成 long 的格式
 - 复杂度分析：O（logX）
 
-#### [Leetcode 124：二叉树的最大路径和](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/)
+#### [2.2. Leetcode 124：二叉树的最大路径和](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/)
 5.12 第一遍
 - 思路：递归。首先审题，因为题目没有说节点值不能为负，所以我们首先需要考虑这个情况：如果只有一个 node，那么返回它就是了，如果所有节点就是负数，那么久只返回根节点的值。将其他路径上的所有值都仅仅返回 0；如果最终的路径包含了某个 node，那么只有两种情况：
   - `maxValue = node.val + maxHelper(node.left) + maxHelper(node.right);`即最大路径包含了该节点，以及该节点的两个子树
@@ -151,7 +156,7 @@
 ```
 
 
-#### 复习 [Leetcode 22：括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
+#### 复习 [2.3. Leetcode 22：括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
 4.30 第一遍，5.12 第二遍
 - 思路：这道题是超哥在视频中详细讲解的。对我的启发有两点：自顶向下编程与结构化思维。
   - 结构化思维：递归都是四个步骤：terminator, process logic, drill down, restore status. 对于题目的要求，要作以下几个考虑：
@@ -169,7 +174,38 @@
 
 [返回目录](#0)
 
-主题：；技巧：；题数：新题 道，复习 道
+主题：图；技巧：BFS；题数：3。新题 3 道，复习 0 道。
+
+#### [3.1. Leetcode 127：单词接龙](https://leetcode-cn.com/problems/word-ladder/comments/)
+5.13 第一遍
+- 思路：BFS。步骤如下：
+1. 将第一个单词节点加入队列，depth 设置为 0，在最后返回的时候 再 +1；
+2. 方法是层序遍历，那么关键就在于如何讲每一层顺序放入queue中。在这个题目中，我们采用的是两个 while 循环的形式：
+   - 第一个`while(!queue.isEmpty())` 用来判断整个遍历是否完成
+   - 第二个`while(size > 0)`用来判断某一层是否完成。这里的 `size = queue.size()`，之所以要用一个新的参数来判定是因为 queue 在第二个while中会发生变化，所以需要一个固定的值来保证不会超出这一层的范围。 
+     - 例如，刚开始的时候只有一个 beginWord，那么 size 就是 1. 而后在第二个while 中每次都会 size -= 1；所以对于这一层而言，只会循环一次便跳出循环，来到最外层的 while 循环。
+3. 在两个while 循环之内，还需要一个 for-loop，这个循环的对象是题目给定的 wordList 数组，也是我们的核心代码部分。需要在这里判断：
+   1. word 是否已经出现过？如果是，continue；
+   2. 两个 string 相差是否超过了一个 char 字符？如果是，continue；
+   3. 是否到达了 endWord？如果是，直接 return depth + 1；
+   4. 如果都没有，将这个字符标记为出现过，同时将 wordList 中剩下的元素全都加入 queue。此时第二层循环如果结束了，再次进入的时候 size 就变大了。
+
+
+#### [3.2. Leetcode 433：最小基因变化](https://leetcode-cn.com/problems/minimum-genetic-mutation/)
+5.13 第一遍
+- 思路：这道题的思路其实和 127 题单词接龙非常一致。这道题要求的是从 start 到 end 经过了几次变化。那么就可以理解为假设每一步仅变化一个基因，变化到目标基因需要几步。整个代码在 127 的思路上稍微改改就行了。
+- 注意：bank 是 String 数组，不好判断是否包含某一个字符串，因此将其转为 set 然后再用 contains() 方法
+
+
+
+
+#### [3.3. Leetcode 455：分发饼干](https://leetcode-cn.com/problems/assign-cookies/submissions/)
+5.13 第一遍
+- 思路：贪心算法。步骤如下：
+1. 先将两个数组排序，然后设置两个指针分别指向两个数组的首位置；
+2. 设置 while 循环，当两个指针中某一个到达终点就结束。在 while 中做如下判断：
+   - 如果满足 s>= g 的条件，就可以分配饼干，同时两个指针都往下走；
+   - 如果不满足，则说明饼干尺寸小了，将 s 的指针后移
 
 
 
