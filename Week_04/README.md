@@ -26,9 +26,13 @@
 | --- | --- | --- | --- | --- |
 | 实战 | 递归，DFS | Leetcode 22：括号生成  | :ok:   | [周二](#1.2) |
 |  | 二分查找 | Leetcode 69：x的平方根  | :ok:   | [周二](#1.2) |
-|  | BFS | Leetcode 127：单词接龙  | :ok:   | [周三](#1.3) |
-|  | BFS | Leetcode 433：最小基因变化  | :ok:   | [周三](#1.3) |
+|  | 二叉树、BFS | Leetcode 102：二叉树的层序遍历  | :ok:   | [周一](#1.1) |
+|  | 图、BFS | Leetcode 433：最小基因变化  | :ok:   | [周三](#1.3) |
+|  | 二叉树、BFS | Leetcode 515：在每个树行中找最大值 | :ok:   | [周三](#1.3) |
+
 | 课后作业 | 双指针 | Leetcode 455：分发饼干  | :ok:   | [周三](#1.3) |
+|  | 图、BFS | Leetcode 127：单词接龙  | :ok:   | [周三](#1.3) |
+
 | 预习 | 动态规划 | Leetcode 198：打家劫舍 |  :ok:  | [周一](#1.1) |
 |  |  |   |    | [](#) |
 
@@ -38,7 +42,7 @@
 
 [返回目录](#0)
 
-主题：二叉树、动态规划；技巧：递归；题数：新题 1 道，复习 3 道
+主题：二叉树、动态规划；技巧：递归；题数：新题 1 道，复习 4 道
 
 
 #### [1.1. Leetcode 198：打家劫舍](https://leetcode-cn.com/problems/house-robber/)
@@ -114,8 +118,12 @@
 - 注意：递归的顺序应该是先右子树再左子树。即先 `connect(root.right)` 再 `connect(root.left)`
 - 复杂度分析：O（N）
 
-
-
+#### 复习 [1.5. Leetcode 102：二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/#/description)
+4.28 第一遍，4.29 第二遍，5.4 第三遍，5.11 第四遍
+- 思路：使用 BFS 对树进行层间遍历。每次都用一个队列来接受root，然后将其放入答案链表即可。
+- 注意：在判定当前子节点等级与 ans size 的关系的时候，要写 >= 而非 >，因为在一开始的时候，二者都是 0，如果不加 =，整个循环就无法开始。
+- 注意：往队列里添加的应该是 curNode.left 而不是 root.left
+- 复杂度分析：O（N） 空间复杂度：O（N）
 
 
 <h3 id = "1.2">周二(5.12)</h3>
@@ -174,7 +182,7 @@
 
 [返回目录](#0)
 
-主题：图；技巧：BFS；题数：3。新题 3 道，复习 0 道。
+主题：图；技巧：BFS；题数：4。新题 4 道，复习 0 道。
 
 #### [3.1. Leetcode 127：单词接龙](https://leetcode-cn.com/problems/word-ladder/comments/)
 5.13 第一遍
@@ -207,7 +215,13 @@
    - 如果满足 s>= g 的条件，就可以分配饼干，同时两个指针都往下走；
    - 如果不满足，则说明饼干尺寸小了，将 s 的指针后移
 
-
+#### [3.4. Leetcode 515：在每个树行中找最大值](https://leetcode-cn.com/problems/find-largest-value-in-each-tree-row/)
+ 5.13 第一遍
+- 思路：BFS。递归每一层，找到每一层的最大值，将其放入ans 数组即可。
+- 注意：
+   1. max 的初始化 `int max = Integer.MIN_VALUE` 要放在第一个 while 循环中
+   2. 对 queue 首元素的提取，要放在第二个 while 里面
+   3. 继续往 queue 中添加的是 node 的左右子节点
 
 
 <h3 id = "1.4">周四(5.14)</h3>
