@@ -29,8 +29,11 @@
 |  | 二叉树、BFS | Leetcode 102：二叉树的层序遍历  | :ok:   | [周一](#1.1) |
 |  | 图、BFS | Leetcode 433：最小基因变化  | :ok:   | [周三](#1.3) |
 |  | 二叉树、BFS | Leetcode 515：在每个树行中找最大值 | :ok:   | [周三](#1.3) |
-| 课后作业 | 双指针 | Leetcode 455：分发饼干  | :ok:   | [周三](#1.3) |
+| 课后作业 | 二分查找 | Leetcode 33：搜索旋转排序数组  |  :ok:  | [周四](#1.4) |
 |  | 图、BFS | Leetcode 127：单词接龙  | :ok:   | [周三](#1.3) |
+|  | 图、BFS | Leetcode 200：岛屿数量  | :ok:   | [周四](#1.4) |
+|  | 双指针 | Leetcode 455：分发饼干  | :ok:   | [周三](#1.3) |
+|  |  | Leetcode 529：扫雷游戏  | :question:   | [](#) |
 | 预习 | 动态规划 | Leetcode 198：打家劫舍 |  :ok:  | [周一](#1.1) |
 |  |  |   |    | [](#) |
 
@@ -226,7 +229,84 @@
 
 [返回目录](#0)
 
-主题：；技巧：；题数：新题 道，复习 道
+主题：图、二叉树；技巧：BFS、DFS；题数：新题 5 道，复习 1 道
+
+#### [4.1. Leetcode 200：岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
+ 5.14 第一遍
+- 思路：核心步骤在于先找到第一个值为 1 的点，然后找到所有与之相邻的值为 1 的点，如果找不到了，则将 count + 1，然后继续遍历。同时为了避免出现重复循环的问题以及数组越界的问题，我们需要两个措施：
+  1. 将已经走过的地方从 1 -> 2，防止多次循环。`grid[i][j] = 2`
+  2. 右方和下方都不能超过二维数组的边界。`if (i < 0 || j < 0 || i < grid.length - 1 || j < gird[0].length - 1 || grid[i][j] != '1')`
+- 注意：给定的是 char 数组，而不是 int 数组。
+
+
+
+#### [4.2. Leetcode 33：搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
+5.14 第一遍
+- 思路：二分查找。乍一看会想到是不是需要先找出旋转的基点，但是这样的话时间复杂度就不符合要求。如果用二分查找就可以比较好的解决问题：
+  1. 先拿出中间的数，与最右边的数字比较，如果大于，说明左半段是有序的，而后比较 target 与左半段第一个与最后一个数字的大小，判断是否在这段区间内；
+  2. 如果不在，则舍弃掉左半边的部分，继续取剩下的部分的中间值判断，每次都在有序的半部分进行判断。以此类推。
+- 注意：判断 target 和 nums[start]/nums[end] 的关系时，等号是否取很重要。
+
+#### [4.3. Leetcode 129：求根到叶子节点数字之和](https://leetcode-cn.com/problems/sum-root-to-leaf-numbers/)
+5.14 第一遍
+- 思路：DFS。一开始的时候直接用了`count += root.val`，然后发现这是将每一个结点的值累加了，但是没有进行进位。因此，我们不能仅用 count 一个参数来控制，应该还需要另一个参数与一个helper 函数。
+- 复杂度分析：O（N）
+```Java
+    int sum = 0;
+    public int sumNumbers(TreeNode root) {
+        // int sum = 0;
+        helper(root, 0);
+        return sum;
+    }
+
+    private void helper(TreeNode root, int val) {
+        if (root == null) return;
+        val= (root.val + val * 10);
+        if (root.left == null && root.right == null) {
+            sum += val;
+        }
+        helper(root.left, val);
+        helper(root.right, val);
+    }
+
+```
+
+
+#### [4.4. Leetcode 156：上下翻转二叉树](https://leetcode-cn.com/problems/binary-tree-upside-down/comments/)
+5.14 第一遍
+- 思路：递归。这道题的关键还是先要搞懂题目的意思。主要的变化在于：
+  1. 左子节点会变成当下节点的根节点
+  2. 右子节点会变成新根节点的左子节点
+  3. 根节点会变成左子节点所形成的新根节点的右子节点。
+- 注意：basic terminator 应该是 `root == null || root.left == null`，不需要判断 root.right == null，因为我们需要的是左子节点来建立新的根节点
+- 复杂度分析：O（N）
+
+```Java
+    public TreeNode upsideDownBinaryTree(TreeNode root) {
+        if (root == null || root.left == null) return root;
+        TreeNode left = root.left, right = root.right;
+        TreeNode ans = upsideDownBinaryTree(root.left);
+        root.left = null;
+        root.right = null;
+        left.left = right;
+        left.right = root;
+
+        return ans;
+    }
+
+```
+#### [4.6. Leetcode 199：二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
+- 5.14 第一遍
+- 思路：BFS。套模板就行了，注意当 size == 0 的时候将 curNode.val 加入ans。
+- 复杂度分析：O（N）
+
+
+
+#### 复习 [4.6. Leetcode 127：单词接龙](https://leetcode-cn.com/problems/word-ladder/)
+5.13 第一遍，5.14 第二遍
+思路见[前节 3.1. 题](#1.3)
+
+
 
 
 
