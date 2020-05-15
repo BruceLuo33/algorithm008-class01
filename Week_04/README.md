@@ -30,10 +30,14 @@
 |  | 图、BFS | Leetcode 433：最小基因变化  | :ok:   | [周三](#1.3) |
 |  | 二叉树、BFS | Leetcode 515：在每个树行中找最大值 | :ok:   | [周三](#1.3) |
 | 课后作业 | 二分查找 | Leetcode 33：搜索旋转排序数组  |  :ok:  | [周四](#1.4) |
+|  | 贪心算法 | Leetcode 45：跳跃游戏II  | :ok:   | [周五](#1.5) |
+|  | 贪心算法 | Leetcode 55：跳跃游戏  | :ok:   | [周五](#1.5) |
+|  | 贪心算法 | Leetcode 122：买卖股票的最佳时机II  | :ok:   | [周五](#1.5) |
 |  | 图、BFS | Leetcode 127：单词接龙  | :ok:   | [周三](#1.3) |
 |  | 图、BFS | Leetcode 200：岛屿数量  | :ok:   | [周四](#1.4) |
 |  | 双指针 | Leetcode 455：分发饼干  | :ok:   | [周三](#1.3) |
 |  |  | Leetcode 529：扫雷游戏  | :question:   | [](#) |
+|  | 贪心算法 | Leetcode 860：柠檬水找零  | :ok:   | [周五](#1.5) |
 | 预习 | 动态规划 | Leetcode 198：打家劫舍 |  :ok:  | [周一](#1.1) |
 |  |  |   |    | [](#) |
 
@@ -295,7 +299,7 @@
     }
 
 ```
-#### [4.6. Leetcode 199：二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
+#### [4.5. Leetcode 199：二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
 - 5.14 第一遍
 - 思路：BFS。套模板就行了，注意当 size == 0 的时候将 curNode.val 加入ans。
 - 复杂度分析：O（N）
@@ -315,10 +319,135 @@
 
 [返回目录](#0)
 
-主题：；技巧：；题数：新题 道，复习 道
+主题：贪心算法、二叉树；技巧：递归、贪心算法；题数：新题 6 道，复习 3 道
+
+#### [5.1. Leetcode 122：买卖股票的最佳时机II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
+5.15 第一遍
+- 思路：贪心算法。这是超哥课程上的例题，采用的算法就是低买高卖，求得累加最大值。美股市场才能T+0。
+- 复杂度分析：O（N）
+```Java
+    public int maxProfit(int[] prices) {
+        int profit = 0;
+        int len = prices.length;
+        if (len == 0 || len == 1) return profit;
+        int pos = 0;
+        while (pos < len - 1) {
+            int substract = prices[pos+1] - prices[pos];
+            if (substract > 0) {
+                profit += substract;
+            }
+            pos += 1;
+        }
+        return profit;
+    }
+```
 
 
+#### [5.2. Leetcode 55：跳跃游戏](https://leetcode-cn.com/problems/jump-game/)
+5.15 第一遍
+- 思路一：贪心算法，反向贪心。这道题是超哥在视频中讲到了的。解题思路并不是完全和题目给定的一致，而是从最后一项往前走，如果从当前格子可以跳到最后(`nums[i] + i > lastPos`)，就将最后一项更新为当前格子，依次循环，直到第一项。
+- 思路二：从起点出发，设置其为起跳点：
+  1. 如果某一个作为 起跳点 的格子可以跳跃的距离是 3，那么表示后面 3 个格子都可以作为 起跳点。
+  2. 可以对每一个能作为 起跳点 的格子都尝试跳一次，把 能跳到最远的距离 不断更新。
+  3. 如果可以一直跳到最后，就成功了。
+- 复杂度分析：O（N）
+```Java
+    public boolean canJump(int[] nums) {
+        int min = nums.length - 1;
+        for (int i = nums.length - 2; i > 0; i--) {
+            if (i + nums[i] >= min) {
+                min = i;
+            }
+        }
+        return nums[0] >= min;
+    }
+```
 
+#### [5.3. Leetcode 45：跳跃游戏II](https://leetcode-cn.com/problems/jump-game-ii/)
+5.15 第一遍
+- 思路：贪心算法，和 55 题思路还是比较相似，
+  1. 以第一个位置为起跳点，例如 `nums[0] = 3`，说明第一个格子能跳三格，nums[3] 为第二个节点，count = 2；
+  2. 然后，找到这三格中的最大数值，代表的即为这三个格子中最远能达到的距离，它即为下一个节点。
+- 复杂度分析：O（N）
+```Java
+    public int jump(int[] nums) {
+        int pos = 0, nextPos = 0, count = 0;
+        for (int i = 0; i < nums.length - 1; i++) {
+            nextPos = Math.max(i + nums[i], nextPos);
+            if (nextPos >= nums.length - 1) {
+                return count + 1;
+            }
+            if (i == pos) {
+                count += 1;
+                pos = nextPos;
+            }
+
+        }
+        return 0;
+    }
+```
+
+
+#### [5.4. Leetcode 860：柠檬水找零](https://leetcode-cn.com/problems/lemonade-change/)
+5.15 第一遍
+- 思路：贪心算法。需要两个变量记录五元和十元的张数，并遵循以下步骤：
+  1. 如果顾客给 5 元，找 0 元；
+  2. 如果顾客给 10 元，找 5 元；
+  3. 如果顾客给 20 元，找 10 + 5 元；如果没有，找 3x5 元。
+- 复杂度分析：O（N），空间复杂度：O（1）
+
+
+#### [5.5. Leetcode 222：完全二叉树的节点个数](https://leetcode-cn.com/problems/count-complete-tree-nodes/)
+5.15 第一遍
+思路：简单的递归。两行代码实现。
+复杂度：O（N）
+```Java
+    public int countNodes(TreeNode root) {
+        if (root == null) return 0;
+        return countNodes(root.left) + countNodes(root.right) + 1;
+    }
+```
+
+
+#### [5.6. Leetcode 235：二叉搜索树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-search-tree/)
+- 5.15 第一遍
+- 思路：236题的弱化版本。在236题中，因为二叉树并非有序，所以需要对递归之后的 left、 right 与 p、q 的相对关系做许多的判断。但是在这里就不需要，因为根据二叉搜索树的特征，当 `p.val > root.val && q.val > root.val`的时候，就 `return lowestCommonAncestor(root.right, p, q)`；反之亦然。
+- 复杂度分析：O（N），空间复杂度：O（N）
+```Java
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null || root == p || root == q) return root;
+        if (p.val > root.val && q.val > root.val) {
+            return lowestCommonAncestor(root.right, p, q);
+        } else if (p.val < root.val && q.val < root.val) {
+            return lowestCommonAncestor(root.left, p, q);
+        } else {
+            return root;
+        }
+    }
+```
+
+#### 复习 [5.7. Leetcode 236：二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
+5.10 第一遍，5.11 第二遍，5.15 第三遍
+- 思路：递归。关键问题在于对参数 `left` 和 `right` 的理解，因为这是递归，所以在写递归语句的时候，可以认为左右子树都已经算出来了结果。
+  1. 如果当前节点 root 为 null，那么就直接返回 null；
+  2. 如果 root 等于 p 或者是 q，那么就返回 p or q；
+  3. 接着往下递归。如上所述，递归的时候可以直接认为我们已经求出来了 left 和 right，用它们来表示即可；
+  4. 对于返回值，有以下几种情况：
+     - 第一，left 和 right 同时为空，说明左右子树都不包含p、q，返回null；
+     - 第二，同时不为空，说明在root 的两侧，返回root；
+     - 第三，left 为空，right不为空，说明p、q都在右边；
+     - 第四，right 为空，left不为空，说明都在左边
+- 复杂度分析：O（N）
+
+
+#### 复习 [5.8. Leetcode 226：翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/submissions/)
+4.27 第一遍，5.15 第二遍
+- 思路：结构和101题，相同的树非常相似。递归的过程也是比较相似，不同之处就在于不是判断左右节点是否相等了，而是直接交换最左和最右节点的值就可以了。
+- 注意：一开始想的是交换 val，后面发现直接交换node，会让整个结构更简单。
+
+#### 复习 [5.9. Leetcode 455：分发饼干](https://leetcode-cn.com/problems/assign-cookies/submissions/)
+5.13 第一遍，5.15 第二遍
+思路：贪心算法。见[前节 3.3 题](#1.3)
 
 <h3 id = "1.6">周六(5.16)</h3>
 
@@ -404,7 +533,96 @@
     # other processing work 
     ...
 ```
+同时，[labuladong](https://labuladong.gitbook.io/algo/di-ling-zhang-bi-du-xi-lie/bfs-kuang-jia)对于 BFS 及其框架也给出了很 nice 的代码。
+```Java
+// 计算从起点 start 到终点 target 的最近距离
+int BFS(Node start, Node target) {
+    Queue<Node> q; // 核心数据结构
+    Set<Node> visited; // 避免走回头路
 
+    q.offer(start); // 将起点加入队列
+    visited.add(start);
+    int step = 0; // 记录扩散的步数
+
+    while (q not empty) {
+        int sz = q.size();
+        /* 将当前队列中的所有节点向四周扩散 */
+        for (int i = 0; i < sz; i++) {
+            Node cur = q.poll();
+            /* 划重点：这里判断是否到达终点 */
+            if (cur is target)
+                return step;
+            /* 将 cur 的相邻节点加入队列 */
+            for (Node x : cur.adj())
+                if (x not in visited) {
+                    q.offer(x);
+                    visited.add(x);
+                }
+        }
+        /* 划重点：更新步数在这里 */
+        step++;
+    }
+}
+```
+同时，在[Leetcode 127：单词接龙](#3.1)问题中，同样的使用到了BFS，但是还有一种很巧妙的方法，它不单单是从头走到尾，而是从头尾同时往中间走，这样就可以让复杂度大大减少，类似于下面的图解：
+
+
+
+
+而它的代码模板也比较相似，如下：
+```Java
+int openLock(String[] deadends, String target) {
+    Set<String> deads = new HashSet<>();
+    for (String s : deadends) deads.add(s);
+    // 用集合不用队列，可以快速判断元素是否存在
+    Set<String> q1 = new HashSet<>();
+    Set<String> q2 = new HashSet<>();
+    Set<String> visited = new HashSet<>();
+
+    int step = 0;
+    q1.add("0000");
+    q2.add(target);
+
+    while (!q1.isEmpty() && !q2.isEmpty()) {
+	if (q1.size() > q2.size()) {
+	// 交换 q1 和 q2
+	    temp = q1;
+	    q1 = q2;
+	    q2 = temp;
+	}        
+    	// 哈希集合在遍历的过程中不能修改，用 temp 存储扩散结果
+        Set<String> temp = new HashSet<>();
+
+        /* 将 q1 中的所有节点向周围扩散 */
+        for (String cur : q1) {
+            /* 判断是否到达终点 */
+            if (deads.contains(cur))
+                continue;
+            if (q2.contains(cur))
+                return step;
+            visited.add(cur);
+
+            /* 将一个节点的未遍历相邻节点加入集合 */
+            for (int j = 0; j < 4; j++) {
+                String up = plusOne(cur, j);
+                if (!visited.contains(up))
+                    temp.add(up);
+                String down = minusOne(cur, j);
+                if (!visited.contains(down))
+                    temp.add(down);
+            }
+        }
+        /* 在这里增加步数 */
+        step++;
+        // temp 相当于 q1
+        // 这里交换 q1 q2，下一轮 while 就是扩散 q2
+        q1 = q2;
+        q2 = temp;
+    }
+    return -1;
+}
+
+```
 
 <h3 id = "2.3">3. 贪心算法</h3>
 
