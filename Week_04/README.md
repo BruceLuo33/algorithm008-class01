@@ -32,9 +32,12 @@
 | 课后作业 | 二分查找 | Leetcode 33：搜索旋转排序数组  |  :ok:  | [周四](#1.4) |
 |  | 贪心算法 | Leetcode 45：跳跃游戏II  | :ok:   | [周五](#1.5) |
 |  | 贪心算法 | Leetcode 55：跳跃游戏  | :ok:   | [周五](#1.5) |
+|  | 二分查找 | Leetcode 74：搜索二维矩阵  | :ok:   | [周六](#1.6) |
 |  | 贪心算法 | Leetcode 122：买卖股票的最佳时机II  | :ok:   | [周五](#1.5) |
 |  | 图、BFS | Leetcode 127：单词接龙  | :ok:   | [周三](#1.3) |
+|  | 二分查找 | Leetcode 153：寻找旋转排序数组中的最小值  | :ok:   | [周六](#1.6) |
 |  | 图、BFS | Leetcode 200：岛屿数量  | :ok:   | [周四](#1.4) |
+|  | 二分查找 | Leetcode 367：有效的完全平方数  | :ok:   | [周六](#1.6) |
 |  | 双指针 | Leetcode 455：分发饼干  | :ok:   | [周三](#1.3) |
 |  |  | Leetcode 529：扫雷游戏  | :question:   | [](#) |
 |  | 贪心算法 | Leetcode 860：柠檬水找零  | :ok:   | [周五](#1.5) |
@@ -449,11 +452,113 @@
 5.13 第一遍，5.15 第二遍
 思路：贪心算法。见[前节 3.3 题](#1.3)
 
+
+
 <h3 id = "1.6">周六(5.16)</h3>
 
 [返回目录](#0)
 
 主题：；技巧：；题数：新题 道，复习 道
+
+#### [Leetcode 230：二叉搜索树中第k小的元素](https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/)
+5.16 第一遍
+- 思路：中序遍历。二叉搜索树中序遍历输出的就是一个有序的数列。在输出到第 k 个值得时候停止递归就可以了。
+- 复杂度分析：O（N）
+
+#### [Leetcode 74：搜索二维矩阵](https://leetcode-cn.com/problems/search-a-2d-matrix/)
+5.16 第一遍
+- 思路一：二分查找。一开始的想法很粗暴，先二分找中间行，再二分找中间列，但这样子一来复杂度就很高，而且代码也很难写。看了评论区，找到了一个非常厉害的操作，通过整除和取模运算将一维的坐标转换为二维。
+- 思路二：迭代。从矩阵的右上角或者左下角开始比较。这个优势在于每一个数值，都是当下行的最大（对应右上角）或者最小值（对应左下）
+- 复杂度分析：O（logN）
+```Java
+    // Solution 1:
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix.length == 0 || matrix[0].length == 0) return false;
+        int start = 0, mid = 0;
+        int row = matrix.length, col = matrix[0].length;
+        int end = row * col - 1;
+        while (start < end) {
+            mid = (start + end) / 2;
+            if (matrix[mid / col][mid % col] < target) {
+                start = mid + 1;
+            } else if (matrix[mid / col][mid % col] > target) {
+                end = mid - 1;
+            } else {
+                return true;
+            }
+        }
+        return matrix[start / col][start % col] == target;
+    }
+
+
+    // Solution 2:
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix.length == 0) return false;
+        int row = 0, col = matrix[0].length - 1;
+        while (row < matrix.length && col >= 0) {
+            if (matrix[row][col] < target) {
+                row += 1;
+            } else if (matrix[row][col] > target) {
+                col -= 1;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+```
+
+
+#### [Leetcode 367：有效的完全平方数](https://leetcode-cn.com/problems/valid-perfect-square/)
+5.16 第一遍
+思路：二分查找。和 69 题 x 的平方根一摸一样的思路。
+复杂度：O（logN）
+```Java
+    public boolean isPerfectSquare(int num) {
+        if (num == 1) return true;
+        int start = 0, end = num - 1;
+        while (start <= end) {
+            int mid = (start + end) / 2;
+            if ((long) mid * mid > num) {
+                end = mid - 1;;
+            } else if ((long) mid * mid < num) {
+                start = mid + 1;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+```
+
+#### [Leetcode 153：寻找旋转排序数组中的最小值](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/)
+5.16 第一遍
+- 思路：二分查找。数组的最小值，一定出现在发生旋转的点上。
+  1. 比较 nums[start], nums[end], nums[mid] 的值的大小，找到升序的那一半部分
+  2. 旋转节点一定在非升序部分，将升序部分舍弃
+  3. 如此循环，直到找到旋转的支点
+- 注意：while 的条件中 start < end 而非 <=；边界问题很重要
+
+
+#### 复习 [Leetcode 69：x 的平方根](https://leetcode-cn.com/problems/sqrtx/)
+5.12 第一遍，5.16 第二遍
+思路解法见[前节 2.1 题](#1.2)
+
+
+
+#### 复习 [Leetcode 33：搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/submissions/)
+5.14 第一遍，5.16 第二遍
+思路解法见[前节 4.2 题](#1.4)
+
+#### 复习 [Leetcode 70：爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
+4.10 第一遍，4.22 第二遍，5.4 第三遍，5.16 第四遍
+- 思路一：递归。将到达第 n 级台阶拆解为到达第 n-1 和 n-2，然后再往前走 1 or 2 步。就能完成任务。
+- 步骤：先写停止递归条件（数学归纳法里面的首步条件，然后写递归公式
+- 注意：如果用斐波那契数列的写法，会造成时间过长，在这里我们要保存每一步的内容，需要用到动态规划
+- 思路二：递推。与递归不同，递推是从底向上的思维。我们先考虑 `f(1) = 1, f(2) = 2`，然后根据公式 `f(3) = f(2) + f(1)`，并依次进行，直到 f(n) 
+- 注意：循环的起始位置应该为 i = 2，代表从第二季台阶开始爬楼梯
+- 复杂度分析：O（N）
+
 
 
 
