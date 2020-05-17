@@ -566,14 +566,49 @@
 
 [返回目录](#0)
 
-主题：；技巧：；题数：新题 道，复习 道
+主题：二叉树；技巧：DFS；题数：新题 3 道，复习 1 道
 
 
 
+#### [12.1. Leetcode 270：最接近的二叉搜索树值](https://leetcode-cn.com/problems/closest-binary-search-tree-value/)
+5.17 第一遍
+- 思路：DFS遍历。用两个参数 res 和 rootVal 来控制输入。每次的差值为 `substract = Math.abs(root.val - target)`
+- 复杂度分析：O（N）
 
 
+#### [12.2。 Leetcode 272：最接近的二叉搜索树值II](https://leetcode-cn.com/problems/closest-binary-search-tree-value-ii/)
+5.17 第一遍
+- 思路：中序遍历。一开始的时候搞错了意思，以为还要按照从大到小的顺序输出 List，但是只要里面的元素一致就可以了。
+- 复杂度分析：O（N）
+```Java
+    public List<Integer> closestKValues(TreeNode root, double target, int k) {
+        List<Integer> ans = new ArrayList<>();
+        inorder(root, ans, target, k);
+        return ans;
+    }
+    private void inorder(TreeNode root, List<Integer> ans, double target, int k) {
+        if (root == null) return;
+        
+        inorder(root.left, ans, target, k);
+        if (ans.size() < k) {
+            ans.add(root.val);
+        } else if (Math.abs(ans.get(0) - target) > Math.abs(root.val - target)) {
+            ans.remove(0);
+            ans.add(root.val);
+        } else { 
+            return;
+        }
+        inorder(root.right, ans, target, k);
+    }
+```
 
-#### 复习 [Leetcode 142：环形链表II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
+#### [12.3. Leetcode 285：二叉搜索树中的顺序后继](https://leetcode-cn.com/problems/inorder-successor-in-bst/submissions/)
+5.17 第一遍
+- 思路：中序遍历。题目需要的是节点 p 的后继，即 val 比 p.val 大的 node 中最小的结点。考虑到中序遍历输出的序列是从小到大排列，因此采用中序遍历将会很合适。
+- 注意：用 `if (root.val > p.val && ans == null)` 就可以找到刚好比 p 大的下一个节点了。
+
+
+#### 复习 [12.4. Leetcode 142：环形链表II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
 4.16 第一遍，5.17 第二遍
 - 思路：指针。这道题要和上一个环形链表的题目一起来看：
   1. 先利用找环形链表的技巧，设置两个指针：fast 与 slow，循环至二者相遇，否则返回 null；
