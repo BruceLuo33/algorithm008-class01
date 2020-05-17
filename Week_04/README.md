@@ -458,14 +458,14 @@
 
 [返回目录](#0)
 
-主题：；技巧：；题数：新题 道，复习 道
+主题：二叉树、二分查找；技巧：递归、二分搜索；题数：新题 4 道，复习 3 道
 
-#### [Leetcode 230：二叉搜索树中第k小的元素](https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/)
+#### [6.1. Leetcode 230：二叉搜索树中第k小的元素](https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/)
 5.16 第一遍
 - 思路：中序遍历。二叉搜索树中序遍历输出的就是一个有序的数列。在输出到第 k 个值得时候停止递归就可以了。
 - 复杂度分析：O（N）
 
-#### [Leetcode 74：搜索二维矩阵](https://leetcode-cn.com/problems/search-a-2d-matrix/)
+#### [6.2. Leetcode 74：搜索二维矩阵](https://leetcode-cn.com/problems/search-a-2d-matrix/)
 5.16 第一遍
 - 思路一：二分查找。一开始的想法很粗暴，先二分找中间行，再二分找中间列，但这样子一来复杂度就很高，而且代码也很难写。看了评论区，找到了一个非常厉害的操作，通过整除和取模运算将一维的坐标转换为二维。
 - 思路二：迭代。从矩阵的右上角或者左下角开始比较。这个优势在于每一个数值，都是当下行的最大（对应右上角）或者最小值（对应左下）
@@ -509,7 +509,7 @@
 ```
 
 
-#### [Leetcode 367：有效的完全平方数](https://leetcode-cn.com/problems/valid-perfect-square/)
+#### [6.3. Leetcode 367：有效的完全平方数](https://leetcode-cn.com/problems/valid-perfect-square/)
 5.16 第一遍
 思路：二分查找。和 69 题 x 的平方根一摸一样的思路。
 复杂度：O（logN）
@@ -531,7 +531,7 @@
     }
 ```
 
-#### [Leetcode 153：寻找旋转排序数组中的最小值](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/)
+#### [6.4. Leetcode 153：寻找旋转排序数组中的最小值](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/)
 5.16 第一遍
 - 思路：二分查找。数组的最小值，一定出现在发生旋转的点上。
   1. 比较 nums[start], nums[end], nums[mid] 的值的大小，找到升序的那一半部分
@@ -540,17 +540,17 @@
 - 注意：while 的条件中 start < end 而非 <=；边界问题很重要
 
 
-#### 复习 [Leetcode 69：x 的平方根](https://leetcode-cn.com/problems/sqrtx/)
+#### 复习 [6.5. Leetcode 69：x 的平方根](https://leetcode-cn.com/problems/sqrtx/)
 5.12 第一遍，5.16 第二遍
 思路解法见[前节 2.1 题](#1.2)
 
 
 
-#### 复习 [Leetcode 33：搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/submissions/)
+#### 复习 [6.6. Leetcode 33：搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/submissions/)
 5.14 第一遍，5.16 第二遍
 思路解法见[前节 4.2 题](#1.4)
 
-#### 复习 [Leetcode 70：爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
+#### 复习 [6.7. Leetcode 70：爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
 4.10 第一遍，4.22 第二遍，5.4 第三遍，5.16 第四遍
 - 思路一：递归。将到达第 n 级台阶拆解为到达第 n-1 和 n-2，然后再往前走 1 or 2 步。就能完成任务。
 - 步骤：先写停止递归条件（数学归纳法里面的首步条件，然后写递归公式
@@ -567,6 +567,25 @@
 [返回目录](#0)
 
 主题：；技巧：；题数：新题 道，复习 道
+
+
+
+
+
+
+#### 复习 [Leetcode 142：环形链表II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
+4.16 第一遍，5.17 第二遍
+- 思路：指针。这道题要和上一个环形链表的题目一起来看：
+  1. 先利用找环形链表的技巧，设置两个指针：fast 与 slow，循环至二者相遇，否则返回 null；
+  2. 设置一个 chase Node，从起点 head 出发，每次步进一个 node，同时从 fast/slow 节点出发，步进一；
+  3. 当 chase 与 fast 相遇，即为环的入口。
+- 解题的时候发现几个很有意思的点：
+  1. fast 节点的初始化需要是 fast = head，而非 head.next，否则就会超出时间限制
+  2. 寻找 fast 和 slow 节点相遇的 while 循环，有两种做法，第一种是 while（true），然后当 fast == slow 的时候 break；第二种是常规的 while（fast !=null），然后 if（fast == slow）的时候再去调用下一个while
+  3. 在上述第二种 while 循环中，如果选择破坏结构，即 head=head.next，则时间为 0ms，而如果不破坏，选择一个指针指向 head，即 chase = head, 则时间为 1ms。前者超过100%，后者超过57%。非常奇怪的现象。
+
+
+
 
 
 <h2 id = "2">二、数据结构与算法笔记</h2>
@@ -733,10 +752,141 @@ int openLock(String[] deadends, String target) {
 
 [返回目录](#0)
 
+定义：**贪心算法**是一种在每一步选择中都采取在当前状态下最好或最优的选择，从而希望结果是全局最好或者最优的算法。
+辨析：
+1. 贪心算法会对每一个子问题的解决方案都做出选择，不能回退；
+2. 动态规划会保存以前的运算结果，并根据以前的结果对当前进行选择， 有回退功能。
+3. 能用贪心算法解决的问题，也可以用动态规划解决
+
+适用场景：具备贪心选择性质的问题。即所求问题的整体最优解可以通过一系列局部最优的选择，即贪心选择来达到。
+
+
+
 
 <h3 id = "2.4">4. 二分查找</h3>
 
 [返回目录](#0)
+
+二分查找的思路其实很简单，找中间的项，比较与 `target` 的关系，如果大于就往 `mid` 左边走，如果小于就往右边走。但是问题不在于思路，而在于实现的细节，即何时用 `>`，何时用 `>=` ？何时 `left = mid + 1` 何时 `left = mid`？
+
+为了解决这个问题，我们需要特别关注取值范围的**区间**。
+
+- Case 1：
+如果 `left = 0, right = nums.length`，那么 while 的循环条件应该为 `while(left < right)`。因为实际上 nums.length 是访问不到的，所以while中的条件相当于一个左闭右开区间`[left, right)`，它的终止条件为`left == right`，此时最后终止时的区间范围为 `[left, left)`，为空区间，不会有元素遗漏。
+
+- Case 2：
+如果 `left = 0, right = nums.length - 1`，那么 while 的循环条件应该为 `while(left <= right)`。因为此时 `right = nums.length  - 1` 是可以访问到的，所以 while 中的条件相当于一个左闭右闭区间`[left, right]`，它的终止条件为`left > right`，此时最后终止时的区间范围为 `[left, right)`，为空区间，不会有元素遗漏。
+而如果我们将循环条件设置为 `while (left < right)`，最终的停止条件就会变为 `left == right`，终止区间为 `[left, left]`，这并不是一个空区间，而我们的程序会在这里停止，没有去判断这个区间内最后的那一个值与 `target` 的关系。就会造成遗漏。
+
+
+1. 寻找某个数的代码模板如下：
+```Java
+int binarySearch(int[] nums, int target) {
+    int left = 0; 
+    int right = nums.length - 1; // 注意
+
+    while(left <= right) {
+        int mid = left + (right - left) / 2;
+        if(nums[mid] == target)
+            return mid; 
+        else if (nums[mid] < target)
+            left = mid + 1; // 注意
+        else if (nums[mid] > target)
+            right = mid - 1; // 注意
+    }
+    return -1;
+}
+```
+2. 寻找左边界的代码模板如下：
+```Java
+闭区间
+int left_bound(int[] nums, int target) {
+    int left = 0, right = nums.length - 1;
+    // 搜索区间为 [left, right]
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] < target) {
+            // 搜索区间变为 [mid+1, right]
+            left = mid + 1;
+        } else if (nums[mid] > target) {
+            // 搜索区间变为 [left, mid-1]
+            right = mid - 1;
+        } else if (nums[mid] == target) {
+            // 收缩右侧边界
+            right = mid - 1;
+        }
+    }
+    // 检查出界情况
+    if (left >= nums.length || nums[left] != target)
+        return -1;
+    return left;
+}
+```
+或者是：
+```Java
+左闭右开区间
+int left_bound(int[] nums, int target) {
+    if (nums.length == 0) return -1;
+    int left = 0;
+    int right = nums.length; // 注意
+
+    while (left < right) { // 注意
+        int mid = (left + right) / 2;
+        if (nums[mid] == target) {
+            right = mid;
+        } else if (nums[mid] < target) {
+            left = mid + 1;
+        } else if (nums[mid] > target) {
+            right = mid; // 注意
+        }
+    }
+    return left;
+}
+```
+
+3. 寻找右边界的代码模板如下：
+```Java
+闭区间
+int right_bound(int[] nums, int target) {
+    int left = 0, right = nums.length - 1;
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] < target) {
+            left = mid + 1;
+        } else if (nums[mid] > target) {
+            right = mid - 1;
+        } else if (nums[mid] == target) {
+            // 这里改成收缩左侧边界即可
+            left = mid + 1;
+        }
+    }
+    // 这里改为检查 right 越界的情况，见下图
+    if (right < 0 || nums[right] != target)
+        return -1;
+    return right;
+}
+```
+或者是
+```Java
+左闭右开区间
+int right_bound(int[] nums, int target) {
+    if (nums.length == 0) return -1;
+    int left = 0, right = nums.length;
+
+    while (left < right) {
+        int mid = (left + right) / 2;
+        if (nums[mid] == target) {
+            left = mid + 1; // 注意
+        } else if (nums[mid] < target) {
+            left = mid + 1;
+        } else if (nums[mid] > target) {
+            right = mid;
+        }
+    }
+    return left - 1; // 注意
+}
+```
+
 
 
 <h3 id = "2.5">5. </h3>
