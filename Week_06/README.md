@@ -34,12 +34,12 @@
 
 [返回目录](#0)
 
-主题：动态规划；技巧：自顶向下、自底向顶；题数：新题 道，复习 3 道
+主题：动态规划；技巧：自顶向下、自底向顶；题数：新题 4 道，复习 3 道
 
 
 
 
-#### [Leetcode 53：最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
+#### [1.1. Leetcode 53：最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
 5.25 第一遍
 - 思路：动态规划。首先，一道题想要快速做出来，理解题意才是最重要的。对于这道题而言，我们需要找出一个连续的子序列，其和应该是所有的子序列最大的。
   1. 设置 ans，动态存储每一个子序列的最大值；
@@ -65,7 +65,32 @@ class Solution {
 }
 ```
 
-#### [Leetcode 120：三角形最小路径和](https://leetcode-cn.com/problems/triangle/)
+#### [1.2. Leetcode 152：乘积最大的子数组](https://leetcode-cn.com/problems/maximum-product-subarray/)
+5.25 第一遍
+- 思路：动态规划。这道题和 53 题最大子序和很相似，但是不同之处在于，这里负数的存在，会影响最终的结果。
+  1. 要求最大值，那么一定是比较前序的最大值和当前的数列的值，即 `Math.max(max * n, n)`；
+  2. 但是，由于负数的存在，会令最大值的乘积变成最小的，因此还需要一个 min 变量，以处理出现负数的情况。
+复杂度分析：O（N）
+```Java
+    public int maxProduct(int[] nums) {
+        int ans = Integer.MIN_VALUE;
+        int max = 1, min = 1;
+        for (int n : nums) {
+            if (n < 0) {
+                int tmp = max;
+                max = min;
+                min = tmp;
+            }
+            max = Math.max(max * n, n);
+            min = Math.min(min * n, n);
+            ans = Math.max(max, ans);
+        }
+        return ans;
+    }
+```
+
+
+#### [1.3. Leetcode 120：三角形最小路径和](https://leetcode-cn.com/problems/triangle/)
 5.25 第一遍
 - 思路：动态规划。仔细观察题目，要求的不是说每一行中的最小值之和，而是“相邻结点”。
   1. 因此这个问题和 62/63/1143 都有了相似之处，那就是都从左上角出发，往右下走；
@@ -108,7 +133,7 @@ class Solution {
     }
 ```
 
-#### [Leetcode 1143：最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
+#### [1.4. Leetcode 1143：最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
 5.25 第一遍
 - 思路：动态规划。这个题的思路非常巧妙，将两个一维的字符串，变成了一个二维的字符表。步骤如下：
   1. 如果矩阵某个位置的值不相等，即 `text1.charAt(i) == text2.charAt(j)` 不成立，那么这个位置的值，应该等于左上角所有元素的最大值，代表着到目前为止，仅有 x 个char相等；
@@ -133,7 +158,7 @@ class Solution {
     }
 ```
 
-#### 复习 [Leetcode 62：不同路径](https://leetcode-cn.com/problems/unique-paths/)
+#### 复习 [1.5. Leetcode 62：不同路径](https://leetcode-cn.com/problems/unique-paths/)
 5.24 第一遍，5.25 第二遍
 - 思路：动态规划。将大问题分解为小问题，大问题是到达最终的 finish，思考如何才能完成？很简单，从上方或者左方各自向终点移动一步即可。每一个位置都是这样的过程，一直自底向顶，回到start，说明完成。关键问题在于对初始状态的判断：
   1. 如果 `i == 0 || j == 0`，那么对应的 dp 矩阵的值为1，它表达的意思是，如果在上面和左侧的矩阵的“边”上，那么它只有一种可能达成，即由上一个同行/列的空格往下一直走，直到终点，因此此时的 dp 将不再是上和左两个格子共同构成的了，而是只有一种可能，那就是从起点直到终点一条路径；
@@ -142,11 +167,11 @@ class Solution {
 复杂度分析：O（MxN）
 
 
-#### 复习 [Leetcode 63：不同路径II](https://leetcode-cn.com/problems/unique-paths-ii/)
+#### 复习 [1.6. Leetcode 63：不同路径II](https://leetcode-cn.com/problems/unique-paths-ii/)
 5.24 第一遍，5.25 第二遍
 思路：动态规划。注意的是这里对于左/上边的处理有所不同。
 
-####  复习 [Leetcode 198：打家劫舍](https://leetcode-cn.com/problems/house-robber/)
+####  复习 [1.7. Leetcode 198：打家劫舍](https://leetcode-cn.com/problems/house-robber/)
 5.11 第一遍，5.25 第二遍
 - 思路：一开始想的很简单，认为就是求奇数项和偶数项哪个大。这个读题太不仔细了。后面发现这是个动态规划问题，找到状态转移方程就可以了。
   1. 对于第 i 个位置的 dp[i]，它的取值为 dp[i-2] + nums[i] 与 dp[i-1] 中的较大值；
