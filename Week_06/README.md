@@ -1,4 +1,4 @@
-# 第四周学习记录(5.25-5.31)
+# 第六周学习记录(5.25-5.31)
 
 <span id ="0">
  
@@ -73,8 +73,40 @@ class Solution {
   3. 不能仅仅比较某一行的两个对应相邻位置值得大小，因为这样其实是贪心算法，算出来的只是局部最优，但不一定是全局最优。
   4. 既然自顶向下不行，那么就考虑自底向顶。从倒数第二行开始更新，每个数字都等于 dp[i][j] + min(dp[i+1][j], dp[i+1][j+1])，从而到顶部得值，就是最终的答案。
   5. 同时，如果直接在原 List 上用 set 方法去操作，时间会比较慢，可以考虑用一个 dp 二维数组来操作。要注意如果用数组来做，dp 矩阵的维度应该是 (m+1) x (m+1)，这是因为数组内的元素一开始都是0，如果不对原 List 的最后一行进行录入dp 数组的操作，就会出现将最后一行丢失的情况。
+  6. 然而，这个问题还可以优化，可以直接在一维数组上不改变原List 进行操作。时间复杂度不会变化，但是空间复杂度会降低为 O（N）
 复杂度分析：O（N^2）
 
+```Java
+// Solution one：直接在 list 上操作
+    public int minimumTotal(List<List<Integer>> triangle) {
+        if (triangle == null || triangle.size() == 0) return 0;
+        int m = triangle.size();
+        for (int i = m - 2; i >= 0; i--) {
+            List<Integer> curLayer = triangle.get(i);
+            int n = triangle.get(i).size();
+            for (int j = 0; j < n; j++) {
+                int min = Math.min(triangle.get(i+1).get(j), triangle.get(i+1).get(j+1));
+                int tmp = triangle.get(i).get(j);
+                triangle.get(i).set(j, min + tmp);
+            }
+        }
+        return triangle.get(0).get(0);
+    }
+// Solution Two：在数组上操作
+    public int minimumTotal(List<List<Integer>> triangle) {
+        if (triangle == null || triangle.size() == 0) return 0;
+        int m = triangle.size();
+        int[][] dp = new int[m + 1][m + 1];
+        for (int i = m - 1; i >= 0; i--) {
+            List<Integer> curLayer = triangle.get(i);
+            int n = triangle.get(i).size();
+            for (int j = 0; j < n; j++) {
+                dp[i][j] = Math.min(dp[i+1][j], dp[i+1][j+1]) + curLayer.get(j);
+            }
+        }
+        return dp[0][0];
+    }
+```
 
 #### [Leetcode 1143：最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
 5.25 第一遍
