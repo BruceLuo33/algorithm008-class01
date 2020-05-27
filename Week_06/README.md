@@ -46,7 +46,7 @@
   2. 设置 sum，其代表的意思是在 n 之前的所有数的和，如果 sum 大于零，那么 sum + n 一定是递增的，反之，sum + n 将会递减，与我们的期望不符合；
   3. 所以，当 sum > 0 的时候，令 sum += n，而当 sum < 0 时，就舍弃掉以前的 sum，并重置为当前的 n
   4. 最后在每次循环的时候，ans 取 ans 与 sum 中的较大值。
-复杂度分析：O（N）
+- 复杂度分析：O（N）
 
 ```Java
 class Solution {
@@ -70,7 +70,7 @@ class Solution {
 - 思路：动态规划。这道题和 53 题最大子序和很相似，但是不同之处在于，这里负数的存在，会影响最终的结果。
   1. 要求最大值，那么一定是比较前序的最大值和当前的数列的值，即 `Math.max(max * n, n)`；
   2. 但是，由于负数的存在，会令最大值的乘积变成最小的，因此还需要一个 min 变量，以处理出现负数的情况。
-复杂度分析：O（N）
+- 复杂度分析：O（N）
 ```Java
     public int maxProduct(int[] nums) {
         int ans = Integer.MIN_VALUE;
@@ -99,7 +99,7 @@ class Solution {
   4. 既然自顶向下不行，那么就考虑自底向顶。从倒数第二行开始更新，每个数字都等于 dp[i][j] + min(dp[i+1][j], dp[i+1][j+1])，从而到顶部得值，就是最终的答案。
   5. 同时，如果直接在原 List 上用 set 方法去操作，时间会比较慢，可以考虑用一个 dp 二维数组来操作。要注意如果用数组来做，dp 矩阵的维度应该是 (m+1) x (m+1)，这是因为数组内的元素一开始都是0，如果不对原 List 的最后一行进行录入dp 数组的操作，就会出现将最后一行丢失的情况。
   6. 然而，这个问题还可以优化，可以直接在一维数组上不改变原List 进行操作。时间复杂度不会变化，但是空间复杂度会降低为 O（N）
-复杂度分析：O（N^2）
+- 复杂度分析：O（N^2）
 
 ```Java
 // Solution one：直接在 list 上操作
@@ -164,7 +164,7 @@ class Solution {
   1. 如果 `i == 0 || j == 0`，那么对应的 dp 矩阵的值为1，它表达的意思是，如果在上面和左侧的矩阵的“边”上，那么它只有一种可能达成，即由上一个同行/列的空格往下一直走，直到终点，因此此时的 dp 将不再是上和左两个格子共同构成的了，而是只有一种可能，那就是从起点直到终点一条路径；
   2. 不能设置 `if(m == 0 || n == 0) dp[m][n] = 0`，因为这实际上没有判断上/左边界的情况；
   3. 注意题目求的是到达终点的路径有多少条，而不是需要多少步到达，这也是状态转移方程为 `dp[i][j] = dp[i-1][j] + dp[i][j-1]` 的原因，它表示的是最后终点的可能性路径，与上左两个点的可能性之和是相同的。
-复杂度分析：O（MxN）
+- 复杂度分析：O（MxN）
 
 
 #### 复习 [1.6. Leetcode 63：不同路径II](https://leetcode-cn.com/problems/unique-paths-ii/)
@@ -187,15 +187,111 @@ class Solution {
 
 主题：；技巧：；题数：新题 道，复习 道
 
-
-
+#### [Leetcode 322：零钱兑换](https://leetcode-cn.com/problems/coin-change/)
+5.26 第一遍
+- 思路：动态规划。考虑从最后开始思考，设置一个 amount + 1 长度的数组，每一个 dp[i] 的值都是从其值减去所有的 coin 的结果中的最小值：
+  1. 例如，dp[11] = Math,min(dp[10], dp[6], dp[1])，coins = [1, 5, 10], amount = 11；
+  2. 因为我们不确定 coins 中元素的个数，所以需要遍历 coins 中的所有元素，每次比较 dp[i] 与 dp[i - coin] + 1，并更新较小值为新的 dp[i]；
+  3. 之所以要将 dp[i - coin] 的值加一，是因为 “- coin” 的这个操作就已经将状态回退了，例如当我们比较 `dp[11]` 与 `dp[10]` 的时候，dp[10] 就已经是减掉了一个零钱，所以需要将其加一再比较。
 
 
 <h3 id = "1.3">周三(5.27)</h3>
 
 [返回目录](#0)
 
-主题：；技巧：；题数：新题 道，复习 道
+主题：动态规划；技巧：动态规划；题数：新题 2 道，复习 6 道
+
+
+#### 复习 [Leetcode 198：打家劫舍](https://leetcode-cn.com/problems/house-robber/)
+5.11 第一遍，5.25 第二遍，5.27 第三遍
+思路见[前节 1.7 题](#1.1)
+```Java
+    public int rob(int[] nums) {
+        int prev = 0, curr = 0;
+        int ans = 0;
+        for (int n : nums) {
+            int tmp = curr;
+            curr = Math.max(prev + n, tmp);
+            prev = tmp;
+        }
+        return curr;
+    }
+```
+
+#### [Leetcode 213：打家劫舍II](https://leetcode-cn.com/problems/house-robber-ii/)
+5.27 第一遍
+- 思路：动态规划。整体的解法和第一个打家劫舍相似，但是不同的地方在于多了一个对环形数组的判断。分析发现，整体抢劫的可能只有三种：
+  1. 首尾都没有被抢；
+  2. 抢了首个，最后一个没被抢；
+  3. 第一个没被抢，最后一个被抢了；
+- 调整数组的range，来完成这三个可能性，最后的答案就会在这三个中选出。
+- 复杂度分析：O（N）
+
+
+#### [Leetcode 337：打家劫舍III](https://leetcode-cn.com/problems/house-robber-iii/)
+5.27 第一遍
+- 思路：动态规划。整体抢劫的最大值，从两种可能中选出：
+  1. 抢劫了根节点，以及左孩子节点的左右节点和右孩子节点的左右节点；
+  2. 没有抢劫根节点，那么就抢劫了左右孩子节点。
+- 从这两个可能性中选择一个最大值即可
+- 复杂度分析：O（N）
+```Java
+    Map<TreeNode, Integer> map = new HashMap<>();
+    public int rob(TreeNode root) {
+        if (root == null) return 0;
+        if (map.containsKey(root)) {
+            return map.get(root);
+        }
+        int doRob = root.val + (root.left == null ? 0 : rob(root.left.left) + rob(root.left.right)) 
+                    + (root.right == null ? 0 : rob(root.right.left) + rob(root.right.right));
+        int notRob = rob(root.left) + rob(root.right);
+        int ans = Math.max(doRob, notRob);
+        map.put(root, ans);
+        return ans;
+    }
+```
+
+
+#### 复习 [Leetcode 322：零钱兑换](https://leetcode-cn.com/problems/coin-change/)
+5.26 第一遍，5.27 第二遍
+思路见[前节](#1.2)
+- DFS + 剪枝也是个很好的方法，待看
+
+
+#### 复习 [ Leetcode 53：最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
+5.25 第一遍，5.27 第二遍
+思路见[前节 1.1 题](#1.1)
+
+
+#### 复习 [ Leetcode 152：乘积最大的子数组](https://leetcode-cn.com/problems/maximum-product-subarray/)
+5.25 第一遍，5.27 第二遍
+思路见[前节 1.2 题](#1.1)
+
+
+#### 复习 [ Leetcode 120：三角形最小路径和](https://leetcode-cn.com/problems/triangle/)
+5.25 第一遍，5.27 第二遍
+思路见[前节 1.3 题](#1.1)，优化了算法，将空间复杂度降低到了O（N）
+```Java
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int m = triangle.size();
+        int[] dp = new int[m+1];
+        for (int i = m - 1; i >= 0; i--) {
+            List<Integer> curLayer = triangle.get(i);
+            int n = curLayer.size();
+            for (int j = 0; j < n; j++) {
+                dp[j] = curLayer.get(j) + Math.min(dp[j], dp[j+1]);
+            }
+        }
+        return dp[0];
+    }
+```
+
+
+#### 复习 [ Leetcode 1143：最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
+5.25 第一遍，5.27 第二遍
+思路见[前节 1.4 题](#1.1)
+
+
 
 
 <h3 id = "1.4">周四(5.28)</h3>
