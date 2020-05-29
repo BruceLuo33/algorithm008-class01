@@ -202,7 +202,7 @@ class Solution {
 主题：动态规划；技巧：动态规划；题数：新题 2 道，复习 6 道
 
 
-#### 复习 [Leetcode 198：打家劫舍](https://leetcode-cn.com/problems/house-robber/)
+#### 复习 [3.1. Leetcode 198：打家劫舍](https://leetcode-cn.com/problems/house-robber/)
 5.11 第一遍，5.25 第二遍，5.27 第三遍
 思路见[前节 1.7 题](#1.1)
 ```Java
@@ -218,7 +218,7 @@ class Solution {
     }
 ```
 
-#### [Leetcode 213：打家劫舍II](https://leetcode-cn.com/problems/house-robber-ii/)
+#### [3.2. Leetcode 213：打家劫舍II](https://leetcode-cn.com/problems/house-robber-ii/)
 5.27 第一遍
 - 思路：动态规划。整体的解法和第一个打家劫舍相似，但是不同的地方在于多了一个对环形数组的判断。分析发现，整体抢劫的可能只有三种：
   1. 首尾都没有被抢；
@@ -228,7 +228,7 @@ class Solution {
 - 复杂度分析：O（N）
 
 
-#### [Leetcode 337：打家劫舍III](https://leetcode-cn.com/problems/house-robber-iii/)
+#### [3.3. Leetcode 337：打家劫舍III](https://leetcode-cn.com/problems/house-robber-iii/)
 5.27 第一遍
 - 思路：动态规划。整体抢劫的最大值，从两种可能中选出：
   1. 抢劫了根节点，以及左孩子节点的左右节点和右孩子节点的左右节点；
@@ -252,23 +252,23 @@ class Solution {
 ```
 
 
-#### 复习 [Leetcode 322：零钱兑换](https://leetcode-cn.com/problems/coin-change/)
+#### 复习 [3.4. Leetcode 322：零钱兑换](https://leetcode-cn.com/problems/coin-change/)
 5.26 第一遍，5.27 第二遍
 思路见[前节](#1.2)
 - DFS + 剪枝也是个很好的方法，待看
 
 
-#### 复习 [ Leetcode 53：最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
+#### 复习 [3.5. Leetcode 53：最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
 5.25 第一遍，5.27 第二遍
 思路见[前节 1.1 题](#1.1)
 
 
-#### 复习 [ Leetcode 152：乘积最大的子数组](https://leetcode-cn.com/problems/maximum-product-subarray/)
+#### 复习 [3.6. Leetcode 152：乘积最大的子数组](https://leetcode-cn.com/problems/maximum-product-subarray/)
 5.25 第一遍，5.27 第二遍
 思路见[前节 1.2 题](#1.1)
 
 
-#### 复习 [ Leetcode 120：三角形最小路径和](https://leetcode-cn.com/problems/triangle/)
+#### 复习 [3.7. Leetcode 120：三角形最小路径和](https://leetcode-cn.com/problems/triangle/)
 5.25 第一遍，5.27 第二遍
 思路见[前节 1.3 题](#1.1)，优化了算法，将空间复杂度降低到了O（N）
 ```Java
@@ -287,7 +287,7 @@ class Solution {
 ```
 
 
-#### 复习 [ Leetcode 1143：最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
+#### 复习 [3.8. Leetcode 1143：最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
 5.25 第一遍，5.27 第二遍
 思路见[前节 1.4 题](#1.1)
 
@@ -298,10 +298,13 @@ class Solution {
 
 [返回目录](#0)
 
-主题：；技巧：；题数：新题 道，复习 道
+主题：回溯；技巧：回溯；题数：新题 0 道，复习 1 道
 
-
-
+#### 复习 [Leetcode 77：组合](https://leetcode-cn.com/problems/combinations/)
+5.9 第一遍，5.22 第二遍，5.28 第三遍
+- 思路：回溯算法。和 46 题的思路非常相似，都是需要利用到回溯。
+  1. track 要创建为 LinkedList<>() 对象，这样在回退状态的时候可以用 removeLast 方法，如果不创建为这个对象，需要改写成这样：`track.remove(track.size() - 1);`
+  2. for 循环的判断，i <= n 而不仅仅是 <。因为 start 是从 1 开始取并且 n 是可以取得到的。
 
 
 
@@ -311,9 +314,168 @@ class Solution {
 
 [返回目录](#0)
 
-主题：；技巧：；题数：新题 道，复习 道
+主题：动态规划；技巧：状态转移方程；题数：新题 6 道，复习 0 道
 
 
+#### [5.1. Leetcode 121：买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
+5.29 第一遍
+- 思路：动态规划。关键在于找到状态转移方程，而找这个方程，就需要明确有多少种状态。在这里，有三种状态，分别是：天数、买卖次数和是否买or卖。
+1. 天数 i 从 0 开始 循环到 n, `for (int i = 0, i < n; i++)`
+2. 买卖次数 j 从零开始，循环到 k，`for (int j = 0; j < k, j++)`
+3. 买卖是否发生，只有两种状态，因此用 {0, 1} 来分别表示。
+4. Base Cases：
+   - dp[-1][j][0] = dp[i][0][0] = 0 (-1天表示股票市场还没开放，这时候在未持有 [0] 的状态下，盈利肯定是 0； 同样，任意一天 i 天，如果不能操作，那么 profit = 0)
+   - dp[-1][j][1] = dp[i][0][1] = -inf (在 -1 天时，股票市场都没开放，就想进行买入操作是不可能的，用 -inf 来表示这种不可能；同理，任意一天如果都不允许进行任何操作，即 k = 0，那么肯定也是 -inf)
+5. Recursive Cases：
+   - dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1] + prices[i])，第 i 天如果没持有股票，要么就是前一天也没持有，或者前一天持有但是今天卖了，取二者较大值；
+   - dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][1] - prices[i])，第 i 天如果持有股票，要么就是前一天也持有，要么就是前一天每持有但是今天买了，取二者较大值。k - 1 是因为执行了一次买入的操作。
+- 注意：
+  1. i - 1 可能会出现数组越界的问题， 要提前判断
+  2. recursive 公式为：`dp[i][1] = Math.max(dp[i-1][1],  - prices[i]);`
+- 复杂度分析：O（N），空间复杂度：O（N），可以提升为 O（1）
+
+```Java
+    public int maxProfit(int[] prices) {
+        if (prices.length == 0) return 0;
+        int n = prices.length, k = 1;
+        int dp_i0 = 0, dp_i1 = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) {
+            dp_i0 = Math.max(dp_i0, dp_i1 + prices[i]);
+            dp_i1 = Math.max(dp_i1, -prices[i]);
+        }
+        return dp_i0;
+    }
+```
+
+#### [5.2. Leetcode 122：买卖股票的最佳时机II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
+5.15 第一遍，5.29 第二遍
+- 思路一：贪心算法。这是超哥课程上的例题，采用的算法就是低买高卖，求得累加最大值。
+- 思路二：动态规划。参考 121 题的笔记，三个参数 i、k、s，这里变化的是 k，从 121 题的 k = 1 变成了 k = inf。看起来有很大的变化但是实际上还是一样的思路。因为当 k -> inf 的时候，k = k - 1，所以实际上 k 也可以省略。
+  1. Recursive cases:
+     - dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1] + prices[i])
+     - dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k][0] - prices[i])，这里最后一项是 k 而非 k - 1
+     - 观察发现，两个式子中的 k 实际上都没有发生变化，所以可以省略不去管它
+  2. Update Recursive cases:
+     - dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i])
+     - dp[i][1] = max(dp[i-1][1], dp[i-1][0] - prices[i])
+复杂度分析：O（N）
+
+
+
+#### [5.3. Leetcode 123：买卖股票的最佳时机III](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/)
+5.29 第一遍
+- 思路：动态规划。与 121、122 等题不同的是，这里的 k 不能忽略了。但是也不难，加上一个对 k 的循环即可。
+- Recursive Cases：
+  1. dp[i][2][0] = max(dp[i-1][2][0], dp[i-1][2][1] + prices[i])
+  2. dp[i][2][1] = max(dp[i-1][2][1], dp[i-1][1][0] - prices[i])
+  3. dp[i][1][0] = max(dp[i-1][1][0], dp[i-1][1][1] + prices[i])
+  4. dp[i][1][1] = max(dp[i-1][1][1], - prices[i])
+复杂度分析：O（N），空间复杂度：O（1）
+```Java
+    public int maxProfit(int[] prices) {
+        int n = prices.length, m = 2;
+        int dp_i_2_0 = 0, dp_i_1_0 = 0;
+        int dp_i_2_1 = Integer.MIN_VALUE, dp_i_1_1 = Integer.MIN_VALUE;
+        for ( int i = 0; i < n; i++) {
+            for (int k = m; k > 0; k--) {
+                dp_i_2_0 = Math.max(dp_i_2_0, dp_i_2_1 + prices[i]);
+                dp_i_2_1 = Math.max(dp_i_2_1, dp_i_1_0 - prices[i]);
+                dp_i_1_0 = Math.max(dp_i_1_0, dp_i_1_1 + prices[i]);
+                dp_i_1_1 = Math.max(dp_i_1_1, -prices[i]);
+            }
+        }
+        return dp_i_2_0;
+    }
+```
+
+#### [5.4. Leetcode 186：买卖股票的最佳时机IV](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iiii/)
+5.29 第一遍
+- 思路：动态规划。这道题和 123 比较相似，不同的是 k 从 2 变成了任意整数。需要注意的是，k 要考虑两个状态：
+  1. k <= n/2，此时的 k 是有效的，因为股票想要有涨跌，当天买入卖出是不会有盈亏变化的，所以至少需要 2 天才能体现。如果交易次数大于了 n/2，那么可以将 k 视为 inf
+  2. k > n/2，直接用 122 的方法。k = inf
+  3. 注意对于数组的初始化，要在 k 值得判断之后，否则因为 k 太大了，数组会无法创建。
+复杂度分析：O（NK)
+```Java
+    public int maxProfit(int k, int[] prices) {
+        int n = prices.length, m = 2;
+        if (k > n/2) {
+            return maxProfitInfiniteK(prices);
+        }
+        int[][][] dp = new int[n][k + 1][2];
+        for ( int i = 0; i < n; i++) {
+            for (int j = k; j > 0; j--) {
+                if (i - 1 == -1) {
+                    dp[i][j][0] = 0;
+                    dp[i][j][1] = -prices[i];
+                    continue;
+                } 
+                dp[i][j][0] = Math.max(dp[i-1][j][0], dp[i-1][j][1] + prices[i]);
+                dp[i][j][1] = Math.max(dp[i-1][j][1], dp[i-1][j-1][0] - prices[i]);
+                
+            }
+        }
+        return dp[n-1][k][0];
+    }
+    private int maxProfitInfiniteK(int[] prices) {
+        int n = prices.length;
+        int dp_i0 = 0, dp_i1 = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) {
+            int tmp = dp_i0;
+            dp_i0 = Math.max(dp_i0, dp_i1 + prices[i]);
+            dp_i1 = Math.max(dp_i1, tmp - prices[i]);
+        }
+        return dp_i0;
+    }
+```
+
+
+#### [5.5. Leetcode 309：最佳买卖股票实际含冷冻期](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/submissions/)
+5.29 第一遍
+- 思路：动态规划。和 122 题非常类似，不同的是多了一个冷冻期，即从 T+0 变成了 T+1 交易。解决方法也很简单，用一个变量存下前两天的价格就可以了。
+- Recursive Cases:
+  1. dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i]); 出售股票没有 T+1，所以是 i - 1
+  2. dp[i][1] = max(dp[i-1][1], dp[i-2][0] - prices[i]); 买入股票的操作，必须在卖出股票之后两天，所以是 i - 2
+  3. tmp = dp_i0，代表的是 i-1 天的数值，在每一次 for 循环中，都是第 i 天的数值，循环完之后，就到了第 i + 1 天，如果将 save = tmp，即对于下一个循环而言，save 已经是 i - 1，即两天前的数值了，这样就达到了我们的要求。
+- 复杂度分析：O（N），空间复杂度：O（1）
+```Java
+    public int maxProfit(int[] prices) {
+        if (prices.length == 0) return 0;
+        int n = prices.length;
+        int dp_i0 = 0, dp_i1 = Integer.MIN_VALUE;
+        int save = 0;
+        for (int i = 0; i < n; i++) {
+            int tmp = dp_i0;
+            dp_i0 = Math.max(dp_i0, dp_i1 + prices[i]);
+            dp_i1 = Math.max(dp_i1, save - prices[i]);
+            save = tmp;
+        }
+        return dp_i0;
+    }
+```
+
+#### [55.6. Leetcode 714：买卖股票的最佳时期含手续费](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
+5.29 第一遍
+- 思路：动态规划。这道题实际上还是 122 题的变种，即 k = inf。但是不同的是这里对于 k 的成本有了要求，即每一次买卖，都需要付出 fee。有两种做法，第一个是在第一个式子中减去 fee，第二个是在第二个式子中加上 fee，分别代表卖出股票的价格降低了 or 买入股票的价格升高了。
+- Recursive Cases One：
+  1. dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i] - fee) 
+  2. dp[i][1] = max(dp[i-1][1], dp[i-1][1] - prices[i]) 
+  3. 此时的 dp[i][1] 不能初始化为 Integer.MIN_VALUE，否则会出现数组越界错误
+- Recursive Cases Two:
+  1. dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i])
+  2. dp[i][1] = max(dp[i-1][1], dp[i-1][1] - prices[i] - fee) 
+- 复杂度分析：O（N），空间复杂度：O（1）
+```Java
+    public int maxProfit(int[] prices, int fee) {
+        int n = prices.length;
+        int dp_i0 = 0, dp_i1 = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) {
+            int tmp = dp_i0;
+            dp_i0 = Math.max(dp_i0, dp_i1 + prices[i]);
+            dp_i1 = Math.max(dp_i1, tmp - prices[i] - fee);
+        }
+        return dp_i0;
+    }
+```
 
 
 <h3 id = "1.6">周六(5.30)</h3>
