@@ -22,7 +22,19 @@
 
 | 题目类型 | 知识点 | 题目 | 完成情况 | 地址 |
 | --- | --- | --- | --- | --- |
-|  |  |   |    | [](#) |
+| 实战 | 字典树 | Leetcode 208：实现Trie  |  :ok:  | [周四](#1.4) |
+|  | 字典树+回溯+dfs | Leetcode 212：单词搜索II  | :ok:   | [周日](#1.7) |
+|  | 并查集/dfs | Leetcode 200：岛屿数量  |  :ok:  | [周三](#1.3) |
+|  | 并查集 | Leetcode 547：朋友圈  |  :ok:  | [周二](#1.2) |
+|  | 并查集/dfs |  Leetcode 130：被围绕的区域 | :ok:   | [周四](#1.4) |
+|  | 动态规划 | Leetcode 70：爬楼梯 | :ok: | [周四](#1.4) |
+|  | 递归 | Leetcode 22：括号生成 | :ok: | [周四](#1.4) |
+|  | 回溯 | Leetcode 51：N 皇后 | :ok: | [周三](#1.3) |
+|  | 遍历 | Leetcode 36：有效的数独| :ok: | [周四](#1.4) |
+|  | 遍历+回溯 | Leetcode 37：解数独 | :ok: | [周四](#1.4) |
+|  | BFS | Leetcode 127：单词接龙 | :ok: | [周四](#1.4) |
+|  | BFS | Leetcode 433：最小基因变化| :ok: | [周四](#1.4) |
+|  | BFS | Leetcode 1091：二进制矩阵中的最短路径| :ok: | [周五](#1.5) |
 
 
 
@@ -30,7 +42,7 @@
 
 [返回目录](#0)
 
-主题：；技巧：；题数：新题 道，复习 道
+主题：二叉树；技巧：dfs；题数：新题 0 道，复习 2 道
 
 #### 复习 [Leetcode 94：二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
 4.24 第一遍，5.4 第二遍，6.1 第三遍
@@ -64,7 +76,7 @@
 
 [返回目录](#0)
 
-主题：；技巧：；题数：新题 道，复习 道
+主题：遍历；技巧：bfs、dfs、并查集；题数：新题 1 道，复习 1 道
 
 
 
@@ -84,23 +96,173 @@
 复杂度分析：O(N^2)
 - 思路二：Union-Find 算法。算法4 第一章1.5节出现过的算法，也是 cs61b 中 lab 题要实现的算法之一。
 
+```Java
+    // Solution One: DFS
+    public int findCircleNum(int[][] M) {
+        if (M.length == 0 || M[0].length == 0) return 0;
+        int m = M.length, n = M[0].length;
+        int count = 0;
+        boolean[] visited = new boolean[m];
+        for (int i = 0; i < m; i++) {
+            if (!visited[i]) {
+                dfs(M, i, visited);
+                count += 1;
+            }
+        }       
+        return count;
+    }
+    private void dfs(int[][] M, int row, boolean[] visited) {
+        for (int j = 0; j < M[0].length; j++) {
+            if (!visited[j] && M[row][j] == 1) {
+                visited[j] = true;
+                dfs(M, j, visited);
+            }
+        }
+    }
+  
+    // Solution Two: Weighted Union-Find
+    public int findCircleNum(int[][] M) {
+        if (M.length == 0 || M[0].length == 0) return 0;
+        int m = M.length, n = M[0].length;
+        UF uf = new UF(n);
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (M[i][j] == 1) {
+                    uf.connect(i,j);
+                }
+            }
+        }
+        return uf.count();
+    }
+    class UF {
+        private int[] size;
+        private int[] parent;
+        private int count;
 
+        public UF(int n) {
+            this.parent = new int[n];
+            this.size = new int[n];
+            for (int i = 0; i < n; i++) {
+                parent[i] = i;
+                size[i] = 1;
+            }
+            this.count = n;
+        }
+        public void connect(int one, int two) {
+            int rootOne = find(one);
+            int rootTwo = find(two);
+            if (rootOne == rootTwo) return;
+            if (size[rootOne] > size[rootTwo]) {
+                parent[rootTwo] = rootOne;
+                size[rootOne] += size[rootTwo];
+            } else {
+                parent[rootOne] = rootTwo;
+                size[rootTwo] += size[rootOne];
+            }
+            this.count -= 1;
+        }
+
+        public int find(int one) {
+            while (parent[one] != one) {
+                parent[one] = parent[parent[one]];
+                one = parent[one];
+            }
+            return one;
+        }
+
+        public boolean isConnected (int one, int two) {
+            return find(one) == find(two);
+        }
+
+        private int count() {
+            return count;
+        }
+
+    }
+```
 
 
 <h3 id = "1.3">周三</h3>
 
 [返回目录](#0)
 
-主题：；技巧：；题数：新题 道，复习 道
+主题：dfs；技巧：回溯；题数：新题 0 道，复习 2 道
 
+#### 复习 [Leetcode 51：N 皇后](https://leetcode-cn.com/problems/n-queens/)
+5.9 第一遍，6.3 第二遍
+- 思路：回溯。模板和 46 题很相似，不同的地方在于剪枝函数的设置。
+- 注意：剪枝函数中，我们需要排除同一列是否有其他皇后、右上方、左上方是否有皇后。不用搜寻其他方向的原因在于，我们的放置 Q 是从左上角开始的，意味着 isValid 的搜寻也只需要扫描已经放置了 Q 的地方。
+- 注意：在 isValid 函数中，只需进行列的搜索，因为主函数里面，row就已经是个变量，这里只要改变 col 就可以了
 
-
+#### 复习 [Leetcode 200：岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
+5.14 第一遍，6.3 第三遍
+- 思路：核心步骤在于先找到第一个值为 1 的点，然后找到所有与之相邻（四个方向，上下左右）的值为 1 的点，如果找不到了，则将 count + 1，然后继续循环。同时为了避免出现重复循环的问题以及数组越界的问题，我们需要两个措施：
+  1. 将已经走过的地方从 1 -> 2，防止多次循环。`grid[i][j] = 2`
+  2. 右方和下方都不能超过二维数组的边界。`if (i < 0 || j < 0 || i < grid.length - 1 || j < grid[0].length - 1 || grid[i][j] != '1')`
+  3. 注意判断附近格子内容的时候， `grid[i][j] !='1'` 应该放在最后，否则就会造成数组越界问题。
+- 注意：给定的是 char 数组，而不是 int 数组。
+- 注意：此题也可以用并查集来做
 
 <h3 id = "1.4">周四</h3>
 
 [返回目录](#0)
 
-主题：；技巧：；题数：新题 道，复习 道
+主题：dfs；技巧：dfs+回溯；题数：新题 4 道，复习 4 道
+
+
+#### [Leetcode 36：有效的数独](https://leetcode-cn.com/problems/valid-sudoku/)
+6.4 第一遍
+- 思路：三次判定：
+1. 首先，设置 boolean 矩阵，第一个对应的是对于每一行中是否出现重复元素的判定，row 代表的是 board 的 0 - 8 行，col 中的 0 - 8 代表的是九个数字是否曾经出现；
+2. 同理，第二个矩阵是对于每一列中是否有重复元素的判定，row 代表的是每一行；第三个矩阵是对于每一个小 block 中是否有重复元素的判定；
+3. 将 `board[i][j]` 对应到第一、二个矩阵很简单，但是对应到每一个 block 需要一番心思，具体而言能找到如下规律：
+   - 从左到右、从上到下依次给 block 编号为 0 - 8，每一层有三个 block，所以第 0 层序号为：0-2，第 1 层为 3-5，第 2 层为 6-8；
+   - 如果 `0 <= i <= 2`，说明 `board[i][j]`在第一层的三个 block 之中，因为 9 个 block 实际上的排列为 3x3，所以其对应的 block 的层级为 `i / 3 * 3`（`*3`是因为每一层有三个 block）
+   - 在这一层中，block 又位于第几个呢？这就需要 j 来判定，即 `j/3`
+   - 所以，最终的 block 的序号，即为`blockIndex = i / 3 * 3 + j / 3`
+- 复杂度分析：O(N^2)
+
+```Java
+    public boolean isValidSudoku(char[][] board) {
+        boolean[][] row = new boolean[9][9];
+        boolean[][] col = new boolean[9][9];
+        boolean[][] block = new boolean[9][9];
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] != '.') {
+                    int value = board[i][j] - '1';
+                    int blockIndex = i / 3 * 3 + j / 3;
+                    if (row[i][value] == true || col[j][value] == true || block[blockIndex][value] == true) {
+                        return false;
+                    } else {
+                        row[i][value] = true;
+                        col[j][value] = true;
+                        block[blockIndex][value] = true;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+```
+
+#### [Leetcode 37：解数独](https://leetcode-cn.com/problems/sudoku-solver/)
+6.4 第一遍
+- 思路：回溯。这道题其实是 36.有效的数独 + 51.N皇后，先用 36 题的方法，将出现过的数字标记为真，
+
+#### [Leetcode 130：被围绕的区域](https://leetcode-cn.com/problems/surrounded-regions/)
+6.4 第一遍
+- 思路：DFS。这道题思路和 200.岛屿数量 非常相似，具体而言：
+  1. 先遍历四条边，然后和岛屿题一样，找到所有与边界上 `O` 相连的内部`O`，将其改为`'.'`
+  2. 而后遍历整个区域，将所有的`'O'` 变成 `'X'`,所有的`'.'` 变为 `'O'`
+  3. 在判断 `board[row][col]`是否合法的时候，不能仅仅只判断 row 和 col 值的大小，还要判断 `borad[row][col] == 'O' or not`，如果为否，则 return
+- 复杂度分析：O(M*N)
+
+
+#### [Leetcode 208：实现 Trie](https://leetcode-cn.com/problems/implement-trie-prefix-tree/)
+6.3 第一遍
+- 思路：字典树的实现。
+
 
 #### 复习 [Leetcode 22：括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
 4.30 第一遍，5.12 第二遍，6.4 第三遍
@@ -111,6 +273,26 @@
   4. 如果`left < n`，代表的是左括号还没用完，因此需要在 s 后面加上左括号，同时递归的时候 `left + 1`
   5. 如果 `right < left`，代表的是右括号还没有用完，因此在 s 后加上右括号，同时 `right + 1`，在这里不用 `right < n` 的原因是括号必须有效，也就是到任意一个状态，左括号的数量都必须大于等于右括号，因此必须是 `right < left`
 - 注意：递归函数不能用 List<String>，要传入 String s，然后将 s 加到全局变量 List<String> 中
+
+```Java
+    private List<String> ans = new ArrayList<>();
+    public List<String> generateParenthesis(int n) {
+        // List<String> ans = new ArrayList<>();
+        if (n == 0) return ans;
+        int left = 0, right = 0;
+        dfs(left, right, n, "");
+        return ans;
+    }
+    private void dfs(int left, int right, int n, String s) {
+        if (left == n && right == n)  
+            ans.add(s);
+        if (left < n ) 
+            dfs(left + 1, right, n, s+"(");
+        if (right < left)  
+            dfs(left, right + 1, n, s + ")");
+    }
+```
+
 
 #### 复习 [Leetcode 70：爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
 4.10 第一遍，4.22 第二遍，5.4 第三遍，5.16 第四遍，6.4 第五遍
@@ -131,43 +313,16 @@
 6.2 第一遍，6.4 第二遍
 - 思路见[前节](#1.2)
 
-#### [Leetcode 130：被围绕的区域](https://leetcode-cn.com/problems/surrounded-regions/)
-6.4 第一遍
-- 思路：DFS。这道题思路和 200.岛屿数量 非常相似，具体而言：
-  1. 先遍历四条边，然后和岛屿题一样，找到所有与边界上 `O` 相连的内部`O`，将其改为`'.'`
-  2. 而后遍历整个区域，将所有的`'O'` 变成 `'X'`,所有的`'.'` 变为 `'O'`
-  3. 在判断 `board[row][col]`是否合法的时候，不能仅仅只判断 row 和 col 值的大小，还要判断 `borad[row][col] == 'O' or not`，如果为否，则 return
-- 复杂度分析：O(M*N)
 
 
-#### [Leetcode 36：有效的数独](https://leetcode-cn.com/problems/valid-sudoku/)
-6.4 第一遍
-- 思路：三次判定：
-1. 首先，设置 boolean 矩阵，第一个对应的是对于每一行中是否出现重复元素的判定，row 代表的是 board 的 0 - 8 行，col 中的 0 - 8 代表的是九个数字是否曾经出现；
-2. 同理，第二个矩阵是对于每一列中是否有重复元素的判定，row 代表的是每一行；第三个矩阵是对于每一个小 block 中是否有重复元素的判定；
-3. 将 `board[i][j]` 对应到第一、二个矩阵很简单，但是对应到每一个 block 需要一番心思，具体而言能找到如下规律：
-   - 从左到右、从上到下依次给 block 编号为 0 - 8，每一层有三个 block，所以第 0 层序号为：0-2，第 1 层为 3-5，第 2 层为 6-8；
-   - 如果 `0 <= i <= 2`，说明 `board[i][j]`在第一层的三个 block 之中，因为 9 个 block 实际上的排列为 3x3，所以其对应的 block 的层级为 `i / 3 * 3`（`*3`是因为每一层有三个 block）
-   - 在这一层中，block 又位于第几个呢？这就需要 j 来判定，即 `j/3`
-   - 所以，最终的 block 的序号，即为`blockIndex = i / 3 * 3 + j / 3`
-- 复杂度分析：O(N^2)
 
-
-#### [Leetcode 37：解数独](https://leetcode-cn.com/problems/sudoku-solver/)
-6.4 第一遍
-- 思路：回溯。这道题其实是 36.有效的数独 + 51.N皇后，先用 36 题的方法，将出现过的数字标记为真，
-
-
-#### [Leetcode 208：实现 Trie](https://leetcode-cn.com/problems/implement-trie-prefix-tree/)
-6.3 第一遍
-- 思路：字典树的实现。
 
 
 <h3 id = "1.5">周五</h3>
 
 [返回目录](#0)
 
-主题：；技巧：；题数：新题 道，复习 道
+主题：BFS；技巧：双向 BFS；题数：新题 1 道，复习 2 道
 
 
 
@@ -193,6 +348,54 @@
    3. 是否到达了 endWord？即是否在 visitedTwo 中出现过？如果是，直接 return depth + 1；
    4. 如果都没有，且这个新的 string 是能够在 allWords 中找到的，那么将这个字符标记为出现过，同时将 wordList 中剩下的元素全都加入 queue。此时第二层循环如果结束了，再次进入的时候 size 就变大了;
 - 复杂度分析：`O（N*26^L），L = len(beginword)`
+```Java
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        Set<String> allWords = new HashSet<>(wordList);
+        if (!allWords.contains(endWord)) return 0;
+        Queue<String> queueOne = new LinkedList<>();
+        Queue<String> queueTwo = new LinkedList<>();
+        Set<String> visitedOne = new HashSet<>();
+        Set<String> visitedTwo = new HashSet<>();
+        queueOne.offer(beginWord);
+        queueTwo.offer(endWord);
+        visitedOne.add(beginWord);
+        visitedTwo.add(endWord);
+        int count = 0;
+        while (!queueOne.isEmpty() && !queueTwo.isEmpty()) {
+            count += 1;
+            if (queueOne.size() > queueTwo.size()) {
+                Queue<String> tmpQueue = queueOne;
+                queueOne = queueTwo;
+                queueTwo = tmpQueue;
+                Set<String> tmpSet = visitedOne;
+                visitedOne = visitedTwo;
+                visitedTwo = tmpSet;
+            }
+            int size = queueOne.size();
+            while (size > 0) {
+                size -= 1;
+                String word = queueOne.poll();
+                char[] wordChar = word.toCharArray();
+                for (int i = 0; i < wordChar.length; i++) {
+                    char save = wordChar[i];
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        wordChar[i] = c;
+                        String newWord = String.valueOf(wordChar);
+                        if (visitedOne.contains(newWord)) continue;
+                        if (visitedTwo.contains(newWord)) return count + 1;
+                        if (allWords.contains(newWord)) {
+                            visitedOne.add(newWord);
+                            queueOne.offer(newWord);
+                        }
+                    }
+                    wordChar[i] = save;
+                }
+            }
+        }
+        return 0;
+    }
+```
+
 
 #### 复习 [Leetcode 36：有效的数独](https://leetcode-cn.com/problems/valid-sudoku/)
 6.4 第一遍，6.5 第二遍
@@ -205,20 +408,45 @@
 
 [返回目录](#0)
 
-主题：；技巧：；题数：新题 道，复习 道
-
-#### [Leetcode：212:单词搜索II](https://leetcode-cn.com/problems/word-search-ii/)
+主题：Hashing；技巧：遍历；题数：新题 1 道，复习 1 道
 
 
-#### [Leetcode 773：滑动谜题](https://leetcode-cn.com/problems/sliding-puzzle/)
+#### [LeetCode 217：存在重复元素](https://leetcode-cn.com/problems/contains-duplicate/)
+6.6 第一遍
+思路：set。将每一个元素放入 set，最终的 `set.size()` 如果小于数组的长度，说明有重复的元素，返回 true，否则返回 false。
+复杂度分析：O(N)
 
+
+#### 复习[LeetCode 350：两个数组的交集](https://leetcode-cn.com/problems/intersection-of-two-arrays-ii/)
+6.6 第二遍
+- 思路：HashMap.
+  1. 判断 nums1 与 nums2 的长度，将较短的放入 HashMap 中，遇到相同的key则将value += 1，在放入的过程中，更新value的方式就是重新put一次，在《算法4》234页有类似的操作。
+  2. 然后循环 nums2，判断nums2 中的元素是否在 HashMap 中，若是，则将其放入 ArrayList，然后vale -= 1
+  3. 采用 Arraylist 存放交集的原因，是数组长度固定，但是我们并不知道交集的大小，所以先存放到一个临时的容器里面，然后最后将其装入最终的数组
+- 复杂度：O（m+n），空间复杂度：O（n）
 
 
 <h3 id = "1.7">周日</h3>
 
 [返回目录](#0)
 
-主题：；技巧：；题数：新题 道，复习 道
+主题：dfs；技巧：dfs + 回溯；题数：新题 2 道，复习 0 道
+
+#### [Leetcode 79：单词搜索](https://leetcode-cn.com/problems/word-search/)
+6.7 第一遍
+- 思路：dfs + 回溯。没有用 visited 矩阵来识别是否访问了某个元素，而是类似于岛屿问题，直接将访问过的元素更改，然后在回溯之后再改回来
+  1. 将 word 转换为 charArray，方便进行下标访问；
+  2. 从 board[0][0] 开始，进行 dfs，先将 board[i][j] 的元素保存，将其改为 '.'，然后往四个方向分别进行 dfs，如果 dfs == true，就 return true；
+  3. 四个方向都 dfs 之后，进行回溯，board[i][j] = tmp；
+- 注意：如果采用 visited 数组的方式，就不能简单的 `if (i < 0 || j < 0 || i >= board.length || j >= board[0].length || board[i][j] != wordArray[len]) return false;`，这会造成数组越界，应该分别对每一种情况去 dfs，例如 `if (i > 1) {if (dfs(..., i - 1, j, ...)) return true;}`，分别对四种情况进行 dfs
+
+
+#### [Leetcode：212:单词搜索II](https://leetcode-cn.com/problems/word-search-ii/)
+6.7 第一遍
+- 思路一：对于每一个 word in words，用 79 题单词搜索的方法去判断。要注意的是，对于每一次 dfs，如果为 true，要直接将 board[i][j] = tmp，而不能在回溯的阶段做这件事。否则相当于棋盘被改变了，在 79 题中无所谓，因为只需要判断一个 String，但在这里是 Stirng[]，因此会造成棋盘被改变，符合要求的 String 也检查不出来。
+- 思路二：构建一个字典树。然后同样用 dfs 的方式，往四个方向进行搜索，如果 `isEnd == true`，将 root.val 加入 ans。
+
+
 
 
 
@@ -317,7 +545,59 @@ class Trie {
 
 [返回目录](#0)
 
+双向 BFS 模版
+```
+int openLock(String[] deadends, String target) {
+    Set<String> deads = new HashSet<>();
+    for (String s : deadends) deads.add(s);
+    // 用集合不用队列，可以快速判断元素是否存在
+    Set<String> q1 = new HashSet<>();
+    Set<String> q2 = new HashSet<>();
+    Set<String> visited = new HashSet<>();
 
+    int step = 0;
+    q1.add("0000");
+    q2.add(target);
+
+    while (!q1.isEmpty() && !q2.isEmpty()) {
+        if (q1.size() > q2.size()) {
+            // 交换 q1 和 q2
+            temp = q1;
+            q1 = q2;
+            q2 = temp;
+        }
+        // 哈希集合在遍历的过程中不能修改，用 temp 存储扩散结果
+        Set<String> temp = new HashSet<>();
+
+        /* 将 q1 中的所有节点向周围扩散 */
+        for (String cur : q1) {
+            /* 判断是否到达终点 */
+            if (deads.contains(cur))
+                continue;
+            if (q2.contains(cur))
+                return step;
+            visited.add(cur);
+
+            /* 将一个节点的未遍历相邻节点加入集合 */
+            for (int j = 0; j < 4; j++) {
+                String up = plusOne(cur, j);
+                if (!visited.contains(up))
+                    temp.add(up);
+                String down = minusOne(cur, j);
+                if (!visited.contains(down))
+                    temp.add(down);
+            }
+        }
+        /* 在这里增加步数 */
+        step++;
+        // temp 相当于 q1
+        // 这里交换 q1 q2，下一轮 while 就是扩散 q2
+        q1 = q2;
+        q2 = temp;
+    }
+    return -1;
+}
+```
 
 <h3 id = "2.3">3. 红黑树和 AVL 树</h3>
 
