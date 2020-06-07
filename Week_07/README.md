@@ -439,15 +439,108 @@
   2. 从 board[0][0] 开始，进行 dfs，先将 board[i][j] 的元素保存，将其改为 '.'，然后往四个方向分别进行 dfs，如果 dfs == true，就 return true；
   3. 四个方向都 dfs 之后，进行回溯，board[i][j] = tmp；
 - 注意：如果采用 visited 数组的方式，就不能简单的 `if (i < 0 || j < 0 || i >= board.length || j >= board[0].length || board[i][j] != wordArray[len]) return false;`，这会造成数组越界，应该分别对每一种情况去 dfs，例如 `if (i > 1) {if (dfs(..., i - 1, j, ...)) return true;}`，分别对四种情况进行 dfs
+```Java
+    public boolean exist(char[][] board, String word) {
+        if (board == null) return false;
+        int m = board.length, n = board[0].length;
+        char[] wordArray = word.toCharArray();
+        if (m * n < wordArray.length) return false;
+        int len = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (board[i][j] == wordArray[0]) {
+                    if (dfs(board, i, j, wordArray, len)) {
+                        return true;
+                    }
+                } 
+            }
+        }
+        return false;
+    }
 
+    private boolean dfs(char[][] board, int i, int j, char[] wordArray, int len) {
+        if (i < 0 || j < 0 || i >= board.length || j >= board[0].length || board[i][j] != wordArray[len]) return false;
+        if (len == wordArray.length - 1) return true;
+        char tmp = board[i][j];
+        board[i][j] = '.';
+        if (dfs(board, i, j + 1, wordArray, len + 1)) return true;
+        else if (dfs(board, i + 1, j, wordArray, len + 1)) return true;
+        else if (dfs(board, i - 1, j, wordArray, len + 1)) return true;
+        else if (dfs(board, i, j - 1, wordArray, len + 1)) return true;
+        board[i][j] = tmp;
+        return false;
+    }
+```
 
 #### [Leetcode：212:单词搜索II](https://leetcode-cn.com/problems/word-search-ii/)
 6.7 第一遍
 - 思路一：对于每一个 word in words，用 79 题单词搜索的方法去判断。要注意的是，对于每一次 dfs，如果为 true，要直接将 board[i][j] = tmp，而不能在回溯的阶段做这件事。否则相当于棋盘被改变了，在 79 题中无所谓，因为只需要判断一个 String，但在这里是 Stirng[]，因此会造成棋盘被改变，符合要求的 String 也检查不出来。
 - 思路二：构建一个字典树。然后同样用 dfs 的方式，往四个方向进行搜索，如果 `isEnd == true`，将 root.val 加入 ans。
 
+```Java
+    public List<String> findWords(char[][] board, String[] words) {
+        List<String> ans = new ArrayList<>();
+        if (words.length == 0 || board == null) return ans;
+        Trie dicTree = new Trie();
+        TrieNode root = dicTree.root;
+        for (String w : words) {
+            dicTree.insert(w);
+        }
+        int m = board.length, n = board[0].length;
+        boolean[][] visited = new boolean[m][n];
+        int len = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                dfs(board, i, j, ans, visited, root);
+            }
+        }
+        return ans;
+    }
 
+    private void dfs(char[][] board, int i, int j, List<String> ans, boolean[][] visited, TrieNode cur) {
+        if (i < 0 || j < 0 || i >= board.length || j >= board[0].length || visited[i][j]) {
+            return;
+        }
+        cur = cur.next[board[i][j] - 'a'];
+        if (cur == null) return;
+        visited[i][j] = true;
+        if (cur.isEnd) {
+            ans.add(cur.val);
+            cur.isEnd = false;
+        }
+        dfs(board, i, j + 1, ans, visited, cur);
+        dfs(board, i, j - 1, ans, visited, cur);
+        dfs(board, i + 1, j, ans, visited, cur);
+        dfs(board, i - 1, j, ans, visited, cur);
+        visited[i][j] = false;
 
+    }
+
+    class Trie {
+        TrieNode root = new TrieNode();
+        public void insert(String s) {
+            TrieNode cur = root;
+            for (char c : s.toCharArray()) {
+                int charValue = c - 'a';
+                if (cur.next[charValue] == null) 
+                    cur.next[charValue] = new TrieNode();
+                cur = cur.next[charValue];
+            }
+            cur.isEnd = true;
+            cur.val = s;
+        }
+    }
+    class TrieNode {
+        boolean isEnd;
+        String val;
+        TrieNode[] next;
+        public TrieNode() {
+            isEnd = false;
+            next = new TrieNode[26];
+        }
+    }
+
+``
 
 
 
